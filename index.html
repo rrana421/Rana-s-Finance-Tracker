@@ -1132,13 +1132,114 @@ function copyExport() {
 // PDF / CSV UPLOAD
 // ════════════════════════════════════════════
 const MON = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
-function parseDate(s) {
+
+function parseDate(s, inferYear) {
   s = (s||'').trim();
+  // DD/MM/YYYY or DD/MM/YY
   let m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-  if (m) { const y=+m[3]<100?2000+ +m[3]: +m[3]; const d=new Date(y,+m[2]-1,+m[1]); return isNaN(d)?null:d; }
+  if (m) { const y=+m[3]<100?2000+ +m[3]: +m[3]; const d=new Date(y,+m[2]-1,+m[1]); return isNaN(d.getTime())?null:d; }
+  // DD Mon YYYY
   m = s.match(/^(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})$/);
   if (m && MON[m[2].toLowerCase()] !== undefined) return new Date(+m[3], MON[m[2].toLowerCase()], +m[1]);
+  // DD Mon (no year) — CommBank PDF format e.g. "24 Jan"
+  m = s.match(/^(\d{1,2})\s+([A-Za-z]{3})$/);
+  if (m && MON[m[2].toLowerCase()] !== undefined) {
+    const mo = MON[m[2].toLowerCase()];
+    const day = +m[1];
+    // Use inferYear if provided, otherwise guess from current date
+    const y = inferYear || (() => {
+      const now = new Date();
+      const cy = now.getFullYear();
+      // If the month is more than 3 months in the future, it's probably last year
+      const candidate = new Date(cy, mo, day);
+      return candidate > new Date(now.getTime() + 90*24*60*60*1000) ? cy-1 : cy;
+    })();
+    return new Date(y, mo, day);
+  }
   return null;
+}
+
+function parsePDFText(raw) {
+  const lines = raw.split('\n');
+  const txns = [];
+  const dbg = [];
+
+  // Step 1: Try to find the statement year from the PDF text
+  // e.g. "24 Jan 2026- 25 Feb 2026" or "Statement Period 24 Jan 2026"
+  let stmtYear = new Date().getFullYear();
+  for (const line of lines) {
+    const ym = line.match(/\b(20\d{2})\b/);
+    if (ym) { stmtYear = parseInt(ym[1]); break; }
+  }
+
+  for (const line of lines) {
+    const parts = line.split('\t').map(s => s.trim()).filter(Boolean);
+    if (dbg.length < 50) dbg.push(JSON.stringify(parts));
+    if (!parts.length) continue;
+
+    // Find date in first 2 columns
+    let date = null, dc = 0;
+    for (let c = 0; c < Math.min(parts.length, 2); c++) {
+      date = parseDate(parts[c], stmtYear);
+      if (date) { dc = c; break; }
+    }
+    if (!date) continue;
+
+    const rest = parts.slice(dc + 1);
+    if (!rest.length) continue;
+
+    let amount = null, desc = '';
+    const last = rest[rest.length - 1];
+
+    // Pattern A: "309.96" or "309.96 DR" or "309.96 CR" (standard)
+    const mA = last.match(/^\$?([\d,]+\.\d{2})\s*(DR|CR)?$/i);
+    if (mA) {
+      const r = parseFloat(mA[1].replace(/,/g,''));
+      const isCR = mA[2] && mA[2].toUpperCase() === 'CR';
+      amount = isCR ? r : -r;
+      desc = rest.slice(0, -1).join(' ');
+    }
+
+    // Pattern B: "2,500.00-" (trailing minus = payment/credit in CommBank)
+    if (amount === null) {
+      const mB = last.match(/^\$?([\d,]+\.\d{2})-$/);
+      if (mB) {
+        amount = parseFloat(mB[1].replace(/,/g,'')); // positive = income
+        desc = rest.slice(0, -1).join(' ');
+      }
+    }
+
+    // Pattern C: last col is plain number, second-to-last is also number
+    // (transaction account: desc | debit | credit | balance)
+    if (amount === null && rest.length >= 3) {
+      const mD = rest[rest.length-2].match(/^([\d,]+\.\d{2})$/);
+      const mC = rest[rest.length-1].match(/^([\d,]+\.\d{2})$/);
+      if (mD && !mC) { amount = -parseFloat(mD[1].replace(/,/g,'')); desc = rest.slice(0,-2).join(' '); }
+      else if (mC && !mD) { amount = parseFloat(mC[1].replace(/,/g,'')); desc = rest.slice(0,-2).join(' '); }
+    }
+
+    // Pattern D: amount + DR/CR embedded at end of joined string
+    if (amount === null) {
+      const j = rest.join(' ');
+      const mC = j.match(/([\d,]+\.\d{2})\s*(DR|CR)\s*$/i);
+      if (mC) {
+        amount = mC[2].toUpperCase()==='CR' ? parseFloat(mC[1].replace(/,/g,'')) : -parseFloat(mC[1].replace(/,/g,''));
+        desc = j.slice(0, j.lastIndexOf(mC[0])).trim();
+      }
+    }
+
+    if (amount === null || !isFinite(amount)) continue;
+    desc = (desc || rest.join(' ')).replace(/\s+/g,' ').trim();
+    if (!desc || desc.length < 2) continue;
+    if (/opening.?bal|closing.?bal|credit.?limit|minimum.?due|brought.?forward|interest charged|annual fee|monthly fee|awards point|page \d/i.test(desc)) continue;
+
+    txns.push({
+      date,
+      rawDate: `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()}`,
+      amount, description: desc, category: categorise(desc, amount)
+    });
+  }
+  return { txns, dbg };
 }
 function categorise(desc, amount) {
   if (amount > 0) return 'income';
@@ -1177,34 +1278,6 @@ async function extractPDFText(file) {
     pages.push(ys.map(y => rows[y].sort((a,b) => a.x-b.x).map(i => i.s).join('\t')).join('\n'));
   }
   return pages.join('\n');
-}
-function parsePDFText(raw) {
-  const lines = raw.split('\n'); const txns = []; const dbg = [];
-  for (const line of lines) {
-    const parts = line.split('\t').map(s => s.trim()).filter(Boolean);
-    if (dbg.length < 50) dbg.push(JSON.stringify(parts));
-    if (!parts.length) continue;
-    let date = null, dc = 0;
-    for (let c = 0; c < Math.min(parts.length,2); c++) { date = parseDate(parts[c]); if (date) { dc = c; break; } }
-    if (!date) continue;
-    const rest = parts.slice(dc+1); if (!rest.length) continue;
-    let amount = null, desc = '';
-    const last = rest[rest.length-1];
-    const mA = last.match(/^\$?([\d,]+\.\d{2})\s*(DR|CR)?$/i);
-    if (mA) { const r = parseFloat(mA[1].replace(/,/g,'')); amount = mA[2]&&mA[2].toUpperCase()==='CR'?r:-r; desc = rest.slice(0,-1).join(' '); }
-    if (amount===null&&rest.length>=3) {
-      const mD=rest[rest.length-2].match(/^([\d,]+\.\d{2})$/), mC=rest[rest.length-1].match(/^([\d,]+\.\d{2})$/);
-      if (mD&&!mC){amount=-parseFloat(mD[1].replace(/,/g,''));desc=rest.slice(0,-2).join(' ');}
-      else if(mC&&!mD){amount=parseFloat(mC[1].replace(/,/g,''));desc=rest.slice(0,-2).join(' ');}
-    }
-    if(amount===null){const j=rest.join(' ');const mC=j.match(/([\d,]+\.\d{2})\s*(DR|CR)\s*$/i);if(mC){amount=mC[2].toUpperCase()==='CR'?parseFloat(mC[1].replace(/,/g,'')):-parseFloat(mC[1].replace(/,/g,''));desc=j.slice(0,j.lastIndexOf(mC[0])).trim();}}
-    if(amount===null||!isFinite(amount))continue;
-    desc=(desc||rest.join(' ')).replace(/\s+/g,' ').trim();
-    if(!desc||desc.length<2)continue;
-    if(/opening.?bal|closing.?bal|credit.?limit|minimum.?due|brought.?forward|interest charged|annual fee|monthly fee/i.test(desc))continue;
-    txns.push({date,rawDate:`${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()}`,amount,description:desc,category:categorise(desc,amount)});
-  }
-  return {txns, dbg};
 }
 function parseCSV(text) {
   const txns = [];
