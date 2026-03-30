@@ -324,6 +324,7 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
 .sync-badge.syncing .dot { background: var(--amber); animation: pulse .8s ease-in-out infinite; }
 .sync-badge.error .dot { background: var(--red); }
 .sync-badge.noconfig .dot { background: var(--ink3); }
+.sync-badge.readonly .dot { background: #60c8f8; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
 @media (max-width: 700px) { .kpis { grid-template-columns: 1fr 1fr; } .kpi-value { font-size: 1.4rem; } .page { padding: 0 1rem 3rem; } header { padding: 1rem; } }
@@ -334,7 +335,7 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
 <!-- ── Header ──────────────────────────────────────── -->
 <header>
   <div class="logo">
-    <div class="logo-name"><em>CommBank</em> Financial Tracker</div>
+    <div class="logo-name"><em>Rana's</em> Financial Tracker</div>
     <div class="logo-sub">Pay cycle · 15th → 14th of month</div>
   </div>
   <div class="hbtns">
@@ -355,7 +356,7 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
   <div id="welcomeSec">
     <div style="max-width:560px;margin:5rem auto;text-align:center">
       <div style="font-size:3rem;margin-bottom:1.5rem">💳</div>
-      <h1 style="font-size:1.6rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.75rem">CommBank Financial Tracker</h1>
+      <h1 style="font-size:1.6rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.75rem">Rana's Financial Tracker</h1>
       <p style="font-size:.95rem;color:var(--ink2);line-height:1.7;margin-bottom:2.5rem">
         Upload your CommBank statement PDF or CSV and instantly get a full spending breakdown — categorised, charted, and ready to track against your budget.
       </p>
@@ -645,44 +646,32 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
 
 <!-- GitHub Sync Setup Modal -->
 <div id="ghSetupModal" class="modal-bg hidden">
-  <div class="modal-box" style="max-width:540px">
-    <h3>🔄 GitHub Sync Setup</h3>
-    <p class="hint">Connect to your GitHub repo so data syncs automatically between you and anyone you share the link with. Your token is stored only in your browser — never on any server.</p>
+  <div class="modal-box" style="max-width:500px">
+    <h3>🔄 Admin sync setup</h3>
+    <p class="hint">This is only needed by <strong style="color:var(--ink)">you</strong> (the uploader). Your partner just opens the URL — she sees everything automatically with no setup at all.</p>
 
     <div style="background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);padding:1rem;margin-bottom:1.25rem">
-      <div style="font-size:.72rem;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Step 1 — Create a GitHub token</div>
+      <div style="font-size:.72rem;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">How to create a token</div>
       <ol style="font-size:.82rem;color:var(--ink2);line-height:1.9;padding-left:1.1rem">
         <li>Go to <strong style="color:var(--ink)">github.com → Settings → Developer settings</strong></li>
         <li>Click <strong style="color:var(--ink)">Personal access tokens → Tokens (classic)</strong></li>
         <li>Click <strong style="color:var(--ink)">Generate new token (classic)</strong></li>
-        <li>Give it a name like <strong style="color:var(--ink)">finance-tracker</strong></li>
-        <li>Tick the <strong style="color:var(--ink)">repo</strong> checkbox only</li>
-        <li>Click <strong style="color:var(--ink)">Generate token</strong> → copy the token</li>
+        <li>Name it <strong style="color:var(--ink)">finance-tracker</strong>, tick <strong style="color:var(--ink)">repo</strong> only</li>
+        <li>Click <strong style="color:var(--ink)">Generate token</strong> → copy it</li>
       </ol>
     </div>
 
-    <div style="font-size:.72rem;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Step 2 — Enter your details</div>
-    <div style="display:grid;gap:.65rem">
-      <div>
-        <div class="field-label">GitHub username</div>
-        <input type="text" id="ghOwner" placeholder="e.g. rrana421" class="field-input">
-      </div>
-      <div>
-        <div class="field-label">Repository name</div>
-        <input type="text" id="ghRepo" placeholder="e.g. Rana-s-Finance-Tracker" class="field-input">
-      </div>
-      <div>
-        <div class="field-label">Personal access token</div>
-        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="field-input">
-      </div>
+    <div>
+      <div class="field-label">Your GitHub personal access token</div>
+      <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="field-input">
     </div>
 
     <div id="ghSetupError" style="display:none;margin-top:.75rem;padding:.65rem .85rem;background:rgba(242,109,109,.08);border:1px solid rgba(242,109,109,.2);border-radius:6px;font-size:.8rem;color:var(--red)"></div>
 
     <div class="btn-row">
       <button class="btn ghost" onclick="$('ghSetupModal').classList.add('hidden')">Cancel</button>
-      <button class="btn ghost" onclick="clearGHConfig()" style="color:var(--red)">Disconnect</button>
-      <button class="btn primary" onclick="saveGHConfig()">Connect & sync</button>
+      <button class="btn ghost" onclick="clearGHConfig()" style="color:var(--red)">Remove token</button>
+      <button class="btn primary" onclick="saveGHConfig()">Save & sync</button>
     </div>
   </div>
 </div>
@@ -739,8 +728,16 @@ let trendChart = null;
 // ════════════════════════════════════════════
 // GITHUB SYNC
 // ════════════════════════════════════════════
-let ghConfig = null;
-try { ghConfig = JSON.parse(localStorage.getItem('rft_gh_config') || 'null'); } catch(e){}
+// Public repo details — anyone can READ without a token
+const GH_OWNER = 'rrana421';
+const GH_REPO  = 'Rana-s-Finance-Tracker';
+const GH_FILE  = 'tracker-data.json';
+const GH_RAW   = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_FILE}`;
+const GH_API   = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+
+// Only the admin (Rana) stores a write token
+let ghToken = null;
+try { ghToken = localStorage.getItem('rft_gh_token') || null; } catch(e){}
 let ghFileSha = null;
 let syncTimeout = null;
 
@@ -753,43 +750,35 @@ function setSyncStatus(status, label) {
 }
 
 function openGHSetup() {
-  if (ghConfig) {
-    document.getElementById('ghOwner').value = ghConfig.owner || '';
-    document.getElementById('ghRepo').value  = ghConfig.repo  || '';
-    document.getElementById('ghToken').value = ghConfig.token || '';
-  }
+  document.getElementById('ghToken').value = ghToken || '';
   document.getElementById('ghSetupModal').classList.remove('hidden');
 }
 
 async function saveGHConfig() {
-  const owner = document.getElementById('ghOwner').value.trim();
-  const repo  = document.getElementById('ghRepo').value.trim();
   const token = document.getElementById('ghToken').value.trim();
   const errEl = document.getElementById('ghSetupError');
   errEl.style.display = 'none';
-  if (!owner || !repo || !token) {
-    errEl.textContent = 'Please fill in all three fields.';
-    errEl.style.display = 'block'; return;
-  }
-  setSyncStatus('syncing', 'Connecting…');
+  if (!token) { errEl.textContent = 'Please enter your token.'; errEl.style.display='block'; return; }
+  setSyncStatus('syncing', 'Verifying…');
   try {
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`,
+    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}`,
       { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } });
-    if (!res.ok) throw new Error(`GitHub error ${res.status}: check username, repo name and token`);
+    if (!res.ok) throw new Error(`Error ${res.status}: check your token`);
   } catch(e) {
-    setSyncStatus('error', 'Sync error');
-    errEl.textContent = e.message; errEl.style.display = 'block'; return;
+    setSyncStatus('error','Token error');
+    errEl.textContent = e.message; errEl.style.display='block'; return;
   }
-  ghConfig = { owner, repo, token };
-  try { localStorage.setItem('rft_gh_config', JSON.stringify(ghConfig)); } catch(e){}
+  ghToken = token;
+  try { localStorage.setItem('rft_gh_token', token); } catch(e){}
   document.getElementById('ghSetupModal').classList.add('hidden');
+  // Now do a full sync
   await loadFromGitHub();
 }
 
 function clearGHConfig() {
-  ghConfig = null; ghFileSha = null;
-  try { localStorage.removeItem('rft_gh_config'); } catch(e){}
-  setSyncStatus('noconfig', 'Not synced');
+  ghToken = null; ghFileSha = null;
+  try { localStorage.removeItem('rft_gh_token'); } catch(e){}
+  setSyncStatus('readonly', 'Read-only');
   document.getElementById('ghSetupModal').classList.add('hidden');
 }
 
@@ -805,63 +794,85 @@ function getAppData() {
   };
 }
 
+// ── Load: uses GitHub API — works for public repos, no token needed ──
 async function loadFromGitHub() {
-  if (!ghConfig) return;
   setSyncStatus('syncing', 'Loading…');
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/tracker-data.json`,
-      { headers: { Authorization: `token ${ghConfig.token}`, Accept: 'application/vnd.github.v3+json' } }
-    );
-    if (res.status === 404) { setSyncStatus('synced', 'Synced (empty)'); return; }
+    const headers = { Accept: 'application/vnd.github.v3+json' };
+    if (ghToken) headers.Authorization = `token ${ghToken}`;
+
+    const res = await fetch(GH_API + '?t=' + Date.now(), { headers });
+
+    if (res.status === 404) {
+      // File doesn't exist yet — first time, no data uploaded
+      const time = new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+      setSyncStatus(ghToken ? 'synced' : 'readonly', ghToken ? `Ready · ${time}` : `Live · ${time}`);
+      return;
+    }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const json = await res.json();
     ghFileSha = json.sha;
-    const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
-    if (decoded.transactions?.length) {
-      allTx = decoded.transactions.map(t => ({
-        ...t, date: (() => { const [d,m,y]=t.rawDate.split('/'); return new Date(+y,+m-1,+d); })()
+    const data = JSON.parse(atob(json.content.replace(/\n/g, '')));
+
+    if (data.transactions?.length) {
+      allTx = data.transactions.map(t => ({
+        ...t, date: (() => { const [d,m,y] = t.rawDate.split('/'); return new Date(+y,+m-1,+d); })()
       }));
     }
-    if (decoded.budgets)    budgets    = decoded.budgets;
-    if (decoded.recurring)  recurring  = decoded.recurring;
-    if (decoded.customCats) { customCats = decoded.customCats; injectCustomCatCSS(); }
+    if (data.budgets)    budgets    = data.budgets;
+    if (data.recurring)  recurring  = data.recurring;
+    if (data.customCats) { customCats = data.customCats; injectCustomCatCSS(); }
+
     initCycles(); applyRecurringToAllCycles(); initCycles();
+
     if (allTx.length > 0) {
       $('welcomeSec').classList.add('hidden');
       $('dash').classList.remove('hidden');
       render();
     }
-    setSyncStatus('synced', `Synced · ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}`);
+
+    const time = new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+    setSyncStatus(ghToken ? 'synced' : 'readonly', ghToken ? `Synced · ${time}` : `Live · ${time}`);
+
   } catch(e) {
-    setSyncStatus('error', 'Sync failed');
+    setSyncStatus('error', 'Load failed — click to retry');
     console.warn('GitHub load error:', e.message);
   }
 }
 
+// ── Save: needs write token (admin only) ───────────────────
 function scheduleSyncToGitHub() {
-  if (!ghConfig) return;
+  if (!ghToken) return; // read-only visitors don't write
   setSyncStatus('syncing', 'Saving…');
   clearTimeout(syncTimeout);
   syncTimeout = setTimeout(syncToGitHub, 2000);
 }
 
 async function syncToGitHub() {
-  if (!ghConfig) return;
+  if (!ghToken) return;
   try {
+    // Always get latest SHA before writing to avoid conflicts
+    const shaRes = await fetch(GH_API, {
+      headers: { Authorization: `token ${ghToken}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (shaRes.ok) { const j = await shaRes.json(); ghFileSha = j.sha; }
+
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(getAppData(), null, 2))));
     const body = { message: `sync ${new Date().toISOString()}`, content };
     if (ghFileSha) body.sha = ghFileSha;
-    const res = await fetch(
-      `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/tracker-data.json`,
-      { method:'PUT', headers:{ Authorization:`token ${ghConfig.token}`, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) }
-    );
-    if (!res.ok) { const e=await res.json(); throw new Error(e.message||`HTTP ${res.status}`); }
+
+    const res = await fetch(GH_API, {
+      method: 'PUT',
+      headers: { Authorization: `token ${ghToken}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.message || `HTTP ${res.status}`); }
     const result = await res.json();
     ghFileSha = result.content.sha;
     setSyncStatus('synced', `Synced · ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}`);
   } catch(e) {
-    setSyncStatus('error', 'Sync failed — click to retry');
+    setSyncStatus('error', 'Sync failed');
     console.warn('Sync error:', e.message);
   }
 }
@@ -1563,12 +1574,13 @@ $('welcomeSec').classList.remove('hidden');
 $('dash').classList.add('hidden');
 $('upSec').classList.add('hidden');
 
-// If GitHub is configured, show syncing status and load cloud data
-if (ghConfig) {
-  setSyncStatus('syncing', 'Loading…');
-  loadFromGitHub();
-} else {
-  setSyncStatus('noconfig', 'Not synced · click to set up');
+// Always load from GitHub on startup — no token needed for public repos
+loadFromGitHub();
+
+// Show appropriate badge label based on whether admin token is present
+if (!ghToken) {
+  // Badge will be updated by loadFromGitHub, but pre-set it
+  setSyncStatus('syncing', 'Loading data…');
 }
 </script>
 </body>
