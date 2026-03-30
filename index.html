@@ -310,6 +310,22 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
 .manual-badge { font-size: .62rem; font-family: var(--mono); background: rgba(184,240,74,.12); color: var(--accent); border: 1px solid rgba(184,240,74,.2); border-radius: 3px; padding: 1px 5px; margin-left: .35rem; vertical-align: middle; }
 .recurring-badge { font-size: .62rem; font-family: var(--mono); background: rgba(96,200,248,.12); color: #60c8f8; border: 1px solid rgba(96,200,248,.2); border-radius: 3px; padding: 1px 5px; margin-left: .35rem; vertical-align: middle; }
 
+/* ── Sync status ────────────────────────────────────────── */
+.sync-badge {
+  display: flex; align-items: center; gap: .4rem;
+  font-size: .72rem; font-family: var(--mono);
+  padding: .35rem .75rem; border-radius: 6px;
+  border: 1px solid var(--line2); background: var(--raised);
+  color: var(--ink3); cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.sync-badge:hover { color: var(--ink); }
+.sync-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink3); flex-shrink: 0; }
+.sync-badge.synced .dot { background: var(--green); }
+.sync-badge.syncing .dot { background: var(--amber); animation: pulse .8s ease-in-out infinite; }
+.sync-badge.error .dot { background: var(--red); }
+.sync-badge.noconfig .dot { background: var(--ink3); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
 @media (max-width: 700px) { .kpis { grid-template-columns: 1fr 1fr; } .kpi-value { font-size: 1.4rem; } .page { padding: 0 1rem 3rem; } header { padding: 1rem; } }
 </style>
 </head>
@@ -322,6 +338,9 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
     <div class="logo-sub">Pay cycle · 15th → 14th of month</div>
   </div>
   <div class="hbtns">
+    <div class="sync-badge noconfig" id="syncBadge" onclick="openGHSetup()" title="Click to configure GitHub sync">
+      <div class="dot"></div><span id="syncLabel">Not synced</span>
+    </div>
     <button class="hbtn" onclick="showUpload()">+ Upload statement</button>
     <button class="hbtn" onclick="openAddTx()">+ Add transaction</button>
     <button class="hbtn" onclick="openRecurring()">↻ Recurring</button>
@@ -624,6 +643,50 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
   </div>
 </div>
 
+<!-- GitHub Sync Setup Modal -->
+<div id="ghSetupModal" class="modal-bg hidden">
+  <div class="modal-box" style="max-width:540px">
+    <h3>🔄 GitHub Sync Setup</h3>
+    <p class="hint">Connect to your GitHub repo so data syncs automatically between you and anyone you share the link with. Your token is stored only in your browser — never on any server.</p>
+
+    <div style="background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);padding:1rem;margin-bottom:1.25rem">
+      <div style="font-size:.72rem;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Step 1 — Create a GitHub token</div>
+      <ol style="font-size:.82rem;color:var(--ink2);line-height:1.9;padding-left:1.1rem">
+        <li>Go to <strong style="color:var(--ink)">github.com → Settings → Developer settings</strong></li>
+        <li>Click <strong style="color:var(--ink)">Personal access tokens → Tokens (classic)</strong></li>
+        <li>Click <strong style="color:var(--ink)">Generate new token (classic)</strong></li>
+        <li>Give it a name like <strong style="color:var(--ink)">finance-tracker</strong></li>
+        <li>Tick the <strong style="color:var(--ink)">repo</strong> checkbox only</li>
+        <li>Click <strong style="color:var(--ink)">Generate token</strong> → copy the token</li>
+      </ol>
+    </div>
+
+    <div style="font-size:.72rem;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Step 2 — Enter your details</div>
+    <div style="display:grid;gap:.65rem">
+      <div>
+        <div class="field-label">GitHub username</div>
+        <input type="text" id="ghOwner" placeholder="e.g. rrana421" class="field-input">
+      </div>
+      <div>
+        <div class="field-label">Repository name</div>
+        <input type="text" id="ghRepo" placeholder="e.g. Rana-s-Finance-Tracker" class="field-input">
+      </div>
+      <div>
+        <div class="field-label">Personal access token</div>
+        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="field-input">
+      </div>
+    </div>
+
+    <div id="ghSetupError" style="display:none;margin-top:.75rem;padding:.65rem .85rem;background:rgba(242,109,109,.08);border:1px solid rgba(242,109,109,.2);border-radius:6px;font-size:.8rem;color:var(--red)"></div>
+
+    <div class="btn-row">
+      <button class="btn ghost" onclick="$('ghSetupModal').classList.add('hidden')">Cancel</button>
+      <button class="btn ghost" onclick="clearGHConfig()" style="color:var(--red)">Disconnect</button>
+      <button class="btn primary" onclick="saveGHConfig()">Connect & sync</button>
+    </div>
+  </div>
+</div>
+
 <!-- Export Modal -->
 <div id="exportModal" class="modal-bg hidden">
   <div class="export-box">
@@ -673,6 +736,136 @@ let budgets = {};
 try { budgets = JSON.parse(localStorage.getItem('rft_budgets') || '{}'); } catch(e){}
 let trendChart = null;
 
+// ════════════════════════════════════════════
+// GITHUB SYNC
+// ════════════════════════════════════════════
+let ghConfig = null;
+try { ghConfig = JSON.parse(localStorage.getItem('rft_gh_config') || 'null'); } catch(e){}
+let ghFileSha = null;
+let syncTimeout = null;
+
+function setSyncStatus(status, label) {
+  const badge = document.getElementById('syncBadge');
+  const lbl   = document.getElementById('syncLabel');
+  if (!badge) return;
+  badge.className = `sync-badge ${status}`;
+  lbl.textContent = label;
+}
+
+function openGHSetup() {
+  if (ghConfig) {
+    document.getElementById('ghOwner').value = ghConfig.owner || '';
+    document.getElementById('ghRepo').value  = ghConfig.repo  || '';
+    document.getElementById('ghToken').value = ghConfig.token || '';
+  }
+  document.getElementById('ghSetupModal').classList.remove('hidden');
+}
+
+async function saveGHConfig() {
+  const owner = document.getElementById('ghOwner').value.trim();
+  const repo  = document.getElementById('ghRepo').value.trim();
+  const token = document.getElementById('ghToken').value.trim();
+  const errEl = document.getElementById('ghSetupError');
+  errEl.style.display = 'none';
+  if (!owner || !repo || !token) {
+    errEl.textContent = 'Please fill in all three fields.';
+    errEl.style.display = 'block'; return;
+  }
+  setSyncStatus('syncing', 'Connecting…');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`,
+      { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } });
+    if (!res.ok) throw new Error(`GitHub error ${res.status}: check username, repo name and token`);
+  } catch(e) {
+    setSyncStatus('error', 'Sync error');
+    errEl.textContent = e.message; errEl.style.display = 'block'; return;
+  }
+  ghConfig = { owner, repo, token };
+  try { localStorage.setItem('rft_gh_config', JSON.stringify(ghConfig)); } catch(e){}
+  document.getElementById('ghSetupModal').classList.add('hidden');
+  await loadFromGitHub();
+}
+
+function clearGHConfig() {
+  ghConfig = null; ghFileSha = null;
+  try { localStorage.removeItem('rft_gh_config'); } catch(e){}
+  setSyncStatus('noconfig', 'Not synced');
+  document.getElementById('ghSetupModal').classList.add('hidden');
+}
+
+function getAppData() {
+  return {
+    transactions: allTx.map(t => ({
+      rawDate: t.rawDate, description: t.description,
+      amount: t.amount, category: t.category,
+      isManual: t.isManual||false, isRecurring: t.isRecurring||false, recurringId: t.recurringId||null
+    })),
+    budgets, recurring, customCats,
+    lastUpdated: new Date().toISOString()
+  };
+}
+
+async function loadFromGitHub() {
+  if (!ghConfig) return;
+  setSyncStatus('syncing', 'Loading…');
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/tracker-data.json`,
+      { headers: { Authorization: `token ${ghConfig.token}`, Accept: 'application/vnd.github.v3+json' } }
+    );
+    if (res.status === 404) { setSyncStatus('synced', 'Synced (empty)'); return; }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    ghFileSha = json.sha;
+    const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    if (decoded.transactions?.length) {
+      allTx = decoded.transactions.map(t => ({
+        ...t, date: (() => { const [d,m,y]=t.rawDate.split('/'); return new Date(+y,+m-1,+d); })()
+      }));
+    }
+    if (decoded.budgets)    budgets    = decoded.budgets;
+    if (decoded.recurring)  recurring  = decoded.recurring;
+    if (decoded.customCats) { customCats = decoded.customCats; injectCustomCatCSS(); }
+    initCycles(); applyRecurringToAllCycles(); initCycles();
+    if (allTx.length > 0) {
+      $('welcomeSec').classList.add('hidden');
+      $('dash').classList.remove('hidden');
+      render();
+    }
+    setSyncStatus('synced', `Synced · ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}`);
+  } catch(e) {
+    setSyncStatus('error', 'Sync failed');
+    console.warn('GitHub load error:', e.message);
+  }
+}
+
+function scheduleSyncToGitHub() {
+  if (!ghConfig) return;
+  setSyncStatus('syncing', 'Saving…');
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(syncToGitHub, 2000);
+}
+
+async function syncToGitHub() {
+  if (!ghConfig) return;
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(getAppData(), null, 2))));
+    const body = { message: `sync ${new Date().toISOString()}`, content };
+    if (ghFileSha) body.sha = ghFileSha;
+    const res = await fetch(
+      `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/tracker-data.json`,
+      { method:'PUT', headers:{ Authorization:`token ${ghConfig.token}`, Accept:'application/vnd.github.v3+json', 'Content-Type':'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!res.ok) { const e=await res.json(); throw new Error(e.message||`HTTP ${res.status}`); }
+    const result = await res.json();
+    ghFileSha = result.content.sha;
+    setSyncStatus('synced', `Synced · ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}`);
+  } catch(e) {
+    setSyncStatus('error', 'Sync failed — click to retry');
+    console.warn('Sync error:', e.message);
+  }
+}
+
 // ── Custom categories (user-defined) ──────────────────────
 let customCats = [];
 try { customCats = JSON.parse(localStorage.getItem('rft_custom_cats') || '[]'); } catch(e){}
@@ -706,6 +899,7 @@ try { recurring = JSON.parse(localStorage.getItem('rft_recurring') || '[]'); } c
 
 function saveRecurring() {
   try { localStorage.setItem('rft_recurring', JSON.stringify(recurring)); } catch(e){}
+  scheduleSyncToGitHub();
 }
 
 // Auto-apply recurring to a cycle if not already present
@@ -782,7 +976,7 @@ function saveManualTx() {
   // Reset form
   $('atDesc').value = ''; $('atAmt').value = ''; $('atNote').value = '';
   $('addTxModal').classList.add('hidden');
-  initCycles(); render();
+  initCycles(); render(); scheduleSyncToGitHub();
 }
 
 // ════════════════════════════════════════════
@@ -858,7 +1052,7 @@ function saveCustomCat() {
   try { localStorage.setItem('rft_custom_cats', JSON.stringify(customCats)); } catch(e){}
   injectCustomCatCSS();
   $('customCatModal').classList.add('hidden');
-  render();
+  render(); scheduleSyncToGitHub();
 }
 
 // ════════════════════════════════════════════
@@ -1061,7 +1255,7 @@ function toggleSelect(idx) {
     sel.addEventListener('blur', () => { sel.style.display = 'none'; pill.style.display = 'inline-flex'; }, { once: true });
   }
 }
-function reCategorise(idx, newCat) { allTx[idx].category = newCat; render(); }
+function reCategorise(idx, newCat) { allTx[idx].category = newCat; render(); scheduleSyncToGitHub(); }
 
 // ════════════════════════════════════════════
 // BUDGETS
@@ -1087,7 +1281,7 @@ function saveBudgets() {
     const v = parseFloat(el.value); budgets[cat.id] = isNaN(v) || v <= 0 ? 0 : v;
   });
   try { localStorage.setItem('rft_budgets', JSON.stringify(budgets)); } catch(e){}
-  closeBudgets(); render();
+  closeBudgets(); render(); scheduleSyncToGitHub();
 }
 
 // ════════════════════════════════════════════
@@ -1322,6 +1516,7 @@ async function handleFile(file) {
   $('upSec').classList.add('hidden');
   $('dash').classList.remove('hidden');
   initCycles(); applyRecurringToAllCycles(); initCycles(); render();
+  scheduleSyncToGitHub();
 }
 
 function showUpload() {
@@ -1358,15 +1553,23 @@ $('exportModal').addEventListener('click', e => { if (e.target === $('exportModa
 $('addTxModal').addEventListener('click', e => { if (e.target === $('addTxModal')) $('addTxModal').classList.add('hidden'); });
 $('recurringModal').addEventListener('click', e => { if (e.target === $('recurringModal')) $('recurringModal').classList.add('hidden'); });
 $('customCatModal').addEventListener('click', e => { if (e.target === $('customCatModal')) $('customCatModal').classList.add('hidden'); });
+$('ghSetupModal').addEventListener('click', e => { if (e.target === $('ghSetupModal')) $('ghSetupModal').classList.add('hidden'); });
 
 // ════════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════════
 injectCustomCatCSS();
-// Start on welcome screen — no data loaded yet
 $('welcomeSec').classList.remove('hidden');
 $('dash').classList.add('hidden');
 $('upSec').classList.add('hidden');
+
+// If GitHub is configured, show syncing status and load cloud data
+if (ghConfig) {
+  setSyncStatus('syncing', 'Loading…');
+  loadFromGitHub();
+} else {
+  setSyncStatus('noconfig', 'Not synced · click to set up');
+}
 </script>
 </body>
 </html>
