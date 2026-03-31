@@ -478,7 +478,10 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
 
     <!-- Transactions -->
     <div class="section">
-      <div class="section-label">Transactions <span class="tx-count" id="txCount"></span></div>
+      <div class="section-label" style="justify-content:space-between">
+        <span>Transactions <span class="tx-count" id="txCount"></span></span>
+        <button onclick="clearCycle()" style="background:none;border:1px solid rgba(242,109,109,.3);color:var(--red);font-size:.68rem;padding:.28rem .75rem;border-radius:4px;cursor:pointer;font-family:var(--mono);transition:all .15s;text-transform:none;letter-spacing:0" onmouseover="this.style.background='rgba(242,109,109,.08)'" onmouseout="this.style.background='none'">✕ Clear this cycle</button>
+      </div>
       <div class="controls">
         <div class="search-wrap">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -493,6 +496,7 @@ tbody td { padding: .9rem 1.25rem; vertical-align: middle; }
             <th>Merchant</th>
             <th style="width:160px">Category</th>
             <th style="width:120px;text-align:right">Amount</th>
+            <th style="width:40px"></th>
           </tr></thead>
           <tbody id="txBody"></tbody>
         </table>
@@ -1207,7 +1211,10 @@ function render() {
           <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg>
         </span>
       </td>
-      <td class="td-amt ${isInc ? 'income' : 'expense'}">${isInc ? '+' : '−'}${fmtAmt(t.amount)}</td>`;
+      <td class="td-amt ${isInc ? 'income' : 'expense'}">${isInc ? '+' : '−'}${fmtAmt(t.amount)}</td>
+      <td style="text-align:right;padding-right:.5rem">
+        <button onclick="deleteTx(${gIdx})" title="Delete transaction" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.9rem;padding:2px 6px;border-radius:4px;transition:all .15s" onmouseover="this.style.color='var(--red)';this.style.background='rgba(242,109,109,.1)'" onmouseout="this.style.color='var(--ink3)';this.style.background='none'">✕</button>
+      </td>`;
     tb.appendChild(tr);
   });
 }
@@ -1267,6 +1274,36 @@ function toggleSelect(idx) {
   }
 }
 function reCategorise(idx, newCat) { allTx[idx].category = newCat; render(); scheduleSyncToGitHub(); }
+
+function deleteTx(idx) {
+  const t = allTx[idx];
+  if (!confirm(`Delete "${t.description}" (${fmtAmt(t.amount)})?`)) return;
+  allTx.splice(idx, 1);
+  initCycles();
+  if (cycles.length === 0) {
+    $('dash').classList.add('hidden');
+    $('welcomeSec').classList.remove('hidden');
+  } else {
+    if (!cycles.includes(activeCycle)) activeCycle = cycles[0];
+    render();
+  }
+  scheduleSyncToGitHub();
+}
+
+function clearCycle() {
+  const label = cycleLabel(activeCycle);
+  if (!confirm(`Delete ALL transactions in cycle "${label}"?\n\nThis cannot be undone.`)) return;
+  allTx = allTx.filter(t => cycleKey(t.date) !== activeCycle);
+  initCycles();
+  if (cycles.length === 0) {
+    $('dash').classList.add('hidden');
+    $('welcomeSec').classList.remove('hidden');
+  } else {
+    if (!cycles.includes(activeCycle)) activeCycle = cycles[0];
+    render();
+  }
+  scheduleSyncToGitHub();
+}
 
 // ════════════════════════════════════════════
 // BUDGETS
