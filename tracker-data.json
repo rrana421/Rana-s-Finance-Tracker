@@ -1079,8 +1079,24 @@
       "afterRate": 0,
       "paid": false,
       "addedDate": "2026-04-01T05:54:54.600Z"
+    },
+    {
+      "id": "debt_1775023059006",
+      "name": "Samsung Finance - R",
+      "type": "zero",
+      "icon": "⭐",
+      "color": "#fbbf24",
+      "currentBalance": 228.3,
+      "rate": 0,
+      "minPayment": 76.1,
+      "originalBalance": 913.2,
+      "notes": "",
+      "expiryDate": "",
+      "afterRate": 0,
+      "paid": false,
+      "addedDate": "2026-04-01T05:57:39.006Z"
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:54:57.190Z"
+  "lastUpdated": "2026-04-01T05:57:41.541Z"
 }
