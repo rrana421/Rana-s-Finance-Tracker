@@ -1114,7 +1114,7 @@
     },
     {
       "id": "debt_1775024174733",
-      "name": "Home Mortgage",
+      "name": "Land Mortgage",
       "type": "mortgage",
       "icon": "🏠",
       "color": "#60a5fa",
@@ -1130,5 +1130,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T06:16:17.343Z"
+  "lastUpdated": "2026-04-01T06:16:40.508Z"
 }
