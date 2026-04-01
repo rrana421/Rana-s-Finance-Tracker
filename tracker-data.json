@@ -374,7 +374,7 @@
       "rawDate": "18/03/2026",
       "description": "Smp*Crown Hair Cut C Clyde North",
       "amount": -50.83,
-      "category": "other",
+      "category": "personal",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:36:56.809Z"
+  "lastUpdated": "2026-04-01T10:37:08.440Z"
 }
