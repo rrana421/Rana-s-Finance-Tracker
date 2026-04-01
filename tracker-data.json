@@ -244,7 +244,7 @@
       "rawDate": "17/02/2026",
       "description": "Gulcan Pty Ltd Melbourne",
       "amount": -17,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1079,5 +1079,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:39:39.185Z"
+  "lastUpdated": "2026-04-01T05:41:20.424Z"
 }
