@@ -112,16 +112,6 @@
     },
     {
       "rawDate": "20/02/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 2850.87,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "20/02/2026",
       "description": "Smp*Light Bulb Soda Quakers Hill",
       "amount": -10.2,
       "category": "eating",
@@ -1079,5 +1069,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:42:25.489Z"
+  "lastUpdated": "2026-04-01T05:42:46.730Z"
 }
