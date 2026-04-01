@@ -364,7 +364,7 @@
       "rawDate": "18/03/2026",
       "description": "Dotti Docklands",
       "amount": -77.25,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:35:58.637Z"
+  "lastUpdated": "2026-04-01T10:36:05.601Z"
 }
