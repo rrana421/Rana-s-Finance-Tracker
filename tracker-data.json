@@ -395,7 +395,7 @@
       "description": "Peninsula Hot Spri Fingal",
       "amount": -120,
       "category": "entertainment",
-      "owner": "rana",
+      "owner": "partner",
       "isManual": true,
       "isRecurring": false,
       "recurringId": null
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:50:22.418Z"
+  "lastUpdated": "2026-04-01T10:50:28.575Z"
 }
