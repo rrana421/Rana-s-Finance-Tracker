@@ -261,6 +261,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "16/02/2026",
+      "description": "NIssan Car Payment",
+      "amount": -856,
+      "category": "utilities",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775021591567
+    },
+    {
       "rawDate": "15/02/2026",
       "description": "United Cranbourne N Cranbourne No",
       "amount": -57.71,
@@ -1302,7 +1312,16 @@
     }
   ],
   "budgets": {},
-  "recurring": [],
+  "recurring": [
+    {
+      "id": 1775021591567,
+      "description": "NIssan Car Payment",
+      "amount": -856,
+      "category": "utilities",
+      "day": 16,
+      "owner": "partner"
+    }
+  ],
   "customCats": [],
   "goals": {
     "income": 0,
@@ -1315,7 +1334,7 @@
       "id": "debt_1775017666516",
       "name": "Eclipse Cross",
       "type": "car",
-      "icon": "🚗",
+      "icon": "ð",
       "color": "#4ade80",
       "currentBalance": 17000,
       "rate": 6,
@@ -1329,5 +1348,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T04:28:28.296Z"
+  "lastUpdated": "2026-04-01T05:33:14.596Z"
 }
