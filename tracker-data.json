@@ -64,7 +64,7 @@
       "rawDate": "23/02/2026",
       "description": "Cwh Double Bay Double Bay",
       "amount": -11.49,
-      "category": "personal",
+      "category": "grocery",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1079,5 +1079,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:41:58.231Z"
+  "lastUpdated": "2026-04-01T05:42:25.489Z"
 }
