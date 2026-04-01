@@ -254,7 +254,7 @@
       "rawDate": "16/02/2026",
       "description": "NIssan Car Payment",
       "amount": -856,
-      "category": "utilities",
+      "category": "custom_loans_1775022240026",
       "owner": "partner",
       "isManual": false,
       "isRecurring": true,
@@ -1076,5 +1076,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:44:02.728Z"
+  "lastUpdated": "2026-04-01T05:44:10.605Z"
 }
