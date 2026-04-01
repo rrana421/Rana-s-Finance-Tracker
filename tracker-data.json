@@ -391,6 +391,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "18/03/2026",
+      "description": "Peninsula Hot Spri Fingal",
+      "amount": -120,
+      "category": "entertainment",
+      "owner": "partner",
+      "isManual": true,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
       "rawDate": "16/03/2026",
       "description": "Lsp*Campos Coffee South Yarra",
       "amount": -12.94,
@@ -2378,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:36:23.941Z"
+  "lastUpdated": "2026-04-01T10:36:49.143Z"
 }
