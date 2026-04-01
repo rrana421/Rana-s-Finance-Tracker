@@ -134,7 +134,7 @@
       "rawDate": "21/03/2026",
       "description": "Matildas Melbourne",
       "amount": -117.59,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:35:14.914Z"
+  "lastUpdated": "2026-04-01T10:35:21.899Z"
 }
