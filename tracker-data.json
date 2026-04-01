@@ -1043,7 +1043,14 @@
   ],
   "budgets": {},
   "recurring": [],
-  "customCats": [],
+  "customCats": [
+    {
+      "id": "custom_loans_1775022240026",
+      "name": "Loans",
+      "icon": "💸",
+      "color": "#a78bfa"
+    }
+  ],
   "goals": {
     "income": 0,
     "target": 0,
@@ -1069,5 +1076,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:43:09.177Z"
+  "lastUpdated": "2026-04-01T05:44:02.728Z"
 }
