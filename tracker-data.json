@@ -84,7 +84,7 @@
       "rawDate": "24/03/2026",
       "description": "Ls The Kebab Acai Co Melbourne",
       "amount": -14.21,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:35:04.163Z"
+  "lastUpdated": "2026-04-01T10:35:08.671Z"
 }
