@@ -14,7 +14,7 @@
       "rawDate": "25/03/2026",
       "description": "Novo Shoes Group Pty L Docklands",
       "amount": -31,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:33:25.124Z"
+  "lastUpdated": "2026-04-01T10:34:01.124Z"
 }
