@@ -624,7 +624,7 @@
       "rawDate": "01/02/2026",
       "description": "Best & Less Fountain Fountain Gate",
       "amount": -49.99,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1178,5 +1178,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:26:08.041Z"
+  "lastUpdated": "2026-04-01T10:26:20.003Z"
 }
