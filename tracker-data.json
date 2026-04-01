@@ -1052,16 +1052,7 @@
     }
   ],
   "budgets": {},
-  "recurring": [
-    {
-      "id": 1775021591567,
-      "description": "NIssan Car Payment",
-      "amount": -856,
-      "category": "utilities",
-      "day": 16,
-      "owner": "partner"
-    }
-  ],
+  "recurring": [],
   "customCats": [],
   "goals": {
     "income": 0,
@@ -1088,5 +1079,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:39:05.568Z"
+  "lastUpdated": "2026-04-01T05:39:39.185Z"
 }
