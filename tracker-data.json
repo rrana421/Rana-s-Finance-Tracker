@@ -214,7 +214,7 @@
       "rawDate": "17/02/2026",
       "description": "Sharma Business Servi South Yarra",
       "amount": -17.17,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1069,5 +1069,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T05:42:46.730Z"
+  "lastUpdated": "2026-04-01T05:43:09.177Z"
 }
