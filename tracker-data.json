@@ -54,7 +54,7 @@
       "rawDate": "24/03/2026",
       "description": "Lamanna & Sons Espress South Yarra",
       "amount": -5.08,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:34:57.105Z"
+  "lastUpdated": "2026-04-01T10:35:04.163Z"
 }
