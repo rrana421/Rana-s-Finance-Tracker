@@ -2241,7 +2241,21 @@
       "recurringId": 1775021591567
     }
   ],
-  "budgets": {},
+  "budgets": {
+    "utilities": 400,
+    "bills": 400,
+    "india": 400,
+    "transport": 500,
+    "grocery": 600,
+    "personal": 200,
+    "shopping": 400,
+    "eating": 400,
+    "entertainment": 200,
+    "travel": 0,
+    "govt": 250,
+    "other": 0,
+    "custom_loans_1775022240026": 0
+  },
   "recurring": [],
   "customCats": [
     {
@@ -2388,5 +2402,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:50:28.575Z"
+  "lastUpdated": "2026-04-01T10:53:26.918Z"
 }
