@@ -724,7 +724,7 @@
       "rawDate": "30/01/2026",
       "description": "Uber *Trip Help.Uber.C 14518236738",
       "amount": -0.99,
-      "category": "other",
+      "category": "transport",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1178,5 +1178,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:26:47.726Z"
+  "lastUpdated": "2026-04-01T10:26:53.306Z"
 }
