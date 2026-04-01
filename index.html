@@ -151,6 +151,11 @@ tbody td{padding:.82rem 1rem;vertical-align:middle}
 .who-rana{background:rgba(184,240,74,.12);color:var(--accent);border:1px solid rgba(184,240,74,.2)}
 .who-partner{background:rgba(192,132,245,.12);color:var(--purple);border:1px solid rgba(192,132,245,.2)}
 .who-combined{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.2)}
+.who-sel{background:transparent;border:1px solid var(--line2);border-radius:3px;color:var(--ink);font-size:.62rem;font-family:var(--mono);font-weight:500;padding:1px 5px;outline:none;cursor:pointer;display:none}
+.who-sel option{background:var(--raised);color:var(--ink)}
+.who-badge{display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:3px;font-size:.62rem;font-family:var(--mono);font-weight:500;cursor:pointer;user-select:none}
+.who-badge:hover{opacity:.75}
+.who-badge::after{content:"\25BE";font-size:.5rem;margin-left:1px;opacity:.6}
 .manual-badge{font-size:.6rem;font-family:var(--mono);background:rgba(245,166,35,.1);color:var(--amber);border:1px solid rgba(245,166,35,.2);border-radius:3px;padding:1px 5px;margin-left:.3rem;vertical-align:middle}
 .recurring-badge{font-size:.6rem;font-family:var(--mono);background:rgba(96,200,248,.1);color:var(--blue);border:1px solid rgba(96,200,248,.2);border-radius:3px;padding:1px 5px;margin-left:.3rem;vertical-align:middle}
 
@@ -343,7 +348,7 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
     <div style="max-width:540px;margin:4rem auto;text-align:center">
       <div style="font-size:2.5rem;margin-bottom:1.25rem">💳</div>
       <h1 style="font-size:1.5rem;font-weight:600;letter-spacing:-.02em;margin-bottom:.6rem">Rana's Financial Tracker</h1>
-      <p style="font-size:.9rem;color:var(--ink2);line-height:1.7;margin-bottom:2rem">Combined household finance tracking for Rana & Partner. Upload your CommBank statements to get started.</p>
+      <p style="font-size:.9rem;color:var(--ink2);line-height:1.7;margin-bottom:2rem">Combined household finance tracking for Rana & Kirti. Upload your CommBank statements to get started.</p>
       <div style="display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-bottom:2rem">
         <span style="background:var(--raised);border:1px solid var(--line2);border-radius:20px;padding:.3rem .85rem;font-size:.75rem;color:var(--ink2)">💰 Combined income tracking</span>
         <span style="background:var(--raised);border:1px solid var(--line2);border-radius:20px;padding:.3rem .85rem;font-size:.75rem;color:var(--ink2)">📊 50/30/20 framework</span>
@@ -553,7 +558,7 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
         </div>
       </div>
       <div>
-        <div class="field-label">Partner's name (optional)</div>
+        <div class="field-label">Kirti's display name</div>
         <input type="text" id="gPartnerName" placeholder="e.g. Kirti" class="field-input">
       </div>
     </div>
@@ -653,7 +658,7 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
 <div id="ghSetupModal" class="modal-bg hidden">
   <div class="modal-box" style="max-width:480px">
     <h3>🔄 GitHub Sync</h3>
-    <p class="hint">Admin only (Rana). Your partner sees data automatically — no setup needed on her end. Your token is stored only in your browser.</p>
+    <p class="hint">Admin only (Rana). Kirti sees data automatically — no setup needed on her end. Your token is stored only in your browser.</p>
     <div style="background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);padding:.9rem;margin-bottom:1rem">
       <div style="font-size:.68rem;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.65rem">Create a token</div>
       <ol style="font-size:.78rem;color:var(--ink2);line-height:1.85;padding-left:1rem">
@@ -818,7 +823,7 @@ function update5030Preview(){
   if(show&&inc){$('prev-needs').textContent=fmtAmt(inc*.5);$('prev-wants').textContent=fmtAmt(inc*.3);$('prev-save').textContent=fmtAmt(inc*.2)}
 }
 function saveGoals(){
-  householdIncome=parseFloat($('gIncome').value)||0;savingsTarget=parseFloat($('gTarget').value)||0;use5030=$('gUse5030').checked;partnerName=$('gPartnerName').value.trim()||'Partner';
+  householdIncome=parseFloat($('gIncome').value)||0;savingsTarget=parseFloat($('gTarget').value)||0;use5030=$('gUse5030').checked;partnerName=$('gPartnerName').value.trim()||'Kirti';
   const goals={income:householdIncome,target:savingsTarget,use5030,partnerName};
   try{localStorage.setItem('rft_goals',JSON.stringify(goals))}catch(e){}
   // Update partner name in UI
@@ -912,6 +917,14 @@ function toggleSelect(idx){
   }
 }
 function reCategorise(idx,cat){allTx[idx].category=cat;render();scheduleSyncToGitHub()}
+function reOwner(idx,who){allTx[idx].owner=who;render();scheduleSyncToGitHub();}
+function toggleWho(idx){
+  var sel=document.getElementById('who-sel-'+idx);
+  var badge=document.getElementById('who-badge-'+idx);
+  if(!sel||!badge)return;
+  sel.style.display='inline-block';badge.style.display='none';sel.focus();
+  sel.addEventListener('blur',function(){sel.style.display='none';badge.style.display='inline-flex';},{once:true});
+}
 function deleteTx(idx){
   const t=allTx[idx];if(!confirm(`Delete "${t.description}" (${fmtAmt(t.amount)})?`))return;
   allTx.splice(idx,1);initCycles();
@@ -1066,7 +1079,7 @@ function render(){
     const ownerLabel=t.owner==='partner'?partnerName:t.owner==='combined'?'Combined':'Rana';const ownerCls=t.owner==='partner'?'who-partner':t.owner==='combined'?'who-combined':'who-rana';
     const badge=t.isManual?'<span class="manual-badge">manual</span>':t.isRecurring?'<span class="recurring-badge">recurring</span>':'';
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="td-date">${fmtDate(t.date)}</td><td class="td-desc" title="${t.description}">${t.description}${badge}</td><td><select class="cat-select" style="display:none" id="sel-${gIdx}" onchange="reCategorise(${gIdx},this.value)"></select><span class="pill ${pillCls}" onclick="toggleSelect(${gIdx})" title="Click to change">${cat.icon} ${cat.label}<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></span></td><td><span class="who-badge ${ownerCls}">${ownerLabel}</span></td><td class="td-amt ${isInc?'income':'expense'}">${isInc?'+':'−'}${fmtAmt(t.amount)}</td><td style="text-align:right;padding-right:.5rem"><button onclick="deleteTx(${gIdx})" title="Delete" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.85rem;padding:2px 5px;border-radius:3px;transition:all .15s" onmouseover="this.style.color='var(--red)';this.style.background='rgba(242,109,109,.08)'" onmouseout="this.style.color='var(--ink3)';this.style.background='none'">✕</button></td>`;
+    tr.innerHTML=`<td class="td-date">${fmtDate(t.date)}</td><td class="td-desc" title="${t.description}">${t.description}${badge}</td><td><select class="cat-select" style="display:none" id="sel-${gIdx}" onchange="reCategorise(${gIdx},this.value)"></select><span class="pill ${pillCls}" onclick="toggleSelect(${gIdx})" title="Click to change">${cat.icon} ${cat.label}<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l3 3 3-3"/></svg></span></td><td><select class="who-sel" id="who-sel-${gIdx}" onchange="reOwner(${gIdx},this.value)">${[["rana","Rana"],["partner","Kirti"],["combined","Combined"]].map(function(o){return '<option value="'+o[0]+'"'+(t.owner===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')}</select><span class="who-badge ${ownerCls}" id="who-badge-${gIdx}" onclick="toggleWho(${gIdx})" title="Click to change">${ownerLabel}</span></td><td class="td-amt ${isInc?'income':'expense'}">${isInc?'+':'−'}${fmtAmt(t.amount)}</td><td style="text-align:right;padding-right:.5rem"><button onclick="deleteTx(${gIdx})" title="Delete" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.85rem;padding:2px 5px;border-radius:3px;transition:all .15s" onmouseover="this.style.color='var(--red)';this.style.background='rgba(242,109,109,.08)'" onmouseout="this.style.color='var(--ink3)';this.style.background='none'">✕</button></td>`;
     tb.appendChild(tr)
   })
 }
