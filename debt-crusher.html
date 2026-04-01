@@ -18,18 +18,38 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{font-size:15px}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* Header */
 header{padding:1rem 2rem;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg);z-index:100;gap:.75rem;flex-wrap:wrap}
 .logo-t{font-size:1rem;font-weight:600}.logo-t em{color:var(--accent);font-style:normal}
 .logo-s{font-size:.66rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;font-family:var(--mono)}
-.hbtns{display:flex;gap:.5rem;flex-wrap:wrap}
+.hbtns{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
 .hbtn{font-family:var(--font);font-size:.8rem;font-weight:500;background:var(--raised);border:1px solid var(--line2);color:var(--ink2);padding:.45rem 1rem;border-radius:6px;cursor:pointer;transition:all .15s;white-space:nowrap;text-decoration:none;display:inline-block}
 .hbtn:hover{background:var(--overlay);color:var(--ink)}
 .hbtn.accent{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600;padding:.5rem 1.4rem}
 .hbtn.accent:hover{background:#ea6c0a}
+.hbtn.accent:disabled{background:var(--ink3);border-color:var(--ink3);cursor:not-allowed}
+.sync-status{font-size:.72rem;font-family:var(--mono);color:var(--ink3);display:flex;align-items:center;gap:.4rem}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--ink3)}
+.sync-dot.ok{background:var(--green)}
+.sync-dot.err{background:var(--red)}
+.sync-dot.loading{background:var(--amber);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Page */
 .page{max-width:1180px;margin:0 auto;padding:1.5rem 1.5rem 4rem}
 .sec{margin-top:1.75rem}
 .sec-label{font-size:.66rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.85rem;font-family:var(--mono);display:flex;align-items:center;gap:.6rem}
 .sec-label::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* State screens */
+.state-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem;text-align:center;gap:1rem}
+.state-icon{font-size:2.5rem}
+.state-title{font-size:1rem;font-weight:600}
+.state-body{font-size:.85rem;color:var(--ink2);line-height:1.65;max-width:420px}
+.state-screen.hidden{display:none}
+
+/* Budget */
 .budget-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.85rem;align-items:end;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem 1.25rem}
 .fl{font-size:.67rem;color:var(--ink3);font-family:var(--mono);letter-spacing:.04em;margin-bottom:.28rem}
 .fi{background:var(--raised);border:1px solid var(--line2);border-radius:6px;padding:.48rem .72rem;color:var(--ink);font-size:.85rem;outline:none;font-family:var(--font);transition:border-color .15s;width:100%}
@@ -38,31 +58,49 @@ header{padding:1rem 2rem;border-bottom:1px solid var(--line);display:flex;align-
 .fs{position:relative}.fs span{position:absolute;right:.65rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:.8rem;font-family:var(--mono);pointer-events:none}.fs .fi{padding-right:1.5rem}
 .bt-label{font-size:.67rem;color:var(--ink3);font-family:var(--mono);margin-bottom:.25rem}
 .bt-val{font-family:var(--mono);font-size:1.3rem;font-weight:500;color:var(--accent)}
+
+/* Debt cards */
 .debt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:.85rem}
 .dc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .dc.urgent{border-color:rgba(248,113,113,.45)}
 .dch{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem .65rem;border-bottom:1px solid var(--line);gap:.5rem}
 .dch-l{display:flex;align-items:center;gap:.5rem;flex:1;min-width:0}
 .d-icon{font-size:1.1rem;flex-shrink:0}
-.d-name{background:none;border:none;color:var(--ink);font-size:.88rem;font-weight:500;font-family:var(--font);outline:none;flex:1;min-width:0}
-.d-name:focus{border-bottom:1px solid var(--accent)}
+.d-name{background:none;border:none;color:var(--ink);font-size:.88rem;font-weight:500;font-family:var(--font);outline:none;flex:1;min-width:0;cursor:default}
+.d-name.editable{cursor:text;border-bottom:1px dashed var(--line2)}
+.d-name.editable:focus{border-bottom-color:var(--accent)}
 .dch-r{display:flex;align-items:center;gap:.35rem;flex-shrink:0}
-.type-sel{background:var(--raised);border:1px solid var(--line2);border-radius:4px;color:var(--ink2);font-size:.7rem;padding:.28rem .45rem;outline:none;cursor:pointer;font-family:var(--mono)}
-.rm-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.9rem;padding:2px 5px;border-radius:3px;line-height:1}
+.type-badge{font-size:.62rem;font-family:var(--mono);padding:2px 8px;border-radius:3px;font-weight:500}
+.type-badge.mortgage{background:rgba(96,165,250,.12);color:var(--blue)}
+.type-badge.car{background:rgba(74,222,128,.12);color:var(--green)}
+.type-badge.personal{background:rgba(167,139,250,.12);color:var(--purple)}
+.type-badge.zero{background:rgba(251,191,36,.12);color:var(--amber)}
+.type-badge.other{background:rgba(142,146,157,.1);color:var(--ink2)}
+.rm-btn{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.9rem;padding:2px 5px;border-radius:3px;line-height:1;transition:all .15s}
 .rm-btn:hover{color:var(--red);background:rgba(248,113,113,.1)}
 .dcb{padding:.8rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
 .fg{display:flex;flex-direction:column}
 .fg.full{grid-column:1/-1}
 .calc-note{font-size:.64rem;color:var(--ink3);font-family:var(--mono);margin-top:3px;min-height:.85rem}
 .urg-flag{font-size:.67rem;color:var(--red);font-family:var(--mono);margin-top:.2rem;display:none}
-.add-card{display:flex;align-items:center;justify-content:center;gap:.5rem;border:1.5px dashed var(--line2);border-radius:var(--r);padding:1.5rem;cursor:pointer;color:var(--ink3);font-size:.82rem;transition:all .2s;min-height:60px}
+.tracker-badge{font-size:.62rem;font-family:var(--mono);color:var(--green);background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:3px;padding:1px 6px;flex-shrink:0}
+.whatif-badge{font-size:.62rem;font-family:var(--mono);color:var(--amber);background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:3px;padding:1px 6px;flex-shrink:0}
+.add-card{display:flex;align-items:center;justify-content:center;gap:.5rem;border:1.5px dashed var(--line2);border-radius:var(--r);padding:1.5rem;cursor:pointer;color:var(--ink3);font-size:.82rem;transition:all .2s;min-height:80px}
 .add-card:hover{border-color:var(--accent);color:var(--accent)}
-.action-bar{display:flex;gap:.6rem;margin:1.5rem 0;flex-wrap:wrap}
+
+/* Action bar */
+.action-bar{display:flex;gap:.6rem;margin:1.5rem 0;flex-wrap:wrap;align-items:center}
 .btn{font-family:var(--font);font-size:.85rem;font-weight:500;padding:.58rem 1.3rem;border-radius:8px;cursor:pointer;border:none;transition:all .15s}
 .btn.primary{background:var(--accent);color:#fff;font-weight:600;font-size:.92rem;padding:.65rem 2rem}.btn.primary:hover{background:#ea6c0a}
 .btn.ghost{background:var(--raised);border:1px solid var(--line2);color:var(--ink2)}.btn.ghost:hover{color:var(--ink)}
-.errbox{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:var(--rs);padding:.85rem 1rem;color:var(--red);font-size:.82rem;margin:1rem 0;display:none}
-.infobox{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:var(--rs);padding:.85rem 1rem;color:var(--blue);font-size:.82rem;margin:1rem 0;display:none}
+
+/* Notices */
+.noticebox{border-radius:var(--rs);padding:.85rem 1rem;font-size:.82rem;margin:1rem 0;display:none}
+.noticebox.err{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);color:var(--red)}
+.noticebox.info{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);color:var(--blue)}
+.noticebox.warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);color:var(--amber)}
+
+/* Results */
 .results{display:none}.results.show{display:block}
 .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.5rem}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.1rem}
@@ -119,6 +157,18 @@ header{padding:1rem 2rem;border-bottom:1px solid var(--line);display:flex;align-
 tr.pr td{background:rgba(74,222,128,.06)!important;color:var(--green)!important}
 .show-more-btn{display:block;width:100%;background:none;border:none;border-top:1px solid var(--line);color:var(--accent);font-size:.75rem;font-family:var(--mono);padding:.55rem;cursor:pointer}
 .show-more-btn:hover{background:rgba(249,115,22,.06)}
+
+/* What-if modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:300;padding:1.5rem}
+.modal-bg.hidden{display:none}
+.modal-box{background:var(--surface);border:1px solid var(--line2);border-radius:var(--r);padding:1.75rem;max-width:500px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-box h3{font-size:.95rem;font-weight:600;margin-bottom:.3rem}
+.modal-hint{font-size:.75rem;color:var(--ink3);margin-bottom:1.25rem;line-height:1.6;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:5px;padding:.6rem .8rem;color:var(--amber)}
+.btn-row{display:flex;gap:.5rem;margin-top:1.25rem;justify-content:flex-end}
+.field-label{font-size:.67rem;color:var(--ink3);font-family:var(--mono);letter-spacing:.04em;margin-bottom:.28rem}
+.field-input{background:var(--raised);border:1px solid var(--line2);border-radius:6px;padding:.48rem .72rem;color:var(--ink);font-size:.85rem;outline:none;font-family:var(--font);transition:border-color .15s;width:100%}
+.field-input:focus{border-color:var(--accent)}.field-input::placeholder{color:var(--ink3)}
+
 @media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}.budget-row,.cmp-grid{grid-template-columns:1fr}.page{padding:1rem 1rem 3rem}header{padding:.85rem 1rem}}
 </style>
 </head>
@@ -130,79 +180,194 @@ tr.pr td{background:rgba(74,222,128,.06)!important;color:var(--green)!important}
     <div class="logo-s">Rana's Financial Tools</div>
   </div>
   <div class="hbtns">
+    <div class="sync-status" id="syncStatus">
+      <div class="sync-dot loading" id="syncDot"></div>
+      <span id="syncLabel">Loading from Tracker&hellip;</span>
+    </div>
     <a class="hbtn" href="https://rana-s-finance-tracker.pages.dev">&#8592; Back to Tracker</a>
-    <button class="hbtn" id="syncBtn">&#x1F504; Sync from Tracker</button>
-    <button class="hbtn" id="addDebtBtn">+ Add debt</button>
-    <button class="hbtn accent" id="hdrCalcBtn">&#9889; Calculate plan</button>
+    <button class="hbtn accent" id="hdrCalcBtn" disabled>&#9889; Calculate plan</button>
   </div>
 </header>
 
-<div class="page">
-  <div class="errbox" id="errBox"></div>
-  <div class="infobox" id="infoBox"></div>
-
-  <div class="sec">
-    <div class="sec-label">Monthly budget</div>
-    <div class="budget-row">
-      <div>
-        <div class="fl">Combined monthly income (after tax)</div>
-        <div class="fp"><span>$</span><input type="number" id="bIncome" class="fi" placeholder="e.g. 9000" min="0" step="100"></div>
+<!-- What-if debt modal -->
+<div class="modal-bg hidden" id="whatifModal">
+  <div class="modal-box">
+    <h3>Add what-if debt</h3>
+    <p class="modal-hint">&#9733; This debt will be added to your Tracker's 💳 Debts panel and synced to GitHub so it appears in both tools.</p>
+    <div style="display:grid;gap:.65rem">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div>
+          <div class="field-label">Debt name</div>
+          <input type="text" id="wiName" class="field-input" placeholder="e.g. New Car Loan">
+        </div>
+        <div>
+          <div class="field-label">Type</div>
+          <select id="wiType" class="field-input" onchange="toggleWiZero()">
+            <option value="mortgage">Mortgage</option>
+            <option value="car" selected>Car loan</option>
+            <option value="personal">Personal loan</option>
+            <option value="zero">0% deal</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div>
+          <div class="field-label">Current balance ($)</div>
+          <div style="position:relative"><span style="position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-family:var(--mono);font-size:.8rem">$</span>
+          <input type="number" id="wiBalance" class="field-input" placeholder="0" min="0" step="1000" style="padding-left:1.4rem"></div>
+        </div>
+        <div>
+          <div class="field-label">Interest rate (% p.a.)</div>
+          <div style="position:relative">
+          <input type="number" id="wiRate" class="field-input" placeholder="0" min="0" max="30" step="0.1" style="padding-right:1.5rem">
+          <span style="position:absolute;right:.7rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-family:var(--mono);font-size:.8rem">%</span></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div>
+          <div class="field-label">Monthly minimum ($)</div>
+          <div style="position:relative"><span style="position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-family:var(--mono);font-size:.8rem">$</span>
+          <input type="number" id="wiMin" class="field-input" placeholder="0" min="0" step="50" style="padding-left:1.4rem"></div>
+        </div>
+        <div>
+          <div class="field-label">Original balance ($)</div>
+          <div style="position:relative"><span style="position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-family:var(--mono);font-size:.8rem">$</span>
+          <input type="number" id="wiOriginal" class="field-input" placeholder="same as current" min="0" step="1000" style="padding-left:1.4rem"></div>
+        </div>
+      </div>
+      <div id="wiZeroFields" style="display:none;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div>
+          <div class="field-label">0% expiry date</div>
+          <input type="month" id="wiExpiry" class="field-input">
+        </div>
+        <div>
+          <div class="field-label">Rate after expiry (%)</div>
+          <div style="position:relative">
+          <input type="number" id="wiAfterRate" class="field-input" placeholder="e.g. 19.9" min="0" max="30" step="0.1" style="padding-right:1.5rem">
+          <span style="position:absolute;right:.7rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-family:var(--mono);font-size:.8rem">%</span></div>
+        </div>
       </div>
       <div>
-        <div class="fl">Monthly living expenses (non-debt)</div>
-        <div class="fp"><span>$</span><input type="number" id="bExpenses" class="fi" placeholder="e.g. 4500" min="0" step="100"></div>
-      </div>
-      <div>
-        <div class="fl">Extra monthly debt payment (override)</div>
-        <div class="fp"><span>$</span><input type="number" id="bExtra" class="fi" placeholder="auto-calculated" min="0" step="50"></div>
-      </div>
-      <div>
-        <div class="bt-label">Available for debt</div>
-        <div class="bt-val" id="budgetDisp">&mdash;</div>
+        <div class="field-label">Notes (optional)</div>
+        <input type="text" id="wiNotes" class="field-input" placeholder="e.g. Scenario planning only">
       </div>
     </div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-label">Your debts</div>
-    <div class="debt-grid" id="debtGrid"></div>
-  </div>
-
-  <div class="action-bar">
-    <button class="btn primary" id="mainCalcBtn">&#9889; Calculate my payoff plan</button>
-    <button class="btn ghost" id="saveBtn">&#128190; Save</button>
-    <button class="btn ghost" id="resetBtn">&#8635; Reset</button>
-  </div>
-
-  <div class="results" id="results">
-    <div id="bannerWrap"></div>
-    <div class="sec">
-      <div class="sec-label">Summary</div>
-      <div class="kpis">
-        <div class="kpi k-red">  <div class="kl">Total Debt</div>           <div class="kv" id="kTotal">&mdash;</div>  <div class="ks" id="kTotSub"></div></div>
-        <div class="kpi k-amber"><div class="kl">Interest (mins only)</div> <div class="kv" id="kInt">&mdash;</div>    <div class="ks">Paying minimums only</div></div>
-        <div class="kpi k-green"><div class="kl">Interest Saved</div>       <div class="kv" id="kSaved">&mdash;</div>  <div class="ks">By following this plan</div></div>
-        <div class="kpi k-blue"> <div class="kl">Debt-Free Date</div>       <div class="kv" id="kDate">&mdash;</div>   <div class="ks" id="kDateSub"></div></div>
-        <div class="kpi k-orange"><div class="kl">Months to Freedom</div>   <div class="kv" id="kMonths">&mdash;</div> <div class="ks" id="kMonthsSub"></div></div>
-      </div>
+    <div class="btn-row">
+      <button class="btn ghost" onclick="document.getElementById('whatifModal').classList.add('hidden')">Cancel</button>
+      <button class="btn primary" id="wiSaveBtn" onclick="saveWhatIf()">Save to Tracker &amp; Crusher</button>
     </div>
-    <div class="sec"><div class="sec-label">What to do this month</div><div class="recbox" id="recBox"></div></div>
-    <div class="sec">
-      <div class="sec-label">Strategy comparison &mdash; click to select</div>
-      <div class="cmp-hint" id="cmpHint">Click a strategy card to apply it &mdash; everything updates instantly</div>
-      <div class="cmp-grid" id="cmpGrid"></div>
-    </div>
-    <div class="sec"><div class="sec-label">When each debt disappears</div><div class="tl" id="tlWrap"></div></div>
-    <div class="sec">
-      <div class="sec-label">Total balance over time</div>
-      <div class="chart-card">
-        <div class="chart-toggles" id="chartToggles"></div>
-        <canvas id="balChart"></canvas>
-      </div>
-    </div>
-    <div class="sec"><div class="sec-label">Month-by-month payment plan</div><div class="plan-wrap" id="planWrap"></div></div>
   </div>
 </div>
+
+<div class="page">
+
+  <!-- State screens -->
+  <div class="state-screen" id="stateLoading">
+    <div class="state-icon">&#9889;</div>
+    <div class="state-title">Loading your debts from Tracker&hellip;</div>
+    <div class="state-body">Connecting to GitHub and reading your latest debt balances.</div>
+  </div>
+
+  <div class="state-screen hidden" id="stateNoToken">
+    <div class="state-icon">&#128275;</div>
+    <div class="state-title">GitHub sync not set up</div>
+    <div class="state-body">
+      The Debt Crusher reads your debts directly from your Tracker via GitHub.<br><br>
+      Open your <a href="https://rana-s-finance-tracker.pages.dev" style="color:var(--accent)">Financial Tracker</a>, click the sync badge in the top left, enter your GitHub token, and save. Then come back here.
+    </div>
+  </div>
+
+  <div class="state-screen hidden" id="stateNoDebts">
+    <div class="state-icon">&#128179;</div>
+    <div class="state-title">No debts found in Tracker</div>
+    <div class="state-body">
+      You haven't added any debts to your Tracker yet.<br><br>
+      Open your <a href="https://rana-s-finance-tracker.pages.dev" style="color:var(--accent)">Financial Tracker</a>, click <strong>&#128179; Debts</strong> in the header, and add your debts there. They'll automatically appear here.
+    </div>
+  </div>
+
+  <div class="state-screen hidden" id="stateError">
+    <div class="state-icon">&#9888;</div>
+    <div class="state-title" id="stateErrorTitle">Could not load debts</div>
+    <div class="state-body" id="stateErrorBody">Check your connection and try refreshing.</div>
+    <button class="btn ghost" onclick="location.reload()">&#8635; Retry</button>
+  </div>
+
+  <!-- Main UI (hidden until debts load) -->
+  <div id="mainUI" style="display:none">
+
+    <div class="noticebox info" id="infoBox"></div>
+    <div class="noticebox err"  id="errBox"></div>
+    <div class="noticebox warn" id="warnBox"></div>
+
+    <!-- Budget -->
+    <div class="sec">
+      <div class="sec-label">Monthly budget</div>
+      <div class="budget-row">
+        <div>
+          <div class="fl">Combined monthly income (after tax)</div>
+          <div class="fp"><span>$</span><input type="number" id="bIncome" class="fi" placeholder="e.g. 9000" min="0" step="100"></div>
+        </div>
+        <div>
+          <div class="fl">Monthly living expenses (non-debt)</div>
+          <div class="fp"><span>$</span><input type="number" id="bExpenses" class="fi" placeholder="e.g. 4500" min="0" step="100"></div>
+        </div>
+        <div>
+          <div class="fl">Extra monthly payment (override)</div>
+          <div class="fp"><span>$</span><input type="number" id="bExtra" class="fi" placeholder="auto-calculated" min="0" step="50"></div>
+        </div>
+        <div>
+          <div class="bt-label">Available for debt</div>
+          <div class="bt-val" id="budgetDisp">&mdash;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Debts -->
+    <div class="sec">
+      <div class="sec-label" id="debtsLabel">Your debts &mdash; from Tracker</div>
+      <div class="debt-grid" id="debtGrid"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-bar">
+      <button class="btn primary" id="mainCalcBtn">&#9889; Calculate my payoff plan</button>
+      <button class="btn ghost" id="saveBtn">&#128190; Save budget</button>
+    </div>
+
+    <!-- Results -->
+    <div class="results" id="results">
+      <div id="bannerWrap"></div>
+      <div class="sec">
+        <div class="sec-label">Summary</div>
+        <div class="kpis">
+          <div class="kpi k-red">  <div class="kl">Total Debt</div>           <div class="kv" id="kTotal">&mdash;</div>  <div class="ks" id="kTotSub"></div></div>
+          <div class="kpi k-amber"><div class="kl">Interest (mins only)</div> <div class="kv" id="kInt">&mdash;</div>    <div class="ks">Paying minimums only</div></div>
+          <div class="kpi k-green"><div class="kl">Interest Saved</div>       <div class="kv" id="kSaved">&mdash;</div>  <div class="ks">By following this plan</div></div>
+          <div class="kpi k-blue"> <div class="kl">Debt-Free Date</div>       <div class="kv" id="kDate">&mdash;</div>   <div class="ks" id="kDateSub"></div></div>
+          <div class="kpi k-orange"><div class="kl">Months to Freedom</div>   <div class="kv" id="kMonths">&mdash;</div> <div class="ks" id="kMonthsSub"></div></div>
+        </div>
+      </div>
+      <div class="sec"><div class="sec-label">What to do this month</div><div class="recbox" id="recBox"></div></div>
+      <div class="sec">
+        <div class="sec-label">Strategy comparison &mdash; click to select</div>
+        <div class="cmp-hint" id="cmpHint">Click a card to apply that strategy &mdash; everything updates instantly</div>
+        <div class="cmp-grid" id="cmpGrid"></div>
+      </div>
+      <div class="sec"><div class="sec-label">When each debt disappears</div><div class="tl" id="tlWrap"></div></div>
+      <div class="sec">
+        <div class="sec-label">Total balance over time</div>
+        <div class="chart-card">
+          <div class="chart-toggles" id="chartToggles"></div>
+          <canvas id="balChart"></canvas>
+        </div>
+      </div>
+      <div class="sec"><div class="sec-label">Month-by-month payment plan</div><div class="plan-wrap" id="planWrap"></div></div>
+    </div><!-- /results -->
+
+  </div><!-- /mainUI -->
+</div><!-- /page -->
 
 <script>
 // ── Config ───────────────────────────────────────────────
@@ -212,282 +377,357 @@ var GH_FILE  = 'tracker-data.json';
 var GH_API   = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_FILE;
 
 var TYPE_META = {
-  mortgage: { icon:'🏠', color:'#60a5fa', label:'Mortgage' },
-  car:      { icon:'🚗', color:'#4ade80', label:'Car Loan'  },
-  personal: { icon:'💳', color:'#a78bfa', label:'Personal'  },
-  zero:     { icon:'⭐', color:'#fbbf24', label:'0% Loan'   },
-  other:    { icon:'💰', color:'#8e929d', label:'Other'     }
+  mortgage: {icon:'🏠', color:'#60a5fa', label:'Mortgage'},
+  car:      {icon:'🚗', color:'#4ade80', label:'Car Loan'},
+  personal: {icon:'💳', color:'#a78bfa', label:'Personal'},
+  zero:     {icon:'⭐', color:'#fbbf24', label:'0% Loan'},
+  other:    {icon:'💰', color:'#8e929d', label:'Other'}
 };
 
 // ── State ─────────────────────────────────────────────────
-var debtDefs = [
-  {id:'land',     name:'Land Mortgage',  type:'mortgage'},
-  {id:'home',     name:'Home Mortgage',  type:'mortgage'},
-  {id:'car1',     name:'Car Payment 1',  type:'car'},
-  {id:'car2',     name:'Car Payment 2',  type:'car'},
-  {id:'personal', name:'Personal Loan',  type:'personal'},
-  {id:'zero1',    name:'0% Loan 1',      type:'zero'},
-  {id:'zero2',    name:'0% Loan 2',      type:'zero'}
-];
+var ghToken   = null;
+var ghFileSha = null;
+var trackerDebts = [];   // debts loaded from Tracker
+var balChart  = null;
+var showAll   = false;
+var lastD     = null;
+var lastR     = null;
+var allResults = {};
+var selectedStrat = 'hybrid';
+var recStrat  = 'hybrid';
+var activeLines = {hybrid:true, avalanche:true, snowball:true, minimums:true};
 
-var balChart       = null;
-var showAll        = false;
-var lastD          = null;
-var lastR          = null;
-var allResults     = {};
-var selectedStrat  = 'hybrid';
-var recStrat       = 'hybrid';
-var syncedFromTracker = false;
-var activeLines    = {hybrid:true, avalanche:true, snowball:true, minimums:true};
+try { ghToken = localStorage.getItem('rft_gh_token') || null; } catch(e){}
 
+// ── Helpers ───────────────────────────────────────────────
 function gi(id) { return document.getElementById(id); }
-function fmt(n) { return new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(Math.abs(n)); }
+function fmt(n)  { return new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(Math.abs(n)); }
 function fmtD(d) { return d.toLocaleDateString('en-AU',{month:'short',year:'numeric'}); }
-function addM(d,n) { var r=new Date(d); r.setMonth(r.getMonth()+n); return r; }
-function moUntil(d) { var n=new Date(); return (d.getFullYear()-n.getFullYear())*12+(d.getMonth()-n.getMonth()); }
-function showErr(msg) { var e=gi('errBox'); e.textContent=msg; e.style.display=msg?'block':'none'; }
-function showInfo(msg) { var e=gi('infoBox'); e.textContent=msg; e.style.display=msg?'block':'none'; }
+function addM(d,n){ var r=new Date(d); r.setMonth(r.getMonth()+n); return r; }
+function moUntil(d){ var n=new Date(); return (d.getFullYear()-n.getFullYear())*12+(d.getMonth()-n.getMonth()); }
 
-// ── Build one debt card using DOM (no template literals) ──
-function makeCard(d) {
-  var meta = TYPE_META[d.type] || TYPE_META.other;
-  var isZero = d.type === 'zero';
-
-  var card = document.createElement('div');
-  card.className = 'dc';
-  card.id = 'card-' + d.id;
-
-  // Header
-  var hdr = document.createElement('div');
-  hdr.className = 'dch';
-
-  var hdrL = document.createElement('div');
-  hdrL.className = 'dch-l';
-
-  var iconEl = document.createElement('span');
-  iconEl.className = 'd-icon';
-  iconEl.id = 'icon-' + d.id;
-  iconEl.textContent = meta.icon;
-
-  var nameEl = document.createElement('input');
-  nameEl.type = 'text';
-  nameEl.className = 'd-name';
-  nameEl.id = 'name-' + d.id;
-  nameEl.value = d.name;
-  nameEl.placeholder = 'Debt name';
-
-  hdrL.appendChild(iconEl);
-  hdrL.appendChild(nameEl);
-
-  var hdrR = document.createElement('div');
-  hdrR.className = 'dch-r';
-
-  var typeSel = document.createElement('select');
-  typeSel.className = 'type-sel';
-  typeSel.id = 'type-' + d.id;
-  Object.keys(TYPE_META).forEach(function(k) {
-    var opt = document.createElement('option');
-    opt.value = k;
-    opt.textContent = TYPE_META[k].label;
-    if (k === d.type) opt.selected = true;
-    typeSel.appendChild(opt);
-  });
-  (function(id){ typeSel.addEventListener('change', function(){ changeType(id); }); })(d.id);
-
-  var rmBtn = document.createElement('button');
-  rmBtn.className = 'rm-btn';
-  rmBtn.textContent = '✕';
-  rmBtn.title = 'Remove';
-  (function(id){ rmBtn.addEventListener('click', function(){ removeCard(id); }); })(d.id);
-
-  hdrR.appendChild(typeSel);
-  hdrR.appendChild(rmBtn);
-  hdr.appendChild(hdrL);
-  hdr.appendChild(hdrR);
-
-  // Body
-  var body = document.createElement('div');
-  body.className = 'dcb';
-
-  // Balance
-  var balG = document.createElement('div');
-  balG.className = 'fg';
-  var balL = document.createElement('div'); balL.className = 'fl'; balL.textContent = 'Current balance';
-  var balW = document.createElement('div'); balW.className = 'fp';
-  var balS = document.createElement('span'); balS.textContent = '$';
-  var balI = document.createElement('input');
-  balI.type='number'; balI.className='fi'; balI.id='bal-'+d.id;
-  balI.placeholder='0'; balI.min='0'; balI.step='100';
-  (function(id){ balI.addEventListener('input', function(){ updTerm(id); }); })(d.id);
-  balW.appendChild(balS); balW.appendChild(balI);
-  balG.appendChild(balL); balG.appendChild(balW);
-
-  // Rate
-  var rateG = document.createElement('div');
-  rateG.className = 'fg';
-  var rateL = document.createElement('div'); rateL.className='fl'; rateL.textContent='Interest rate p.a.';
-  var rateW = document.createElement('div'); rateW.className='fs';
-  var rateI = document.createElement('input');
-  rateI.type='number'; rateI.className='fi'; rateI.id='rate-'+d.id;
-  rateI.placeholder = d.type==='mortgage' ? '5.5' : '0';
-  rateI.min='0'; rateI.max='30'; rateI.step='0.1';
-  if (isZero) { rateI.value='0'; rateI.readOnly=true; rateI.style.color='var(--amber)'; }
-  (function(id){ rateI.addEventListener('input', function(){ updTerm(id); }); })(d.id);
-  var rateS = document.createElement('span'); rateS.textContent='%';
-  rateW.appendChild(rateI); rateW.appendChild(rateS);
-  rateG.appendChild(rateL); rateG.appendChild(rateW);
-
-  // Minimum
-  var minG = document.createElement('div');
-  minG.className = 'fg full';
-  var minL = document.createElement('div'); minL.className='fl'; minL.textContent='Monthly minimum payment';
-  var minW = document.createElement('div'); minW.className='fp';
-  var minS = document.createElement('span'); minS.textContent='$';
-  var minI = document.createElement('input');
-  minI.type='number'; minI.className='fi'; minI.id='min-'+d.id;
-  minI.placeholder='0'; minI.min='0'; minI.step='50';
-  (function(id){ minI.addEventListener('input', function(){ updTerm(id); }); })(d.id);
-  minW.appendChild(minS); minW.appendChild(minI);
-  var cnEl = document.createElement('div');
-  cnEl.className='calc-note'; cnEl.id='cn-'+d.id;
-  minG.appendChild(minL); minG.appendChild(minW); minG.appendChild(cnEl);
-
-  body.appendChild(balG);
-  body.appendChild(rateG);
-  body.appendChild(minG);
-
-  // Zero fields
-  var zf1 = document.createElement('div');
-  zf1.className = 'fg';
-  zf1.id = 'zf1-' + d.id;
-  zf1.style.display = isZero ? 'flex' : 'none';
-  zf1.style.flexDirection = 'column';
-  var zf1L = document.createElement('div'); zf1L.className='fl'; zf1L.textContent='0% expiry date (optional)';
-  var expI = document.createElement('input');
-  expI.type='month'; expI.className='fi'; expI.id='expiry-'+d.id;
-  (function(id){ expI.addEventListener('change', function(){ chkExp(id); }); })(d.id);
-  var urgEl = document.createElement('div');
-  urgEl.className='urg-flag'; urgEl.id='uf-'+d.id;
-  urgEl.textContent='⚠ Expires within 6 months!';
-  zf1.appendChild(zf1L); zf1.appendChild(expI); zf1.appendChild(urgEl);
-
-  var zf2 = document.createElement('div');
-  zf2.className = 'fg';
-  zf2.id = 'zf2-' + d.id;
-  zf2.style.display = isZero ? 'flex' : 'none';
-  zf2.style.flexDirection = 'column';
-  var zf2L = document.createElement('div'); zf2L.className='fl'; zf2L.textContent='Rate after 0% expires (%)';
-  var zf2W = document.createElement('div'); zf2W.className='fs';
-  var arI = document.createElement('input');
-  arI.type='number'; arI.className='fi'; arI.id='ar-'+d.id;
-  arI.placeholder='e.g. 19.9'; arI.min='0'; arI.max='30'; arI.step='0.1';
-  var arS = document.createElement('span'); arS.textContent='%';
-  zf2W.appendChild(arI); zf2W.appendChild(arS);
-  zf2.appendChild(zf2L); zf2.appendChild(zf2W);
-
-  body.appendChild(zf1);
-  body.appendChild(zf2);
-
-  // Empty placeholders for grid alignment when not zero
-  if (!isZero) {
-    var ph1 = document.createElement('div'); body.appendChild(ph1);
-    var ph2 = document.createElement('div'); body.appendChild(ph2);
-  }
-
-  card.appendChild(hdr);
-  card.appendChild(body);
-  return card;
+function setSyncStatus(state, label) {
+  var dot = gi('syncDot'), lbl = gi('syncLabel');
+  dot.className = 'sync-dot' + (state==='ok'?' ok':state==='err'?' err':state==='loading'?' loading':'');
+  lbl.textContent = label;
 }
 
-function buildCards() {
+function showNotice(box, msg) {
+  ['infoBox','errBox','warnBox'].forEach(function(id){ gi(id).style.display='none'; gi(id).textContent=''; });
+  if(msg && box){ gi(box).textContent=msg; gi(box).style.display='block'; }
+}
+
+// ── GitHub read/write ─────────────────────────────────────
+function ghHeaders(write) {
+  var h = {Accept:'application/vnd.github.v3+json'};
+  if(ghToken) h.Authorization = 'token '+ghToken;
+  if(write) h['Content-Type'] = 'application/json';
+  return h;
+}
+
+function fetchTrackerData() {
+  return fetch(GH_API+'?t='+Date.now(), {headers:ghHeaders(false)})
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    })
+    .then(function(json){
+      ghFileSha = json.sha;
+      return JSON.parse(atob(json.content.replace(/\n/g,'')));
+    });
+}
+
+function saveTrackerData(data) {
+  // Always get latest SHA first to avoid conflicts
+  return fetch(GH_API, {headers:ghHeaders(false)})
+    .then(function(r){ return r.ok?r.json():null; })
+    .then(function(json){
+      if(json) ghFileSha = json.sha;
+      var body = {
+        message: 'Debt Crusher: update debts ' + new Date().toISOString(),
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(data,null,2))))
+      };
+      if(ghFileSha) body.sha = ghFileSha;
+      return fetch(GH_API, {method:'PUT', headers:ghHeaders(true), body:JSON.stringify(body)});
+    })
+    .then(function(r){
+      if(!r.ok) return r.json().then(function(e){throw new Error(e.message||'HTTP '+r.status);});
+      return r.json();
+    })
+    .then(function(result){
+      ghFileSha = result.content.sha;
+      setSyncStatus('ok','Synced to Tracker');
+    });
+}
+
+// ── Load debts from Tracker ───────────────────────────────
+function loadDebts() {
+  if(!ghToken) {
+    showState('noToken');
+    setSyncStatus('err','No GitHub token');
+    return;
+  }
+
+  setSyncStatus('loading','Loading from Tracker\u2026');
+
+  fetchTrackerData()
+    .then(function(data){
+      trackerDebts = (data.userDebts || []).filter(function(d){return !d.paid;});
+
+      // Pre-fill income from Tracker goals
+      if(data.goals && data.goals.income) {
+        var inc = gi('bIncome');
+        if(inc && !inc.value) inc.value = data.goals.income;
+      }
+
+      if(!trackerDebts.length) {
+        showState('noDebts');
+        setSyncStatus('ok','Connected \u2014 no debts yet');
+        return;
+      }
+
+      showState('main');
+      buildDebtCards();
+      loadBudgetFromStorage();
+      updBudget();
+      setSyncStatus('ok', 'Synced \u2014 ' + trackerDebts.length + ' debts loaded');
+    })
+    .catch(function(e){
+      showState('error', 'Failed to load', e.message+'. Check your GitHub token and internet connection.');
+      setSyncStatus('err','Load failed');
+    });
+}
+
+// ── Show/hide state screens ───────────────────────────────
+function showState(state, title, body) {
+  gi('stateLoading').classList.add('hidden');
+  gi('stateNoToken').classList.add('hidden');
+  gi('stateNoDebts').classList.add('hidden');
+  gi('stateError').classList.add('hidden');
+  gi('mainUI').style.display = 'none';
+  gi('hdrCalcBtn').disabled = true;
+
+  if(state==='main'){
+    gi('mainUI').style.display = 'block';
+    gi('hdrCalcBtn').disabled = false;
+  } else if(state==='noToken'){
+    gi('stateNoToken').classList.remove('hidden');
+  } else if(state==='noDebts'){
+    gi('stateNoDebts').classList.remove('hidden');
+  } else if(state==='error'){
+    if(title) gi('stateErrorTitle').textContent = title;
+    if(body)  gi('stateErrorBody').textContent  = body;
+    gi('stateError').classList.remove('hidden');
+  } else {
+    gi('stateLoading').classList.remove('hidden');
+  }
+}
+
+// ── Build debt cards from Tracker data ────────────────────
+function buildDebtCards() {
   var grid = gi('debtGrid');
   grid.innerHTML = '';
-  debtDefs.forEach(function(d) {
-    grid.appendChild(makeCard(d));
+
+  var activeDebts = trackerDebts.filter(function(d){return !d.paid;});
+
+  activeDebts.forEach(function(d){
+    var meta = TYPE_META[d.type] || TYPE_META.other;
+    var z    = d.type === 'zero';
+
+    var card = document.createElement('div');
+    card.className = 'dc';
+    card.id = 'card-'+d.id;
+
+    // Header
+    var hdr = document.createElement('div');
+    hdr.className = 'dch';
+    var hdrL = document.createElement('div');
+    hdrL.className = 'dch-l';
+    var iconEl = document.createElement('span');
+    iconEl.className = 'd-icon';
+    iconEl.textContent = meta.icon;
+    var nameEl = document.createElement('input');
+    nameEl.type = 'text';
+    nameEl.className = 'd-name';
+    nameEl.readOnly = true;
+    nameEl.value = d.name;
+    var badge = document.createElement('span');
+    badge.className = 'tracker-badge';
+    badge.textContent = 'Tracker';
+    hdrL.appendChild(iconEl); hdrL.appendChild(nameEl); hdrL.appendChild(badge);
+
+    var hdrR = document.createElement('div');
+    hdrR.className = 'dch-r';
+    var typeBadge = document.createElement('span');
+    typeBadge.className = 'type-badge ' + d.type;
+    typeBadge.textContent = z ? '0% Loan' : (d.type.charAt(0).toUpperCase()+d.type.slice(1));
+    hdrR.appendChild(typeBadge);
+    hdr.appendChild(hdrL); hdr.appendChild(hdrR);
+
+    // Body
+    var body = document.createElement('div');
+    body.className = 'dcb';
+
+    // Balance (read-only — from Tracker)
+    var balG = document.createElement('div'); balG.className='fg';
+    var balL = document.createElement('div'); balL.className='fl'; balL.textContent='Current balance';
+    var balW = document.createElement('div'); balW.className='fp';
+    var balS = document.createElement('span'); balS.textContent='$';
+    var balI = document.createElement('input');
+    balI.type='number'; balI.className='fi'; balI.id='bal-'+d.id;
+    balI.value=d.currentBalance||''; balI.readOnly=true;
+    balI.style.color='var(--ink2)'; balI.title='Balance synced from Tracker';
+    (function(id){ balI.addEventListener('input',function(){updTerm(id);}); })(d.id);
+    balW.appendChild(balS); balW.appendChild(balI);
+    balG.appendChild(balL); balG.appendChild(balW);
+
+    // Rate (read-only)
+    var rateG = document.createElement('div'); rateG.className='fg';
+    var rateL = document.createElement('div'); rateL.className='fl'; rateL.textContent='Interest rate p.a.';
+    var rateW = document.createElement('div'); rateW.className='fs';
+    var rateI = document.createElement('input');
+    rateI.type='number'; rateI.className='fi'; rateI.id='rate-'+d.id;
+    rateI.value=d.rate||''; rateI.readOnly=true; rateI.style.color='var(--ink2)';
+    if(z){rateI.value='0';rateI.style.color='var(--amber)';}
+    (function(id){ rateI.addEventListener('input',function(){updTerm(id);}); })(d.id);
+    var rateS = document.createElement('span'); rateS.textContent='%';
+    rateW.appendChild(rateI); rateW.appendChild(rateS);
+    rateG.appendChild(rateL); rateG.appendChild(rateW);
+
+    // Min (read-only)
+    var minG = document.createElement('div'); minG.className='fg full';
+    var minL = document.createElement('div'); minL.className='fl'; minL.textContent='Monthly minimum';
+    var minW = document.createElement('div'); minW.className='fp';
+    var minS = document.createElement('span'); minS.textContent='$';
+    var minI = document.createElement('input');
+    minI.type='number'; minI.className='fi'; minI.id='min-'+d.id;
+    minI.value=d.minPayment||''; minI.readOnly=true; minI.style.color='var(--ink2)';
+    (function(id){ minI.addEventListener('input',function(){updTerm(id);}); })(d.id);
+    minW.appendChild(minS); minW.appendChild(minI);
+    var cnEl = document.createElement('div'); cnEl.className='calc-note'; cnEl.id='cn-'+d.id;
+    minG.appendChild(minL); minG.appendChild(minW); minG.appendChild(cnEl);
+
+    body.appendChild(balG); body.appendChild(rateG); body.appendChild(minG);
+
+    // Zero fields
+    if(z){
+      var zf1 = document.createElement('div'); zf1.className='fg';
+      var zf1L = document.createElement('div'); zf1L.className='fl'; zf1L.textContent='0% expiry date';
+      var expI = document.createElement('input');
+      expI.type='month'; expI.className='fi'; expI.id='expiry-'+d.id;
+      expI.value=d.expiryDate||''; expI.readOnly=true; expI.style.color='var(--ink2)';
+      zf1.appendChild(zf1L); zf1.appendChild(expI);
+
+      var zf2 = document.createElement('div'); zf2.className='fg';
+      var zf2L = document.createElement('div'); zf2L.className='fl'; zf2L.textContent='Rate after expiry (%)';
+      var zf2W = document.createElement('div'); zf2W.className='fs';
+      var arI = document.createElement('input');
+      arI.type='number'; arI.className='fi'; arI.id='ar-'+d.id;
+      arI.value=d.afterRate||''; arI.readOnly=true; arI.style.color='var(--ink2)';
+      var arS = document.createElement('span'); arS.textContent='%';
+      zf2W.appendChild(arI); zf2W.appendChild(arS);
+      zf2.appendChild(zf2L); zf2.appendChild(zf2W);
+
+      body.appendChild(zf1); body.appendChild(zf2);
+    } else {
+      body.appendChild(document.createElement('div'));
+      body.appendChild(document.createElement('div'));
+    }
+
+    card.appendChild(hdr); card.appendChild(body);
+    grid.appendChild(card);
+    updTerm(d.id);
   });
-  // Add card
+
+  // Add what-if debt button
   var addCard = document.createElement('div');
   addCard.className = 'add-card';
-  addCard.innerHTML = '<span style="font-size:1.4rem;line-height:1">+</span> Add another debt';
-  addCard.addEventListener('click', addDebt);
+  addCard.innerHTML = '<span style="font-size:1.4rem;line-height:1">+</span> Add what-if debt';
+  addCard.addEventListener('click', openWhatifModal);
   grid.appendChild(addCard);
+
+  // Update section label
+  gi('debtsLabel').textContent = 'Your debts \u2014 ' + activeDebts.length + ' from Tracker';
 }
 
-function changeType(id) {
-  var d = debtDefs.find(function(x){ return x.id===id; });
-  var newType = gi('type-'+id) ? gi('type-'+id).value : 'other';
-  if (d) d.type = newType;
-  var meta = TYPE_META[newType] || TYPE_META.other;
-  var iconEl = gi('icon-'+id);
-  if (iconEl) iconEl.textContent = meta.icon;
-  var isZero = newType === 'zero';
-  var zf1 = gi('zf1-'+id); var zf2 = gi('zf2-'+id);
-  if (zf1) zf1.style.display = isZero ? 'flex' : 'none';
-  if (zf2) zf2.style.display = isZero ? 'flex' : 'none';
-  var rateI = gi('rate-'+id);
-  if (rateI) {
-    rateI.readOnly = isZero;
-    if (isZero) { rateI.value = '0'; rateI.style.color = 'var(--amber)'; }
-    else { rateI.style.color = ''; }
-  }
+// ── What-if debt ──────────────────────────────────────────
+function toggleWiZero() {
+  var t = gi('wiType').value;
+  var zf = gi('wiZeroFields');
+  if(zf) zf.style.display = t==='zero' ? 'grid' : 'none';
 }
 
-function removeCard(id) {
-  if (!confirm('Remove this debt from the plan?')) return;
-  debtDefs = debtDefs.filter(function(d){ return d.id !== id; });
-  buildCards();
-  doSave();
+function openWhatifModal() {
+  ['wiName','wiBalance','wiRate','wiMin','wiOriginal','wiNotes','wiExpiry','wiAfterRate'].forEach(function(id){
+    var el=gi(id); if(el) el.value='';
+  });
+  gi('wiType').value='car';
+  toggleWiZero();
+  gi('whatifModal').classList.remove('hidden');
 }
 
-function addDebt() {
-  var id = 'custom_' + Date.now();
-  debtDefs.push({id:id, name:'New Debt', type:'other'});
-  buildCards();
-  setTimeout(function() {
-    var el = gi('name-'+id);
-    if (el) { el.select(); el.focus(); }
-    var card = gi('card-'+id);
-    if (card) card.scrollIntoView({behavior:'smooth', block:'center'});
-  }, 80);
+function saveWhatIf() {
+  var name = gi('wiName').value.trim();
+  if(!name){ gi('wiName').focus(); return; }
+  var type     = gi('wiType').value;
+  var bal      = parseFloat(gi('wiBalance').value)||0;
+  var rate     = parseFloat(gi('wiRate').value)||0;
+  var min      = parseFloat(gi('wiMin').value)||0;
+  var orig     = parseFloat(gi('wiOriginal').value)||bal;
+  var notes    = gi('wiNotes').value.trim();
+  var expiry   = gi('wiExpiry').value||'';
+  var afterRate= parseFloat(gi('wiAfterRate').value)||0;
+  var meta     = TYPE_META[type]||TYPE_META.other;
+
+  var newDebt = {
+    id: 'debt_'+Date.now(),
+    name: name, type: type, icon: meta.icon, color: meta.color,
+    currentBalance: bal, rate: rate, minPayment: min,
+    originalBalance: orig, notes: notes,
+    expiryDate: expiry, afterRate: afterRate,
+    paid: false, addedDate: new Date().toISOString()
+  };
+
+  gi('wiSaveBtn').disabled = true;
+  gi('wiSaveBtn').textContent = 'Saving to Tracker\u2026';
+  setSyncStatus('loading','Saving to Tracker\u2026');
+
+  fetchTrackerData()
+    .then(function(data){
+      data.userDebts = data.userDebts || [];
+      data.userDebts.push(newDebt);
+      data.lastUpdated = new Date().toISOString();
+      return saveTrackerData(data);
+    })
+    .then(function(){
+      trackerDebts.push(newDebt);
+      gi('whatifModal').classList.add('hidden');
+      buildDebtCards();
+      gi('wiSaveBtn').disabled = false;
+      gi('wiSaveBtn').textContent = 'Save to Tracker & Crusher';
+      showNotice('infoBox', 'What-if debt added to Tracker and Crusher.');
+    })
+    .catch(function(e){
+      gi('wiSaveBtn').disabled = false;
+      gi('wiSaveBtn').textContent = 'Save to Tracker & Crusher';
+      showNotice('errBox','Could not save: '+e.message+'. Make sure your GitHub token is set up in the Tracker.');
+    });
 }
 
 // ── Term calculator ───────────────────────────────────────
 function updTerm(id) {
-  var bal  = parseFloat((gi('bal-'+id)||{}).value)  || 0;
-  var rate = parseFloat((gi('rate-'+id)||{}).value) || 0;
-  var min  = parseFloat((gi('min-'+id)||{}).value)  || 0;
-  var el   = gi('cn-'+id);
-  if (!el) return;
-  if (!bal || !min) { el.textContent=''; return; }
+  var bal  = parseFloat((gi('bal-'+id)||{}).value)||0;
+  var rate = parseFloat((gi('rate-'+id)||{}).value)||0;
+  var min  = parseFloat((gi('min-'+id)||{}).value)||0;
+  var el   = gi('cn-'+id); if(!el) return;
+  if(!bal||!min){el.textContent='';return;}
   var r = rate/100/12;
-  if (rate > 0 && min <= bal*r) {
-    el.textContent = 'Min payment does not cover interest';
-    el.style.color = 'var(--red)'; return;
-  }
-  var months = rate===0 ? Math.ceil(bal/min) : Math.ceil(-Math.log(1-(r*bal)/min)/Math.log(1+r));
-  var y = Math.floor(months/12), m = months%12;
-  el.textContent = 'Pays off in ' + (y>0?y+'y ':' ') + (m>0?m+'m':'') + ' at minimums';
-  el.style.color = 'var(--ink3)';
+  if(rate>0&&min<=bal*r){el.textContent='Min payment does not cover interest';el.style.color='var(--red)';return;}
+  var months=rate===0?Math.ceil(bal/min):Math.ceil(-Math.log(1-(r*bal)/min)/Math.log(1+r));
+  var y=Math.floor(months/12),m=months%12;
+  el.textContent='Pays off in '+(y>0?y+'y ':'')+' '+(m>0?m+'m':'')+' at minimums';
+  el.style.color='var(--ink3)';
   updBudget();
-}
-
-function chkExp(id) {
-  var expEl = gi('expiry-'+id);
-  var uf    = gi('uf-'+id);
-  var card  = gi('card-'+id);
-  if (!expEl || !expEl.value) {
-    if (uf) uf.style.display='none';
-    if (card) card.classList.remove('urgent');
-    return;
-  }
-  var mo = moUntil(new Date(expEl.value+'-01'));
-  if (mo>=0 && mo<=6) {
-    if (uf) uf.style.display='block';
-    if (card) card.classList.add('urgent');
-  } else {
-    if (uf) uf.style.display='none';
-    if (card) card.classList.remove('urgent');
-  }
 }
 
 // ── Budget ────────────────────────────────────────────────
@@ -495,80 +735,94 @@ function updBudget() {
   var inc = parseFloat((gi('bIncome')||{}).value)||0;
   var exp = parseFloat((gi('bExpenses')||{}).value)||0;
   var ov  = parseFloat((gi('bExtra')||{}).value)||0;
-  var av  = ov>0 ? ov : (inc>0 ? Math.max(0,inc-exp) : 0);
-  gi('budgetDisp').textContent = av>0 ? fmt(av) : '—';
+  var av  = ov>0?ov:(inc>0?Math.max(0,inc-exp):0);
+  gi('budgetDisp').textContent = av>0?fmt(av):'—';
+}
+function getAvail(){
+  var inc=parseFloat((gi('bIncome')||{}).value)||0;
+  var exp=parseFloat((gi('bExpenses')||{}).value)||0;
+  var ov =parseFloat((gi('bExtra')||{}).value)||0;
+  return ov>0?ov:Math.max(0,inc-exp);
+}
+function saveBudgetToStorage(){
+  try{localStorage.setItem('rft_dc_budget',JSON.stringify({
+    income:(gi('bIncome')||{}).value||'',
+    expenses:(gi('bExpenses')||{}).value||'',
+    extra:(gi('bExtra')||{}).value||''
+  }));}catch(e){}
+}
+function loadBudgetFromStorage(){
+  try{
+    var raw=localStorage.getItem('rft_dc_budget');if(!raw)return;
+    var d=JSON.parse(raw);
+    if(gi('bIncome')&&d.income)    gi('bIncome').value   =d.income;
+    if(gi('bExpenses')&&d.expenses) gi('bExpenses').value =d.expenses;
+    if(gi('bExtra')&&d.extra)       gi('bExtra').value    =d.extra;
+  }catch(e){}
 }
 
-function getAvail() {
-  var inc = parseFloat((gi('bIncome')||{}).value)||0;
-  var exp = parseFloat((gi('bExpenses')||{}).value)||0;
-  var ov  = parseFloat((gi('bExtra')||{}).value)||0;
-  return ov>0 ? ov : Math.max(0, inc-exp);
-}
-
-// ── Gather inputs ─────────────────────────────────────────
-function gather() {
-  return debtDefs.map(function(d) {
+// ── Gather debts from cards ───────────────────────────────
+function gatherDebts() {
+  return trackerDebts.filter(function(d){return !d.paid;}).map(function(d){
     var bal  = parseFloat((gi('bal-'+d.id)||{}).value)||0;
     var rate = parseFloat((gi('rate-'+d.id)||{}).value)||0;
     var min  = parseFloat((gi('min-'+d.id)||{}).value)||0;
-    var type = (gi('type-'+d.id)||{value:d.type}).value;
-    var name = (gi('name-'+d.id)||{value:d.name}).value || d.name;
-    var meta = TYPE_META[type] || TYPE_META.other;
-    var expDate=null, afterRate=0, moExp=Infinity;
-    if (type==='zero') {
-      var ev = (gi('expiry-'+d.id)||{}).value;
-      if (ev) { expDate=new Date(ev+'-01'); moExp=Math.max(0,moUntil(expDate)); }
-      afterRate = parseFloat((gi('ar-'+d.id)||{}).value)||0;
+    var type = d.type;
+    var meta = TYPE_META[type]||TYPE_META.other;
+    var expDate=null,afterRate=0,moExp=Infinity;
+    if(type==='zero'){
+      var ev=(gi('expiry-'+d.id)||{}).value;
+      if(ev){expDate=new Date(ev+'-01');moExp=Math.max(0,moUntil(expDate));}
+      afterRate=parseFloat((gi('ar-'+d.id)||{}).value)||0;
     }
-    return {id:d.id, name:name, type:type, icon:meta.icon, color:meta.color,
+    return {
+      id:d.id, name:d.name, type:type, icon:meta.icon, color:meta.color,
       bal:bal, rate:rate, min:min, expDate:expDate, afterRate:afterRate,
-      moExp:moExp, mr:rate/100/12, active:bal>0};
-  }).filter(function(d){ return d.active; });
+      moExp:moExp, mr:rate/100/12, active:bal>0
+    };
+  }).filter(function(d){return d.active;});
 }
 
 // ── Simulation ────────────────────────────────────────────
-function sim(debts, budget, strat) {
-  var now = new Date();
-  var ds = debts.map(function(d){ return Object.assign({},d,{rem:d.bal,paid:false,pmth:null,pdate:null,ti:0}); });
-  var months=[]; var ti=0; var m=0;
-  while (m<600 && ds.some(function(d){return !d.paid;})) {
-    var act = ds.filter(function(d){return !d.paid;});
-    var msum = act.reduce(function(s,d){return s+Math.min(d.min,d.rem);},0);
-    var extra = Math.max(0,budget-msum);
-    var pri = getPri(act,strat,m);
+function sim(debts,budget,strat){
+  var now=new Date();
+  var ds=debts.map(function(d){return Object.assign({},d,{rem:d.bal,paid:false,pmth:null,pdate:null,ti:0});});
+  var months=[],ti=0,m=0;
+  while(m<600&&ds.some(function(d){return !d.paid;})){
+    var act=ds.filter(function(d){return !d.paid;});
+    var msum=act.reduce(function(s,d){return s+Math.min(d.min,d.rem);},0);
+    var extra=Math.max(0,budget-msum);
+    var pri=getPri(act,strat,m);
     var row={m:m+1,date:addM(now,m+1),pmts:{},bals:{},payoffs:[]};
     var tb=0;
-    ds.forEach(function(d) {
-      if (d.paid){row.pmts[d.id]=0;row.bals[d.id]=0;return;}
+    ds.forEach(function(d){
+      if(d.paid){row.pmts[d.id]=0;row.bals[d.id]=0;return;}
       var mr=d.mr;
-      if (d.type==='zero'&&d.expDate&&m>=d.moExp) mr=d.afterRate/100/12;
+      if(d.type==='zero'&&d.expDate&&m>=d.moExp) mr=d.afterRate/100/12;
       var interest=d.rem*mr;
-      d.rem+=interest; d.ti+=interest; ti+=interest;
+      d.rem+=interest;d.ti+=interest;ti+=interest;
       var pmt=Math.min(d.min,d.rem);
-      if (d.id===pri) pmt=Math.min(d.rem,d.min+extra);
+      if(d.id===pri) pmt=Math.min(d.rem,d.min+extra);
       d.rem=Math.max(0,d.rem-pmt);
-      row.pmts[d.id]=pmt; row.bals[d.id]=d.rem; tb+=d.rem;
-      if (d.rem<1&&!d.paid){d.paid=true;d.pmth=m+1;d.pdate=addM(now,m+1);row.payoffs.push(d.id);}
+      row.pmts[d.id]=pmt;row.bals[d.id]=d.rem;tb+=d.rem;
+      if(d.rem<1&&!d.paid){d.paid=true;d.pmth=m+1;d.pdate=addM(now,m+1);row.payoffs.push(d.id);}
     });
-    row.tb=tb; months.push(row); m++;
+    row.tb=tb;months.push(row);m++;
   }
-  return {months:months, debts:ds, ti:ti};
+  return{months:months,debts:ds,ti:ti};
 }
-
-function getPri(act,strat,m) {
-  if (!act.length) return null;
+function getPri(act,strat,m){
+  if(!act.length)return null;
   var urg=act.filter(function(d){return d.type==='zero'&&isFinite(d.moExp)&&(d.moExp-m)<=3&&(d.moExp-m)>=0;});
-  if (urg.length) return urg.sort(function(a,b){return a.moExp-b.moExp;})[0].id;
-  if (strat==='snowball') return act.sort(function(a,b){return a.rem-b.rem;})[0].id;
+  if(urg.length)return urg.sort(function(a,b){return a.moExp-b.moExp;})[0].id;
+  if(strat==='snowball')return act.sort(function(a,b){return a.rem-b.rem;})[0].id;
   var nm=act.filter(function(d){return d.type!=='mortgage';});
   var pool=(strat==='hybrid'&&nm.length)?nm:act;
   return pool.sort(function(a,b){return b.rate-a.rate;})[0].id;
 }
-
-function simMin(debts) {
+function simMin(debts){
   var ds=debts.map(function(d){return Object.assign({},d,{rem:d.bal,paid:false,ti:0,pmth:null});});
-  var ti=0; var m=0;
+  var ti=0,m=0;
   while(m<600&&ds.some(function(d){return !d.paid;})){
     ds.forEach(function(d){
       if(d.paid)return;
@@ -586,59 +840,56 @@ function simMin(debts) {
 }
 
 // ── Calculate ─────────────────────────────────────────────
-function calculate() {
-  showErr(''); showInfo('');
-  var debts = gather();
-  if (!debts.length) { showErr('Please enter at least one debt balance.'); return; }
-  var budget = getAvail();
-  var msum = debts.reduce(function(s,d){return s+d.min;},0);
-  if (budget===0) { budget=msum; showInfo('No budget set — showing minimums-only plan. Enter income and expenses above for an accelerated plan.'); }
-  if (budget>0 && budget<msum) { showErr('Budget ('+fmt(budget)+') is less than total minimums ('+fmt(msum)+'). Increase your budget or enter an override amount.'); return; }
-  try {
-    var hasMtg = debts.some(function(d){return d.type==='mortgage';});
-    recStrat    = hasMtg ? 'hybrid' : 'avalanche';
-    selectedStrat = recStrat;
-    allResults = {
-      hybrid:    sim(debts, budget, 'hybrid'),
-      avalanche: sim(debts, budget, 'avalanche'),
-      snowball:  sim(debts, budget, 'snowball'),
+function calculate(){
+  showNotice(null,'');
+  var debts=gatherDebts();
+  if(!debts.length){showNotice('errBox','All your debts have zero balance. Update balances in the Tracker first.');return;}
+  var budget=getAvail();
+  var msum=debts.reduce(function(s,d){return s+d.min;},0);
+  if(budget===0){budget=msum;showNotice('warnBox','No budget entered \u2014 showing minimums-only plan. Enter income & expenses above for an accelerated plan.');}
+  if(budget>0&&budget<msum){showNotice('errBox','Budget ('+fmt(budget)+') is less than total minimums ('+fmt(msum)+'). Increase your budget.');return;}
+  try{
+    var hasMtg=debts.some(function(d){return d.type==='mortgage';});
+    recStrat=hasMtg?'hybrid':'avalanche';
+    selectedStrat=recStrat;
+    allResults={
+      hybrid:    sim(debts,budget,'hybrid'),
+      avalanche: sim(debts,budget,'avalanche'),
+      snowball:  sim(debts,budget,'snowball'),
       minOnly:   simMin(debts)
     };
-    lastD = debts;
-    lastR = allResults[selectedStrat];
+    lastD=debts;lastR=allResults[selectedStrat];
     gi('results').classList.add('show');
     applyStrategy(selectedStrat);
-    setTimeout(function(){ gi('results').scrollIntoView({behavior:'smooth',block:'start'}); }, 80);
-    doSave();
-  } catch(e) { showErr('Calculation error: '+e.message); console.error(e); }
+    setTimeout(function(){gi('results').scrollIntoView({behavior:'smooth',block:'start'});},80);
+    saveBudgetToStorage();
+  }catch(e){showNotice('errBox','Calculation error: '+e.message);console.error(e);}
 }
 
-function applyStrategy(strat) {
-  if (!lastD || !allResults[strat]) return;
-  selectedStrat = strat;
-  lastR = allResults[strat];
-  var debts = lastD;
-  var budget = getAvail() || debts.reduce(function(s,d){return s+d.min;},0);
-  var msum   = debts.reduce(function(s,d){return s+d.min;},0);
-  var hasMtg = debts.some(function(d){return d.type==='mortgage';});
-  renderKPIs(debts, lastR, allResults.minOnly);
-  renderBanner(strat, hasMtg, debts);
-  renderRec(debts, lastR, budget, msum);
+function applyStrategy(strat){
+  if(!lastD||!allResults[strat])return;
+  selectedStrat=strat;lastR=allResults[strat];
+  var debts=lastD;
+  var budget=getAvail()||debts.reduce(function(s,d){return s+d.min;},0);
+  var msum=debts.reduce(function(s,d){return s+d.min;},0);
+  var hasMtg=debts.some(function(d){return d.type==='mortgage';});
+  renderKPIs(debts,lastR,allResults.minOnly);
+  renderBanner(strat,hasMtg,debts);
+  renderRec(debts,lastR,budget,msum);
   renderCmp(strat);
-  renderTl(debts, lastR, allResults.minOnly);
+  renderTl(debts,lastR,allResults.minOnly);
   buildChart(debts);
-  renderPlan(debts, lastR);
+  renderPlan(debts,lastR);
 }
-
-function selectStrategy(strat) { applyStrategy(strat); }
+function selectStrategy(strat){applyStrategy(strat);}
 
 // ── KPIs ──────────────────────────────────────────────────
-function renderKPIs(debts,res,mo) {
+function renderKPIs(debts,res,mo){
   var tot=debts.reduce(function(s,d){return s+d.bal;},0);
   var saved=Math.max(0,mo.ti-res.ti);
   var fd=res.months.length?res.months[res.months.length-1].date:null;
   var m=res.months.length;
-  gi('kTotal').textContent=fmt(tot); gi('kTotSub').textContent=debts.length+' active debts';
+  gi('kTotal').textContent=fmt(tot);gi('kTotSub').textContent=debts.length+' active debts';
   gi('kInt').textContent=fmt(mo.ti);
   gi('kSaved').textContent=fmt(saved);
   gi('kDate').textContent=fd?fmtD(fd):'—';
@@ -648,71 +899,54 @@ function renderKPIs(debts,res,mo) {
 }
 
 // ── Banner ────────────────────────────────────────────────
-function renderBanner(rec,hasMtg,debts) {
+function renderBanner(rec,hasMtg,debts){
   var uz=debts.filter(function(d){return d.type==='zero'&&isFinite(d.moExp)&&d.moExp<=6;});
   var msg='';
   if(uz.length) msg+='<strong>Urgent:</strong> '+uz.map(function(d){return d.name;}).join(', ')+' expire'+(uz.length>1?'':'s')+' within 6 months and will jump to high interest. ';
-  msg += hasMtg
-    ? 'Mortgages are long-term — extra payments go onto high-interest non-mortgage debts first. Mortgages continue on their normal schedule.'
-    : 'Avalanche attacks your highest interest rate first — saving the most money overall.';
-  if (syncedFromTracker) msg += ' <span style="color:var(--green);font-family:var(--mono);font-size:.78rem">&#10003; Balances synced from Tracker</span>';
-  gi('bannerWrap').innerHTML = '<div class="sbanner" style="margin-bottom:1.5rem"><h3>&#9889; Recommended: '+(hasMtg?'Hybrid Avalanche':'Avalanche')+'</h3><p>'+msg+'</p></div>';
+  msg+=hasMtg
+    ?'Extra payments target your highest-rate non-mortgage debts first. Mortgages continue on their normal schedule.'
+    :'Avalanche attacks your highest interest rate first \u2014 saving the most money overall.';
+  gi('bannerWrap').innerHTML='<div class="sbanner" style="margin-bottom:1.5rem"><h3>&#9889; Recommended: '+(hasMtg?'Hybrid Avalanche':'Avalanche')+'</h3><p>'+msg+'</p></div>';
 }
 
 // ── Recommendation ────────────────────────────────────────
-function renderRec(debts,res,budget,msum) {
+function renderRec(debts,res,budget,msum){
   var extra=budget-msum;
   var act=debts.filter(function(d){return d.bal>0;});
   var uz=act.filter(function(d){return d.type==='zero'&&isFinite(d.moExp)&&d.moExp<=6;});
-  var pri, reason;
-  if(uz.length){
-    pri=uz.sort(function(a,b){return a.moExp-b.moExp;})[0];
-    reason='its 0% rate expires in about '+pri.moExp+' months';
-  } else {
-    var nm=act.filter(function(d){return d.type!=='mortgage';});
-    var pool=nm.length?nm:act;
-    pri=pool.sort(function(a,b){return b.rate-a.rate;})[0];
-    reason='it has your highest non-mortgage rate ('+pri.rate+'% p.a.)';
-  }
+  var pri,reason;
+  if(uz.length){pri=uz.sort(function(a,b){return a.moExp-b.moExp;})[0];reason='its 0% rate expires in ~'+pri.moExp+' months';}
+  else{var nm=act.filter(function(d){return d.type!=='mortgage';});var pool=nm.length?nm:act;pri=pool.sort(function(a,b){return b.rate-a.rate;})[0];reason='it has your highest non-mortgage rate ('+pri.rate+'% p.a.)';}
   var priPmt=(res.months[0]&&res.months[0].pmts[pri.id])||0;
   var fd=res.months.length?res.months[res.months.length-1].date:null;
   var steps=[
-    'Pay the minimum on every debt &mdash; combined minimums: <strong style="color:var(--ink)">'+fmt(msum)+'/month</strong>',
-    extra>0
-      ? 'Put your entire extra <strong style="color:var(--accent)">'+fmt(extra)+'/month</strong> onto <strong style="color:var(--accent)">'+pri.name+'</strong> &mdash; '+reason
-      : '<span style="color:var(--amber)">Currently covering minimums only. Even adding '+fmt(200)+'/month extra makes a big difference &mdash; enter your income above.</span>',
-    extra>0 ? 'Total payment on <strong>'+pri.name+'</strong> this month = <strong style="color:var(--accent)">'+fmt(priPmt)+'</strong>' : '',
-    'When any debt is paid off, <strong>roll its full payment onto the next priority debt immediately</strong>',
-    'Record each payment in <strong>Tracker &#8594; &#128179; Debts</strong>, then click &#x1F504; Sync here to keep the forecast accurate',
-    fd ? 'Stay consistent and you will be completely debt-free by <strong style="color:var(--green)">'+fmtD(fd)+'</strong>' : ''
+    'Pay the minimum on every debt \u2014 combined: <strong style="color:var(--ink)">'+fmt(msum)+'/month</strong>',
+    extra>0?'Put your extra <strong style="color:var(--accent)">'+fmt(extra)+'/month</strong> onto <strong style="color:var(--accent)">'+pri.name+'</strong> \u2014 '+reason:'<span style="color:var(--amber)">Currently covering minimums only. Enter income & expenses above to see an accelerated plan.</span>',
+    extra>0?'Total payment on <strong>'+pri.name+'</strong> this month = <strong style="color:var(--accent)">'+fmt(priPmt)+'</strong>':'',
+    'When any debt is paid off, <strong>roll its full payment onto the next priority immediately</strong>',
+    fd?'Stay consistent and you\'ll be completely debt-free by <strong style="color:var(--green)">'+fmtD(fd)+'</strong>':''
   ].filter(function(s){return s;});
   var html='<h3>&#127919; Your action plan for this month</h3>';
-  steps.forEach(function(s,i){
-    html+='<div class="rstep"><div class="rnum">'+(i+1)+'</div><div>'+s+'</div></div>';
-  });
+  steps.forEach(function(s,i){html+='<div class="rstep"><div class="rnum">'+(i+1)+'</div><div>'+s+'</div></div>';});
   gi('recBox').innerHTML=html;
 }
 
 // ── Comparison ────────────────────────────────────────────
-function renderCmp(sel) {
+function renderCmp(sel){
   var mo=allResults.minOnly;
   var cards=[
-    {id:'hybrid',    l:'Hybrid Avalanche', d:'Extra payments skip mortgages, attack highest-rate debts first. Best for your mix.'},
-    {id:'avalanche', l:'Pure Avalanche',   d:'Highest interest first across all debts. Maximum interest savings.'},
-    {id:'snowball',  l:'Snowball',         d:'Smallest balance first. Quick wins, slightly more interest overall.'}
+    {id:'hybrid',   l:'Hybrid Avalanche',d:'Extra payments skip mortgages, attack highest-rate debts first. Best for your mix.'},
+    {id:'avalanche',l:'Pure Avalanche',  d:'Highest interest rate first across all debts. Maximum interest savings.'},
+    {id:'snowball', l:'Snowball',         d:'Smallest balance first. Quick motivating wins, slightly more interest overall.'}
   ];
   var html='';
   cards.forEach(function(c){
     var r=allResults[c.id];
-    var isRec=c.id===recStrat, isSel=c.id===sel;
+    var isRec=c.id===recStrat,isSel=c.id===sel;
     var fd=r.months.length?r.months[r.months.length-1].date:null;
-    var sv=Math.max(0,mo.ti-r.ti);
-    var fa=mo.months-r.months.length;
+    var sv=Math.max(0,mo.ti-r.ti),fa=mo.months-r.months.length;
     html+='<div class="cc'+(isRec?' rec':'')+(isSel?' selected':'')+'" onclick="selectStrategy(\''+c.id+'\')">';
-    html+='<div class="cc-t">'+c.l;
-    if(isRec) html+=' <span class="rbadge">&#9889; Recommended</span>';
-    if(isSel) html+=' <span class="selbadge">&#10003; Active</span>';
-    html+='</div>';
+    html+='<div class="cc-t">'+c.l+(isRec?'<span class="rbadge">&#9889; Recommended</span>':'')+(isSel?'<span class="selbadge">&#10003; Active</span>':'')+'</div>';
     html+='<div class="cc-d">'+c.d+'</div>';
     html+='<div class="cs"><span class="csl">Debt-free by</span><span class="csv" style="color:var(--green)">'+(fd?fmtD(fd):'—')+'</span></div>';
     html+='<div class="cs"><span class="csl">Total months</span><span class="csv">'+r.months.length+'</span></div>';
@@ -722,14 +956,13 @@ function renderCmp(sel) {
   });
   gi('cmpGrid').innerHTML=html;
   var found=cards.filter(function(c){return c.id===sel;})[0];
-  gi('cmpHint').textContent='Showing: '+(found?found.l:'')+'  — click another card to switch';
+  gi('cmpHint').textContent='Showing: '+(found?found.l:'')+' \u2014 click another card to switch';
 }
 
 // ── Timeline ──────────────────────────────────────────────
-function renderTl(debts,res,mo) {
+function renderTl(debts,res,mo){
   var tM=res.months.length||1;
-  var mmap={};
-  mo.debts.forEach(function(d){mmap[d.id]=d;});
+  var mmap={};mo.debts.forEach(function(d){mmap[d.id]=d;});
   var sorted=res.debts.slice().sort(function(a,b){return (a.pmth||9999)-(b.pmth||9999);});
   var html='';
   sorted.forEach(function(d){
@@ -737,22 +970,20 @@ function renderTl(debts,res,mo) {
     var pct=d.pmth?Math.min(d.pmth/tM*100,100):100;
     var mMin=mmap[d.id]?mmap[d.id].pmth:null;
     var sv=(mMin&&d.pmth&&mMin>d.pmth)?' &middot; saves '+(mMin-d.pmth)+' months':'';
-    html+='<div class="tli">';
-    html+='<div class="tli-icon">'+(d.icon||'💰')+'</div>';
-    html+='<div class="tli-info"><div class="tli-name">'+d.name+'</div><div class="tli-det">'+fmt(d.bal)+' balance &middot; '+d.rate+'% p.a. &middot; min '+fmt(d.min)+'/mo</div></div>';
+    html+='<div class="tli"><div class="tli-icon">'+(d.icon||'💰')+'</div>';
+    html+='<div class="tli-info"><div class="tli-name">'+d.name+'</div><div class="tli-det">'+fmt(d.bal)+' &middot; '+d.rate+'% p.a. &middot; min '+fmt(d.min)+'/mo</div></div>';
     html+='<div class="tli-bar-w"><div class="tli-rail"><div class="tli-fill" style="width:'+pct.toFixed(1)+'%;background:'+c+'"></div></div>';
     html+='<div class="tli-bar-l">'+(d.pmth?d.pmth+' months':'—')+' &middot; '+fmt(d.ti)+' interest'+sv+'</div></div>';
-    html+='<div class="tli-date" style="color:'+c+'">'+(d.pdate?fmtD(d.pdate):'In progress')+'</div>';
-    html+='</div>';
+    html+='<div class="tli-date" style="color:'+c+'">'+(d.pdate?fmtD(d.pdate):'In progress')+'</div></div>';
   });
   gi('tlWrap').innerHTML=html;
 }
 
 // ── Chart ─────────────────────────────────────────────────
-function buildChart(debts) {
-  debts=debts||lastD; if(!debts)return;
-  var cv=gi('balChart'); if(!cv)return;
-  var ctx=cv.getContext('2d'); if(!ctx)return;
+function buildChart(debts){
+  debts=debts||lastD;if(!debts)return;
+  var cv=gi('balChart');if(!cv)return;
+  var ctx=cv.getContext('2d');if(!ctx)return;
   var now=new Date();
   var st=debts.reduce(function(s,d){return s+d.bal;},0);
   var maxM=Math.min(Math.max(
@@ -762,47 +993,28 @@ function buildChart(debts) {
     allResults.minOnly?allResults.minOnly.months:0
   ),120);
   var step=Math.max(1,Math.floor(maxM/60));
-  var lb=[]; for(var i=0;i<=maxM;i+=step) lb.push(i===0?'Now':fmtD(addM(now,i)));
-
-  function mkD(res){
-    var a=[];
-    for(var i=0;i<=maxM;i+=step) a.push(i===0?st:((res&&res.months[i-1])?res.months[i-1].tb:0));
-    return a;
-  }
-  function mkMin(){
-    var a=[];
-    for(var i=0;i<=maxM;i+=step) a.push(i===0?st:(allResults.minOnly&&allResults.minOnly.months>=i?st*(1-i/allResults.minOnly.months):0));
-    return a;
-  }
-
+  var lb=[];for(var i=0;i<=maxM;i+=step)lb.push(i===0?'Now':fmtD(addM(now,i)));
+  function mkD(res){var a=[];for(var i=0;i<=maxM;i+=step)a.push(i===0?st:((res&&res.months[i-1])?res.months[i-1].tb:0));return a;}
+  function mkMin(){var a=[];for(var i=0;i<=maxM;i+=step)a.push(i===0?st:(allResults.minOnly&&allResults.minOnly.months>=i?st*(1-i/allResults.minOnly.months):0));return a;}
   var lineDefs=[
-    {id:'hybrid',    label:'Hybrid Avalanche', color:'#4ade80', data:mkD(allResults.hybrid),    dash:false},
-    {id:'avalanche', label:'Pure Avalanche',   color:'#f97316', data:mkD(allResults.avalanche), dash:false},
-    {id:'snowball',  label:'Snowball',          color:'#a78bfa', data:mkD(allResults.snowball),  dash:false},
-    {id:'minimums',  label:'Minimums only',     color:'#525660', data:mkMin(),                   dash:true}
+    {id:'hybrid',   label:'Hybrid Avalanche',color:'#4ade80',data:mkD(allResults.hybrid),   dash:false},
+    {id:'avalanche',label:'Pure Avalanche',  color:'#f97316',data:mkD(allResults.avalanche),dash:false},
+    {id:'snowball', label:'Snowball',         color:'#a78bfa',data:mkD(allResults.snowball), dash:false},
+    {id:'minimums', label:'Minimums only',    color:'#525660',data:mkMin(),                  dash:true}
   ];
-
-  if(balChart) balChart.destroy();
-  balChart=new Chart(ctx,{
-    type:'line',
-    data:{labels:lb, datasets:lineDefs.map(function(d){
-      return {id:d.id,label:d.label,data:d.data,borderColor:d.color,backgroundColor:'transparent',
-        borderDash:d.dash?[4,4]:[],fill:false,tension:.3,pointRadius:0,borderWidth:2,hidden:!activeLines[d.id]};
-    })},
-    options:{responsive:true,maintainAspectRatio:true,animation:{duration:300},
-      plugins:{legend:{display:false},
-        tooltip:{backgroundColor:'#1a1c20',borderColor:'rgba(255,255,255,.1)',borderWidth:1,titleColor:'#e6e8eb',bodyColor:'#8e929d',
-          callbacks:{label:function(c){return ' '+c.dataset.label+': '+fmt(c.raw);}}}},
-      scales:{
-        x:{ticks:{color:'#525660',font:{size:10,family:"'DM Mono'"},maxTicksLimit:8},grid:{color:'rgba(255,255,255,.04)'}},
-        y:{ticks:{color:'#525660',font:{size:10,family:"'DM Mono'"},callback:function(v){return '$'+v.toLocaleString();}},grid:{color:'rgba(255,255,255,.04)'},min:0}
-      }
-    }
-  });
+  if(balChart)balChart.destroy();
+  balChart=new Chart(ctx,{type:'line',data:{labels:lb,datasets:lineDefs.map(function(d){
+    return{id:d.id,label:d.label,data:d.data,borderColor:d.color,backgroundColor:'transparent',borderDash:d.dash?[4,4]:[],fill:false,tension:.3,pointRadius:0,borderWidth:2,hidden:!activeLines[d.id]};
+  })},options:{responsive:true,maintainAspectRatio:true,animation:{duration:300},plugins:{legend:{display:false},
+    tooltip:{backgroundColor:'#1a1c20',borderColor:'rgba(255,255,255,.1)',borderWidth:1,titleColor:'#e6e8eb',bodyColor:'#8e929d',
+      callbacks:{label:function(c){return ' '+c.dataset.label+': '+fmt(c.raw);}}}},
+    scales:{
+      x:{ticks:{color:'#525660',font:{size:10,family:"'DM Mono'"},maxTicksLimit:8},grid:{color:'rgba(255,255,255,.04)'}},
+      y:{ticks:{color:'#525660',font:{size:10,family:"'DM Mono'"},callback:function(v){return '$'+v.toLocaleString();}},grid:{color:'rgba(255,255,255,.04)'},min:0}
+    }}});
   renderToggles(lineDefs);
 }
-
-function renderToggles(lineDefs) {
+function renderToggles(lineDefs){
   var html='';
   lineDefs.forEach(function(d){
     var act=activeLines[d.id];
@@ -813,13 +1025,9 @@ function renderToggles(lineDefs) {
   });
   gi('chartToggles').innerHTML=html;
 }
-
-function togLine(id) {
+function togLine(id){
   activeLines[id]=!activeLines[id];
-  if(balChart){
-    var ds=balChart.data.datasets.filter(function(d){return d.id===id;})[0];
-    if(ds){ds.hidden=!activeLines[id];balChart.update('none');}
-  }
+  if(balChart){var ds=balChart.data.datasets.filter(function(d){return d.id===id;})[0];if(ds){ds.hidden=!activeLines[id];balChart.update('none');}}
   var lineDefs=[
     {id:'hybrid',   label:'Hybrid Avalanche',color:'#4ade80',dash:false},
     {id:'avalanche',label:'Pure Avalanche',  color:'#f97316',dash:false},
@@ -830,152 +1038,50 @@ function togLine(id) {
 }
 
 // ── Plan table ────────────────────────────────────────────
-function renderPlan(debts,res) {
-  lastD=debts; lastR=res;
+function renderPlan(debts,res){
+  lastD=debts;lastR=res;
   var rows=showAll?res.months.length:Math.min(24,res.months.length);
   var h='<table><thead><tr><th>Month</th>';
   debts.forEach(function(d){h+='<th>'+d.name+'</th>';});
   h+='<th>Extra &#8594;</th><th>Total Debt</th></tr></thead><tbody>';
   for(var i=0;i<rows;i++){
-    var row=res.months[i]; if(!row)continue;
+    var row=res.months[i];if(!row)continue;
     var isPO=row.payoffs.length>0;
-    var exT='—'; var maxA=1;
+    var exT='—',maxA=1;
     debts.forEach(function(d){var a=(row.pmts[d.id]||0)-d.min;if(a>maxA){maxA=a;exT=d.name;}});
-    h+='<tr'+(isPO?' class="pr"':'')+'>';
-    h+='<td>'+fmtD(row.date)+'</td>';
+    h+='<tr'+(isPO?' class="pr"':'')+'>'+
+      '<td>'+fmtD(row.date)+'</td>';
     debts.forEach(function(d){
-      var p=row.pmts[d.id]||0; var b=row.bals[d.id]||0;
+      var p=row.pmts[d.id]||0,b=row.bals[d.id]||0;
       if(p===0&&b===0){h+='<td class="pd">&#10003; Paid</td>';}
       else{h+='<td>'+fmt(p)+'<br><span style="font-size:.62rem;color:var(--ink3)">bal '+fmt(b)+'</span></td>';}
     });
     h+='<td class="pe">'+exT+'</td><td>'+fmt(row.tb)+'</td></tr>';
-    if(isPO) row.payoffs.forEach(function(id){
+    if(isPO)row.payoffs.forEach(function(id){
       var d=debts.filter(function(x){return x.id===id;})[0];
-      if(d) h+='<tr class="pr"><td colspan="'+(debts.length+3)+'" style="text-align:center;padding:.45rem;font-family:var(--mono);font-size:.72rem">&#127881; '+d.name+' paid off &mdash; payment rolls to next priority</td></tr>';
+      if(d)h+='<tr class="pr"><td colspan="'+(debts.length+3)+'" style="text-align:center;padding:.45rem;font-family:var(--mono);font-size:.72rem">&#127881; '+d.name+' paid off &mdash; payment rolls to next priority</td></tr>';
     });
   }
   h+='</tbody></table>';
-  if(res.months.length>24) h+='<button class="show-more-btn" onclick="togPlan()">'+(showAll?'&#9650; Show less':'&#9660; Show all '+res.months.length+' months')+'</button>';
+  if(res.months.length>24)h+='<button class="show-more-btn" onclick="togPlan()">'+(showAll?'&#9650; Show less':'&#9660; Show all '+res.months.length+' months')+'</button>';
   gi('planWrap').innerHTML=h;
 }
 function togPlan(){showAll=!showAll;if(lastD&&lastR)renderPlan(lastD,lastR);}
 
-// ── Sync from Tracker ─────────────────────────────────────
-function loadFromTracker() {
-  var btn=gi('syncBtn');
-  btn.textContent='Loading…'; btn.disabled=true;
-  fetch(GH_API+'?t='+Date.now(),{headers:{Accept:'application/vnd.github.v3+json'}})
-    .then(function(r){
-      if(!r.ok) throw new Error('GitHub '+r.status);
-      return r.json();
-    })
-    .then(function(json){
-      var data=JSON.parse(atob(json.content.replace(/\n/g,'')));
-      if(!data.userDebts||!data.userDebts.length){
-        showInfo('No debts found in Tracker. Add debts via Tracker > Debts panel first.');
-        btn.textContent='🔄 Sync from Tracker'; btn.disabled=false; return;
-      }
-      var active=data.userDebts.filter(function(d){return !d.paid;});
-      var trackerIds=active.map(function(d){return d.id;});
-      // Keep custom debts not in tracker, replace tracker ones
-      debtDefs=debtDefs.filter(function(d){return !trackerIds.includes(d.id);});
-      active.forEach(function(d){debtDefs.push({id:d.id,name:d.name,type:d.type});});
-      buildCards();
-      // Fill values
-      active.forEach(function(d){
-        var bi=gi('bal-'+d.id); if(bi) bi.value=d.currentBalance||'';
-        var ri=gi('rate-'+d.id); if(ri) ri.value=d.rate||'';
-        var mi=gi('min-'+d.id); if(mi) mi.value=d.minPayment||'';
-        var ni=gi('name-'+d.id); if(ni) ni.value=d.name||'';
-        if(d.expiryDate){var ei=gi('expiry-'+d.id);if(ei){ei.value=d.expiryDate;chkExp(d.id);}}
-        if(d.afterRate){var ai=gi('ar-'+d.id);if(ai) ai.value=d.afterRate;}
-        updTerm(d.id);
-      });
-      if(data.goals&&data.goals.income&&!gi('bIncome').value){
-        gi('bIncome').value=data.goals.income; updBudget();
-      }
-      syncedFromTracker=true;
-      showInfo('Synced '+active.length+' debts from Tracker. Balances reflect your latest recorded payments. Click Calculate to generate your plan.');
-      doSave();
-    })
-    .catch(function(e){
-      showInfo('Could not sync: '+e.message+'. Make sure your tracker has been set up and at least one statement uploaded.');
-    })
-    .finally(function(){
-      btn.textContent='🔄 Sync from Tracker'; btn.disabled=false;
-    });
-}
-
-// ── Save / Load ───────────────────────────────────────────
-function doSave() {
-  try {
-    var obj={
-      income:(gi('bIncome')||{}).value||'',
-      expenses:(gi('bExpenses')||{}).value||'',
-      extra:(gi('bExtra')||{}).value||'',
-      debtDefs:debtDefs,
-      debts:debtDefs.map(function(d){
-        return {
-          id:d.id,
-          name:(gi('name-'+d.id)||{value:d.name}).value||d.name,
-          type:(gi('type-'+d.id)||{value:d.type}).value||d.type,
-          bal:(gi('bal-'+d.id)||{}).value||'',
-          rate:(gi('rate-'+d.id)||{}).value||'',
-          min:(gi('min-'+d.id)||{}).value||'',
-          expiry:(gi('expiry-'+d.id)||{}).value||'',
-          ar:(gi('ar-'+d.id)||{}).value||''
-        };
-      })
-    };
-    localStorage.setItem('rft_dc5',JSON.stringify(obj));
-  } catch(e){}
-}
-
-function doLoad() {
-  try {
-    var raw=localStorage.getItem('rft_dc5'); if(!raw)return;
-    var dt=JSON.parse(raw);
-    if(gi('bIncome')&&dt.income)   gi('bIncome').value=dt.income;
-    if(gi('bExpenses')&&dt.expenses)gi('bExpenses').value=dt.expenses;
-    if(gi('bExtra')&&dt.extra)     gi('bExtra').value=dt.extra;
-    if(dt.debtDefs&&dt.debtDefs.length){debtDefs=dt.debtDefs;buildCards();}
-    (dt.debts||[]).forEach(function(x){
-      if(gi('name-'+x.id))    gi('name-'+x.id).value=x.name||'';
-      if(gi('type-'+x.id)){   gi('type-'+x.id).value=x.type||'car'; changeType(x.id);}
-      if(gi('bal-'+x.id))     gi('bal-'+x.id).value=x.bal||'';
-      if(gi('rate-'+x.id))    gi('rate-'+x.id).value=x.rate||'';
-      if(gi('min-'+x.id))     gi('min-'+x.id).value=x.min||'';
-      if(gi('expiry-'+x.id)){ gi('expiry-'+x.id).value=x.expiry||''; if(x.expiry)chkExp(x.id);}
-      if(gi('ar-'+x.id))      gi('ar-'+x.id).value=x.ar||'';
-      if(x.bal&&x.min) updTerm(x.id);
-    });
-    updBudget();
-  } catch(e){}
-}
-
 // ── Init ──────────────────────────────────────────────────
-buildCards();
-doLoad();
-updBudget();
-
 gi('hdrCalcBtn').addEventListener('click', calculate);
 gi('mainCalcBtn').addEventListener('click', calculate);
-gi('syncBtn').addEventListener('click', loadFromTracker);
-gi('addDebtBtn').addEventListener('click', addDebt);
 gi('saveBtn').addEventListener('click', function(){
-  doSave();
-  gi('saveBtn').textContent='✓ Saved';
-  setTimeout(function(){gi('saveBtn').textContent='💾 Save';},1500);
-});
-gi('resetBtn').addEventListener('click', function(){
-  if(confirm('Clear all inputs and reset to defaults?')){
-    try{localStorage.removeItem('rft_dc5');}catch(e){}
-    location.reload();
-  }
+  saveBudgetToStorage();
+  gi('saveBtn').textContent='&#10003; Saved';
+  setTimeout(function(){gi('saveBtn').textContent='&#128190; Save budget';},1500);
 });
 ['bIncome','bExpenses','bExtra'].forEach(function(id){
-  var el=gi(id); if(el) el.addEventListener('input',updBudget);
+  var el=gi(id);if(el)el.addEventListener('input',updBudget);
 });
+
+// Auto-load debts from Tracker on open
+loadDebts();
 </script>
 </body>
 </html>
