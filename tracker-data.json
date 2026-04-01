@@ -3,16 +3,6 @@
     {
       "rawDate": "26/03/2026",
       "description": "Payment Received, Thank You",
-      "amount": 500,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "26/03/2026",
-      "description": "Payment Received, Thank You",
       "amount": 2744.65,
       "category": "income",
       "owner": "combined",
@@ -2408,5 +2398,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:31:31.176Z"
+  "lastUpdated": "2026-04-01T10:33:19.238Z"
 }
