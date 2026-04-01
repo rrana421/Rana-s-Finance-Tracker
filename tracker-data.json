@@ -1111,8 +1111,24 @@
       "afterRate": 25.9,
       "paid": false,
       "addedDate": "2026-04-01T06:14:34.264Z"
+    },
+    {
+      "id": "debt_1775024174733",
+      "name": "Home Mortgage",
+      "type": "mortgage",
+      "icon": "🏠",
+      "color": "#60a5fa",
+      "currentBalance": 351567,
+      "rate": 6,
+      "minPayment": 2088,
+      "originalBalance": 357671.2,
+      "notes": "",
+      "expiryDate": "",
+      "afterRate": 0,
+      "paid": false,
+      "addedDate": "2026-04-01T06:16:14.734Z"
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T06:14:36.728Z"
+  "lastUpdated": "2026-04-01T06:16:17.343Z"
 }
