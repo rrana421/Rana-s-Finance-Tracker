@@ -1143,8 +1143,24 @@
       "afterRate": 0,
       "paid": false,
       "addedDate": "2026-04-01T06:17:24.952Z"
+    },
+    {
+      "id": "debt_1775024446366",
+      "name": "Anz - Personal Loan",
+      "type": "personal",
+      "icon": "💳",
+      "color": "#a78bfa",
+      "currentBalance": 15101,
+      "rate": 13,
+      "minPayment": 714,
+      "originalBalance": 20000,
+      "notes": "",
+      "expiryDate": "",
+      "afterRate": 0,
+      "paid": false,
+      "addedDate": "2026-04-01T06:20:46.366Z"
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T06:17:28.042Z"
+  "lastUpdated": "2026-04-01T06:20:48.850Z"
 }
