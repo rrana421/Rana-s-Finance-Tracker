@@ -384,7 +384,7 @@
       "rawDate": "18/03/2026",
       "description": "Soul Origin Spencer Melbourne",
       "amount": -8.5,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2388,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:36:49.143Z"
+  "lastUpdated": "2026-04-01T10:36:56.809Z"
 }
