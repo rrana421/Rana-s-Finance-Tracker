@@ -764,7 +764,7 @@
       "rawDate": "29/01/2026",
       "description": "3 Brothersss Indian R Melbourne",
       "amount": -55.93,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1178,5 +1178,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:26:53.306Z"
+  "lastUpdated": "2026-04-01T10:27:00.935Z"
 }
