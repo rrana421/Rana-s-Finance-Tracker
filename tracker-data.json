@@ -1,16 +1,6 @@
 {
   "transactions": [
     {
-      "rawDate": "26/03/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 2744.65,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
       "rawDate": "25/03/2026",
       "description": "Bunnings Clyde Nth Clyde North",
       "amount": -19.83,
@@ -2398,5 +2388,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:33:19.238Z"
+  "lastUpdated": "2026-04-01T10:33:25.124Z"
 }
