@@ -1014,7 +1014,7 @@
       "rawDate": "24/01/2026",
       "description": "Plineph Clyde Clyde North",
       "amount": -53.38,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1178,5 +1178,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:27:09.537Z"
+  "lastUpdated": "2026-04-01T10:27:18.763Z"
 }
