@@ -924,7 +924,15 @@ function clearCycle(){
 // ════════════════════════════════════════════
 function toggleYTD(){showYTD=!showYTD;$('ytdBtn').classList.toggle('active',showYTD);render()}
 function getViewTx(){
-  if(showYTD){const y=new Date().getFullYear();return allTx.filter(t=>t.date.getFullYear()===y)}
+  if(showYTD){
+    // Australian financial year: 1 July to 30 June
+    const now=new Date();
+    const fyStart=now.getMonth()>=6
+      ? new Date(now.getFullYear(),6,1)      // Jul this year
+      : new Date(now.getFullYear()-1,6,1);   // Jul last year
+    const fyEnd=new Date(fyStart.getFullYear()+1,5,30,23,59,59);
+    return allTx.filter(t=>t.date>=fyStart&&t.date<=fyEnd);
+  }
   return allTx.filter(t=>cycleKey(t.date)===activeCycle)
 }
 
@@ -1158,11 +1166,37 @@ async function extractPDFText(file){
   return pages.join('\n')
 }
 function parsePDFText(raw){
-  const lines=raw.split('\n');const txns=[];const dbg=[];let stmtYear=new Date().getFullYear();
-  for(const line of lines){const ym=line.match(/\b(20\d{2})\b/);if(ym){stmtYear=parseInt(ym[1]);break}}
+  const lines=raw.split('\n');const txns=[];const dbg=[];
+  // Detect statement period e.g. "25 Dec 2025 - 23 Jan 2026" to correctly assign years
+  let stmtStart=null,stmtEnd=null,stmtYear=new Date().getFullYear();
+  for(const line of lines){
+    const pm=line.match(/(\d{1,2}\s+[A-Za-z]{3}\s+\d{4})\s*[-\u2013]\s*(\d{1,2}\s+[A-Za-z]{3}\s+\d{4})/);
+    if(pm){stmtStart=parseDate(pm[1]);stmtEnd=parseDate(pm[2]);if(stmtStart)stmtYear=stmtStart.getFullYear();break;}
+    const ym=line.match(/\b(20\d{2})\b/);if(ym&&!stmtStart)stmtYear=parseInt(ym[1]);
+  }
+  // For "DD Mon" dates: try each year in the statement period and pick the one that fits
+  function txYear(mon,day){
+    if(stmtStart&&stmtEnd){
+      const yrs=[stmtStart.getFullYear(),stmtEnd.getFullYear()];
+      for(const yr of yrs){const d=new Date(yr,mon,day);if(d>=stmtStart&&d<=stmtEnd)return yr;}
+    }
+    return stmtYear;
+  }
   for(const line of lines){
     const parts=line.split('\t').map(s=>s.trim()).filter(Boolean);if(dbg.length<50)dbg.push(JSON.stringify(parts));if(!parts.length)continue;
-    let date=null,dc=0;for(let c=0;c<Math.min(parts.length,2);c++){date=parseDate(parts[c],stmtYear);if(date){dc=c;break}}if(!date)continue;
+    let date=null,dc=0;
+    for(let c=0;c<Math.min(parts.length,2);c++){
+      const raw=parts[c].trim();
+      const mShort=raw.match(/^(\d{1,2})\s+([A-Za-z]{3})$/);
+      if(mShort&&MON[mShort[2].toLowerCase()]!==undefined){
+        const mo=MON[mShort[2].toLowerCase()],day=+mShort[1];
+        date=new Date(txYear(mo,day),mo,day);
+      } else {
+        date=parseDate(raw,stmtYear);
+      }
+      if(date){dc=c;break}
+    }
+    if(!date)continue;
     const rest=parts.slice(dc+1);if(!rest.length)continue;
     let amount=null,desc='';const last=rest[rest.length-1];
     const mA=last.match(/^\$?([\d,]+\.\d{2})\s*(DR|CR)?$/i);if(mA){const r=parseFloat(mA[1].replace(/,/g,''));amount=mA[2]&&mA[2].toUpperCase()==='CR'?r:-r;desc=rest.slice(0,-1).join(' ')}
