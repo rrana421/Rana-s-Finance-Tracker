@@ -269,13 +269,12 @@ tr.pr td{background:rgba(74,222,128,.06)!important;color:var(--green)!important}
     <div class="state-body">Connecting to GitHub and reading your latest debt balances.</div>
   </div>
 
+  <!-- stateNoToken removed: read works without token on public repo -->
   <div class="state-screen hidden" id="stateNoToken">
-    <div class="state-icon">&#128275;</div>
-    <div class="state-title">GitHub sync not set up</div>
-    <div class="state-body">
-      The Debt Crusher reads your debts directly from your Tracker via GitHub.<br><br>
-      Open your <a href="https://rana-s-finance-tracker.pages.dev" style="color:var(--accent)">Financial Tracker</a>, click the sync badge in the top left, enter your GitHub token, and save. Then come back here.
-    </div>
+    <div class="state-icon">&#9888;</div>
+    <div class="state-title">Could not load debts</div>
+    <div class="state-body" id="stateNoTokenBody">Check your internet connection and try again.</div>
+    <button class="btn ghost" onclick="location.reload()" style="margin-top:.75rem">&#8635; Retry</button>
   </div>
 
   <div class="state-screen hidden" id="stateNoDebts">
@@ -388,6 +387,7 @@ var TYPE_META = {
 var ghToken   = null;
 var ghFileSha = null;
 var trackerDebts = [];   // debts loaded from Tracker
+var readOnly  = true;    // true when no token (can read but not write)
 var balChart  = null;
 var showAll   = false;
 var lastD     = null;
@@ -398,6 +398,7 @@ var recStrat  = 'hybrid';
 var activeLines = {hybrid:true, avalanche:true, snowball:true, minimums:true};
 
 try { ghToken = localStorage.getItem('rft_gh_token') || null; } catch(e){}
+readOnly = !ghToken;
 
 // ── Helpers ───────────────────────────────────────────────
 function gi(id) { return document.getElementById(id); }
@@ -460,14 +461,10 @@ function saveTrackerData(data) {
     });
 }
 
-// ── Load debts from Tracker ───────────────────────────────
-function loadDebts() {
-  if(!ghToken) {
-    showState('noToken');
-    setSyncStatus('err','No GitHub token');
-    return;
-  }
 
+// ── Load debts from Tracker ───────────────────────────────
+// Reads publicly - no token needed. Token only needed for writes (add what-if debt).
+function loadDebts() {
   setSyncStatus('loading','Loading from Tracker\u2026');
 
   fetchTrackerData()
@@ -490,10 +487,15 @@ function loadDebts() {
       buildDebtCards();
       loadBudgetFromStorage();
       updBudget();
-      setSyncStatus('ok', 'Synced \u2014 ' + trackerDebts.length + ' debts loaded');
+      setSyncStatus('ok', (ghToken ? 'Synced' : 'Live') + ' \u2014 ' + trackerDebts.length + ' debts loaded');
     })
     .catch(function(e){
-      showState('error', 'Failed to load', e.message+'. Check your GitHub token and internet connection.');
+      var msg = e.message || '';
+      if(msg.indexOf('404') >= 0) {
+        showState('error','No data found','Your tracker-data.json does not exist yet. Upload a statement in the Financial Tracker first to create it.');
+      } else {
+        showState('error','Failed to load debts', msg + '. Check your internet connection and try again.');
+      }
       setSyncStatus('err','Load failed');
     });
 }
@@ -688,6 +690,12 @@ function saveWhatIf() {
     paid: false, addedDate: new Date().toISOString()
   };
 
+  // Writing requires a token — show inline token field
+  if(!ghToken) {
+    showNotice('warnBox','To save a what-if debt to the Tracker you need a GitHub token (the same ghp_... token used in the Tracker). Enter it in the Tracker\u2019s sync badge once and it\u2019ll work here automatically on the same browser.');
+    gi('whatifModal').classList.add('hidden');
+    return;
+  }
   gi('wiSaveBtn').disabled = true;
   gi('wiSaveBtn').textContent = 'Saving to Tracker\u2026';
   setSyncStatus('loading','Saving to Tracker\u2026');
