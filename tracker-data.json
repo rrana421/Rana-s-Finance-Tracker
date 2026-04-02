@@ -352,16 +352,6 @@
     },
     {
       "rawDate": "18/03/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 3951.47,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "18/03/2026",
       "description": "Dotti Docklands",
       "amount": -77.25,
       "category": "shopping",
@@ -2261,7 +2251,7 @@
     {
       "id": "custom_loans_1775022240026",
       "name": "Loans",
-      "icon": "ÃÂ°ÃÂÃÂÃÂ¸",
+      "icon": "ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ¸",
       "color": "#a78bfa"
     }
   ],
@@ -2276,7 +2266,7 @@
       "id": "debt_1775017666516",
       "name": "Eclipse Cross",
       "type": "car",
-      "icon": "Ã°ÂÂÂ",
+      "icon": "ÃÂ°ÃÂÃÂÃÂ",
       "color": "#4ade80",
       "currentBalance": 8853.41,
       "rate": 6.69,
@@ -2292,7 +2282,7 @@
       "id": "debt_1775022894600",
       "name": "Samsung Finance - K",
       "type": "zero",
-      "icon": "Ã¢Â­Â",
+      "icon": "ÃÂ¢ÃÂ­ÃÂ",
       "color": "#fbbf24",
       "currentBalance": 356.76,
       "rate": 0,
@@ -2308,7 +2298,7 @@
       "id": "debt_1775023059006",
       "name": "Samsung Finance - R",
       "type": "zero",
-      "icon": "Ã¢Â­Â",
+      "icon": "ÃÂ¢ÃÂ­ÃÂ",
       "color": "#fbbf24",
       "currentBalance": 228.3,
       "rate": 0,
@@ -2324,7 +2314,7 @@
       "id": "debt_1775024074264",
       "name": "Zip Payments",
       "type": "zero",
-      "icon": "Ã¢Â­Â",
+      "icon": "ÃÂ¢ÃÂ­ÃÂ",
       "color": "#fbbf24",
       "currentBalance": 4383,
       "rate": 0,
@@ -2340,7 +2330,7 @@
       "id": "debt_1775024174733",
       "name": "Land Mortgage",
       "type": "mortgage",
-      "icon": "Ã°ÂÂÂ ",
+      "icon": "ÃÂ°ÃÂÃÂÃÂ ",
       "color": "#60a5fa",
       "currentBalance": 351567,
       "rate": 6,
@@ -2356,7 +2346,7 @@
       "id": "debt_1775024244952",
       "name": "Home Mortgage",
       "type": "mortgage",
-      "icon": "Ã°ÂÂÂ ",
+      "icon": "ÃÂ°ÃÂÃÂÃÂ ",
       "color": "#60a5fa",
       "currentBalance": 399591.18,
       "rate": 6,
@@ -2372,7 +2362,7 @@
       "id": "debt_1775024446366",
       "name": "Anz - Personal Loan",
       "type": "personal",
-      "icon": "Ã°ÂÂÂ³",
+      "icon": "ÃÂ°ÃÂÃÂÃÂ³",
       "color": "#a78bfa",
       "currentBalance": 15101,
       "rate": 13,
@@ -2388,7 +2378,7 @@
       "id": "debt_1775024487508",
       "name": "XTrail",
       "type": "car",
-      "icon": "Ã°ÂÂÂ",
+      "icon": "ÃÂ°ÃÂÃÂÃÂ",
       "color": "#4ade80",
       "currentBalance": 42134,
       "rate": 6.69,
@@ -2402,5 +2392,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-01T10:53:40.036Z"
+  "lastUpdated": "2026-04-02T13:54:04.273Z"
 }
