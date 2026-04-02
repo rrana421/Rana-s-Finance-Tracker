@@ -318,6 +318,18 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
 .rp-hint{font-size:.75rem;color:var(--ink3);margin-bottom:1.25rem;line-height:1.6}
 .vs-row{display:flex;align-items:center;gap:.6rem;background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);padding:.7rem .9rem;margin-bottom:.85rem;font-size:.8rem}
 .vs-label{color:var(--ink3);flex:1}.vs-val{font-family:var(--mono);font-weight:500}
+.rp-calc-hint{font-size:.7rem;color:var(--green);font-family:var(--mono);margin-top:3px;display:none}
+.debt-stale{border-color:rgba(245,166,35,.4)!important}
+.debt-stale .di-bal-sub{color:var(--amber)!important}
+.match-banner{background:rgba(96,200,248,.07);border:1px solid rgba(96,200,248,.2);border-radius:var(--rs);padding:.85rem 1rem;margin-bottom:1rem}
+.match-banner-title{font-size:.78rem;font-weight:600;color:var(--blue);margin-bottom:.5rem}
+.match-item{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.45rem 0;border-bottom:1px solid var(--line);font-size:.8rem}
+.match-item:last-child{border-bottom:none}
+.match-desc{flex:1;color:var(--ink2)}
+.match-amt{font-family:var(--mono);font-weight:500;flex-shrink:0}
+.match-btn{font-family:var(--font);font-size:.72rem;font-weight:500;padding:.28rem .75rem;border-radius:5px;cursor:pointer;border:1px solid rgba(96,200,248,.3);background:rgba(96,200,248,.08);color:var(--blue);white-space:nowrap;transition:all .15s}
+.match-btn:hover{background:rgba(96,200,248,.18)}
+.match-dismiss{font-size:.7rem;color:var(--ink3);cursor:pointer;text-decoration:underline;margin-top:.5rem;display:inline-block}
 </style>
 </head>
 <body>
@@ -337,7 +349,7 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
     <button class="hbtn" onclick="openBudgets()">⚙ Budgets</button>
     <button class="hbtn" style="background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.3);color:#f87171" onclick="openDebtPanel()">💳 Debts</button>
     <a class="hbtn" href="./debt-crusher" style="background:rgba(249,115,22,.12);border-color:rgba(249,115,22,.3);color:#f97316;text-decoration:none">⚡ Debt Crusher</a>
-    <button class="hbtn accent" onclick="exportCSV()">↓ Export</button>
+    <button class="hbtn accent" onclick="generateReport()">&#128196; Report</button>
   </div>
 </header>
 
@@ -1147,7 +1159,9 @@ function confirmWho(){
   allTx=[...allTx,...newTx].sort((a,b)=>b.date-a.date);
   pendingTxns=[];$('whoModal').classList.add('hidden');
   $('welcomeSec').classList.add('hidden');$('upSec').classList.add('hidden');$('dash').classList.remove('hidden');
-  initCycles();applyRecurringToAllCycles();initCycles();render();scheduleSyncToGitHub()
+  initCycles();applyRecurringToAllCycles();initCycles();render();scheduleSyncToGitHub();
+  // Scan new transactions for potential debt payment matches
+  if(newTx.length) findDebtMatches(newTx);
 }
 function cancelWho(){pendingTxns=[];$('whoModal').classList.add('hidden')}
 
@@ -1319,6 +1333,9 @@ function renderDebtPanel(){
   html+='<div class="dss-card"><div class="dss-label">Paid this month</div><div class="dss-val" style="color:var(--accent)">'+fmtAmt(paidThisMonth)+'</div><div class="dss-sub">'+thisMonth+'</div></div>';
   html+='</div>';
 
+  // Match banner (auto-detected payments)
+  html += renderMatchBanner();
+
   if(!userDebts.length){
     html+='<div style="text-align:center;padding:3rem;color:var(--ink3)"><div style="font-size:2rem;margin-bottom:.75rem">&#128179;</div><div style="font-size:.9rem;margin-bottom:.5rem">No debts added yet</div><div style="font-size:.78rem">Click <strong>+ Add debt</strong> above to get started</div></div>';
   } else {
@@ -1356,10 +1373,11 @@ function renderDebtPanel(){
         pmtHistHtml='<div style="font-size:.78rem;color:var(--ink3);padding:.25rem 0">No payments recorded yet &mdash; click Record payment to start</div>';
       }
 
-      html+='<div class="debt-item'+(debt.paid?' di-paid':'')+(urgentZero?' di-urgent':'')+'" id="di-'+debt.id+'">';
+      html+='<div class="debt-item'+(debt.paid?' di-paid':'')+(urgentZero?' di-urgent':'')+(isDebtStale(debt)?' debt-stale':'')+'" id="di-'+debt.id+'">';
       html+='<div class="di-header" onclick="toggleDebtDetail(\''+debt.id+'\')">';
       html+='<div class="di-icon">'+meta.icon+'</div>';
-      html+='<div class="di-main"><div class="di-name">'+debt.name+urgLbl+'</div><div class="di-meta">'+meta.label+' &middot; '+debt.rate+'% p.a. &middot; min '+fmtAmt(debt.minPayment)+'/mo'+paidThisLbl+'</div></div>';
+      var staleWarn=isDebtStale(debt)?' &middot; <span style="color:var(--amber)">&#9888; update balance</span>':'';
+      html+='<div class="di-main"><div class="di-name">'+debt.name+urgLbl+'</div><div class="di-meta">'+meta.label+' &middot; '+debt.rate+'% p.a. &middot; min '+fmtAmt(debt.minPayment)+'/mo'+paidThisLbl+staleWarn+'</div></div>';
       html+='<div class="di-balance"><div class="di-bal-val" style="color:'+meta.color+'">'+fmtAmt(debt.currentBalance)+'</div><div class="di-bal-sub">'+paidLbl+'</div></div>';
       html+='<div class="di-chevron" id="chev-'+debt.id+'">&#9654;</div>';
       html+='</div>';
@@ -1503,6 +1521,364 @@ document.addEventListener('DOMContentLoaded',function(){
   if(ad)ad.addEventListener('click',function(e){if(e.target===ad)ad.classList.add('hidden');});
 });
 
+
+// ════════════════════════════════════════════
+// DEBT AUTO-FEATURES
+// ════════════════════════════════════════════
+
+// Auto-calculate estimated new balance when user enters payment amount
+function autoCalcBalance(){
+  var d = userDebts.filter(function(x){return x.id===rpDebtId;})[0];
+  if(!d) return;
+  var paid = parseFloat(document.getElementById('rpActual').value)||0;
+  if(!paid) return;
+  var rate = d.rate||0;
+  var bal  = d.currentBalance||0;
+  // Apply one month of interest then subtract payment
+  var monthlyInterest = bal * (rate/100/12);
+  var newBal = Math.max(0, bal + monthlyInterest - paid);
+  var balEl  = document.getElementById('rpBalance');
+  var hint   = document.getElementById('rpCalcHint');
+  balEl.value = newBal.toFixed(2);
+  if(hint){
+    hint.style.display = 'block';
+    hint.textContent = 'Estimated: ' + fmtAmt(bal) + ' + ' + fmtAmt(monthlyInterest) + ' interest − ' + fmtAmt(paid) + ' = ' + fmtAmt(newBal);
+  }
+}
+
+// Find transactions from recently uploaded statements that likely match debts
+// Called after confirmWho() adds new transactions
+function findDebtMatches(newTxns){
+  if(!userDebts.length || !newTxns.length) return;
+  var matches = [];
+  var now = new Date();
+  var thisMonth = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+
+  userDebts.filter(function(d){return !d.paid;}).forEach(function(debt){
+    // Skip if already recorded this month
+    var pmts = debtPayments[debt.id]||[];
+    var alreadyRecorded = pmts.some(function(p){return p.month===thisMonth;});
+    if(alreadyRecorded) return;
+
+    // Look for transactions that match this debt
+    // Match on: amount within 5% of minimum payment, or description keyword match
+    newTxns.forEach(function(tx){
+      if(tx.amount > 0) return; // skip income
+      var txAmt = Math.abs(tx.amount);
+      var minPmt = debt.minPayment||0;
+      var amountMatch = minPmt > 0 && Math.abs(txAmt - minPmt) / minPmt < 0.08; // within 8%
+
+      // Keyword match: check if debt name words appear in tx description
+      var debtWords = debt.name.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(' ').filter(function(w){return w.length>3;});
+      var descLower = tx.description.toLowerCase();
+      var keywordMatch = debtWords.some(function(w){return descLower.includes(w);});
+
+      // Also match common debt keywords
+      var isDebtKeyword = /payment|repay|loan|mortgage|finance|credit/i.test(tx.description);
+
+      if(amountMatch || keywordMatch || (isDebtKeyword && amountMatch)){
+        // Avoid duplicates
+        var alreadyAdded = matches.some(function(m){return m.debtId===debt.id && m.txDesc===tx.description;});
+        if(!alreadyAdded){
+          matches.push({
+            debtId:   debt.id,
+            debtName: debt.name,
+            txDesc:   tx.description,
+            txAmt:    txAmt,
+            txDate:   tx.date,
+            month:    tx.date.getFullYear()+'-'+String(tx.date.getMonth()+1).padStart(2,'0'),
+            confidence: amountMatch && keywordMatch ? 'high' : amountMatch ? 'medium' : 'low'
+          });
+        }
+      }
+    });
+  });
+
+  if(matches.length > 0){
+    showDebtMatchBanner(matches);
+  }
+}
+
+// Show the match banner in the debt panel (or as a notification)
+var pendingMatches = [];
+function showDebtMatchBanner(matches){
+  pendingMatches = matches;
+  // Show a subtle notification dot on the Debts button if panel is closed
+  var debtsBtn = document.querySelector('button[onclick="openDebtPanel()"]');
+  if(debtsBtn) debtsBtn.style.position = 'relative';
+
+  // If panel is open, render immediately
+  var panel = document.getElementById('debtPanel');
+  if(panel && !panel.classList.contains('hidden')){
+    renderDebtPanel();
+  } else {
+    // Add badge to debts button
+    if(debtsBtn && !document.getElementById('debtMatchDot')){
+      var dot = document.createElement('span');
+      dot.id = 'debtMatchDot';
+      dot.textContent = matches.length;
+      dot.style.cssText = 'position:absolute;top:-4px;right:-4px;background:var(--blue);color:#fff;font-size:.6rem;font-family:var(--mono);font-weight:600;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none';
+      debtsBtn.appendChild(dot);
+    }
+  }
+}
+
+function renderMatchBanner(){
+  if(!pendingMatches.length) return '';
+  var html = '<div class="match-banner" id="matchBanner">';
+  html += '<div class="match-banner-title">&#128269; ' + pendingMatches.length + ' possible debt payment'+(pendingMatches.length>1?'s':'')+' found in your statement</div>';
+  pendingMatches.forEach(function(m, i){
+    html += '<div class="match-item">';
+    html += '<div class="match-desc"><strong>'+m.debtName+'</strong> &mdash; '+m.txDesc+'</div>';
+    html += '<span class="match-amt">'+fmtAmt(m.txAmt)+'</span>';
+    html += '<button class="match-btn" onclick="acceptMatch('+i+')">&#10003; Record payment</button>';
+    html += '</div>';
+  });
+  html += '<span class="match-dismiss" onclick="dismissMatches()">Dismiss all</span>';
+  html += '</div>';
+  return html;
+}
+
+function acceptMatch(i){
+  var m = pendingMatches[i];
+  if(!m) return;
+  var d = userDebts.filter(function(x){return x.id===m.debtId;})[0];
+  if(!d) return;
+  // Pre-fill the record payment modal
+  rpDebtId = m.debtId;
+  document.getElementById('rpHint').textContent = 'Recording payment for: '+d.name;
+  document.getElementById('rpPlanned').textContent = fmtAmt(d.minPayment);
+  document.getElementById('rpMonth').value = m.month;
+  document.getElementById('rpActual').value = m.txAmt.toFixed(2);
+  document.getElementById('rpNote').value = 'Auto-matched from: '+m.txDesc;
+  document.getElementById('rpBalance').value = d.currentBalance||'';
+  // Auto-calculate balance
+  autoCalcBalance();
+  // Remove from pending
+  pendingMatches.splice(i,1);
+  var dot = document.getElementById('debtMatchDot');
+  if(dot){ if(pendingMatches.length===0)dot.remove(); else dot.textContent=pendingMatches.length; }
+  document.getElementById('rpModal').classList.remove('hidden');
+}
+
+function dismissMatches(){
+  pendingMatches = [];
+  var dot = document.getElementById('debtMatchDot');
+  if(dot) dot.remove();
+  renderDebtPanel();
+}
+
+// Add stale check to debt items (>35 days since last payment recorded)
+function isDebtStale(debt){
+  var pmts = debtPayments[debt.id]||[];
+  if(!pmts.length) return false; // no history yet, not stale
+  var lastMonth = pmts[pmts.length-1].month; // e.g. "2026-01"
+  var parts = lastMonth.split('-');
+  var lastDate = new Date(parseInt(parts[0]), parseInt(parts[1])-1, 1);
+  var now = new Date();
+  var diffDays = (now - lastDate) / (1000*60*60*24);
+  return diffDays > 50; // more than ~50 days = skipped a month
+}
+
+
+// ════════════════════════════════════════════
+// MONTHLY REPORT — PDF via print
+// ════════════════════════════════════════════
+function generateReport(){
+  var tx = getViewTx();
+  var now = new Date();
+  var periodLabel = showYTD ? ('FY ' + (now.getMonth()>=6?now.getFullYear():now.getFullYear()-1) + '\u2013' + (now.getMonth()>=6?now.getFullYear()+1:now.getFullYear())) : cycleLabel(activeCycle);
+
+  // ── Collect data ──
+  var expenses   = tx.filter(function(t){return t.amount<0;});
+  var credits    = tx.filter(function(t){return t.amount>0;});
+  var totalExp   = expenses.reduce(function(s,t){return s+t.amount;},0);
+  var totalInc   = householdIncome || credits.reduce(function(s,t){return s+t.amount;},0);
+  var actualSav  = totalInc ? totalInc + totalExp : null;
+  var savRate    = totalInc && actualSav!==null ? (actualSav/totalInc*100) : null;
+
+  // Category breakdown
+  var catData = [];
+  allCats().filter(function(c){return c.id!=='income';}).forEach(function(cat){
+    var ct = tx.filter(function(t){return t.category===cat.id && t.amount<0;});
+    if(!ct.length) return;
+    var tot = Math.abs(ct.reduce(function(s,t){return s+t.amount;},0));
+    var budget = budgets[cat.id]||0;
+    catData.push({label:cat.full, icon:cat.icon, color:cat.color, total:tot, count:ct.length, budget:budget});
+  });
+  catData.sort(function(a,b){return b.total-a.total;});
+  var absTotal = Math.abs(totalExp)||1;
+
+  // Debt summary
+  var activeDebts = userDebts.filter(function(d){return !d.paid;});
+  var reportMonth = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+
+  // ── Build HTML ──
+  function bar(pct, color, bg){
+    return '<div style="height:8px;border-radius:4px;background:'+(bg||'#2a2d35')+';overflow:hidden;margin-top:4px">'
+      +'<div style="height:100%;border-radius:4px;background:'+color+';width:'+Math.min(pct,100).toFixed(1)+'%"></div></div>';
+  }
+  function money(n, abs){ return '$'+Math.abs(abs===false?n:Math.abs(n)).toLocaleString('en-AU',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+  function statusColor(rate){ return rate>=20?'#4dd88a':rate>=10?'#f5a623':'#f26d6d'; }
+
+  var rana_spend   = Math.abs(tx.filter(function(t){return t.amount<0&&t.owner!=='partner';}).reduce(function(s,t){return s+t.amount;},0));
+  var kirti_spend  = Math.abs(tx.filter(function(t){return t.amount<0&&t.owner==='partner';}).reduce(function(s,t){return s+t.amount;},0));
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
+    +'<title>Financial Report \u2014 '+periodLabel+'</title>'
+    +'<style>'
+    +'*{box-sizing:border-box;margin:0;padding:0}'
+    +'body{font-family:"DM Sans",system-ui,sans-serif;background:#fff;color:#1a1d23;font-size:13px;line-height:1.5}'
+    +'@media print{'
+    +'  body{font-size:11px}'
+    +'  .no-print{display:none!important}'
+    +'  .page-break{page-break-before:always}'
+    +'  @page{margin:1.5cm;size:A4}'
+    +'}'
+    +'.page{max-width:800px;margin:0 auto;padding:2rem}'
+    +'.rpt-header{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid #b8f04a;padding-bottom:1rem;margin-bottom:1.5rem}'
+    +'.rpt-title{font-size:1.4rem;font-weight:700;color:#1a1d23;letter-spacing:-.02em}'
+    +'.rpt-sub{font-size:.75rem;color:#6b6f7a;margin-top:3px}'
+    +'.rpt-logo{font-size:.7rem;font-weight:600;color:#6b6f7a;text-align:right}'
+    +'.rpt-logo strong{color:#b8f04a;font-size:.85rem}'
+    +'.section{margin-bottom:1.75rem}'
+    +'.section-title{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#9a9da6;border-bottom:1px solid #e8e9eb;padding-bottom:.4rem;margin-bottom:1rem}'
+    +'.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}'
+    +'.kpi-box{background:#f7f8fa;border-radius:8px;padding:.85rem 1rem}'
+    +'.kpi-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:#9a9da6;font-weight:600;margin-bottom:.2rem}'
+    +'.kpi-val{font-size:1.25rem;font-weight:700;letter-spacing:-.02em}'
+    +'.kpi-note{font-size:.68rem;color:#9a9da6;margin-top:.15rem}'
+    +'.cat-row{display:flex;align-items:center;gap:.75rem;padding:.45rem 0;border-bottom:1px solid #f0f1f3}'
+    +'.cat-row:last-child{border-bottom:none}'
+    +'.cat-icon{font-size:1rem;width:22px;flex-shrink:0;text-align:center}'
+    +'.cat-name{flex:1;font-size:.82rem;font-weight:500}'
+    +'.cat-bar-wrap{flex:2;min-width:80px}'
+    +'.cat-amt{font-size:.82rem;font-weight:600;width:75px;text-align:right;flex-shrink:0}'
+    +'.cat-pct{font-size:.68rem;color:#9a9da6;width:38px;text-align:right;flex-shrink:0}'
+    +'.cat-budget{font-size:.65rem;color:#9a9da6;margin-top:2px}'
+    +'.debt-row{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem 1rem;align-items:center;padding:.6rem 0;border-bottom:1px solid #f0f1f3}'
+    +'.debt-row:last-child{border-bottom:none}'
+    +'.debt-icon{font-size:1.2rem}'
+    +'.debt-name{font-size:.85rem;font-weight:600}'
+    +'.debt-meta{font-size:.7rem;color:#9a9da6;margin-top:1px}'
+    +'.debt-bal{text-align:right}'
+    +'.debt-bal-val{font-size:1rem;font-weight:700}'
+    +'.debt-bal-sub{font-size:.68rem;color:#9a9da6}'
+    +'.debt-prog{grid-column:1/-1}'
+    +'.split-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}'
+    +'.split-box{background:#f7f8fa;border-radius:8px;padding:.85rem 1rem}'
+    +'.split-name{font-size:.72rem;font-weight:600;color:#6b6f7a;margin-bottom:.25rem}'
+    +'.split-val{font-size:1.1rem;font-weight:700}'
+    +'.print-btn{position:fixed;bottom:1.5rem;right:1.5rem;background:#b8f04a;color:#111;border:none;padding:.65rem 1.4rem;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.15)}'
+    +'</style></head><body>'
+    +'<div class="page">'
+
+    // ── HEADER ──
+    +'<div class="rpt-header">'
+    +'<div>'
+    +'<div class="rpt-title">Household Financial Report</div>'
+    +'<div class="rpt-sub">'+periodLabel+' &nbsp;&middot;&nbsp; Generated '+now.toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'})+'</div>'
+    +'</div>'
+    +'<div class="rpt-logo">Rana &amp; Kirti<br><strong>Financial Tracker</strong></div>'
+    +'</div>'
+
+    // ── SECTION 1: INCOME VS EXPENSES VS SAVINGS ──
+    +'<div class="section">'
+    +'<div class="section-title">Financial Snapshot</div>'
+    +'<div class="kpi-row">'
+    +'<div class="kpi-box"><div class="kpi-lbl">Household Income</div><div class="kpi-val" style="color:#4dd88a">'+money(totalInc)+'</div><div class="kpi-note">Combined take-home</div></div>'
+    +'<div class="kpi-box"><div class="kpi-lbl">Total Spent</div><div class="kpi-val" style="color:#f26d6d">'+money(totalExp)+'</div><div class="kpi-note">'+expenses.length+' transactions</div></div>'
+    +'<div class="kpi-box"><div class="kpi-lbl">'+(actualSav!==null&&actualSav>=0?'Saved':'Overspent')+'</div>'
+    +'<div class="kpi-val" style="color:'+(actualSav!==null?actualSav>=0?'#4dd88a':'#f26d6d':'#9a9da6')+'">'+( actualSav!==null?money(actualSav,false):'—')+'</div>'
+    +'<div class="kpi-note">'+(savRate!==null?savRate.toFixed(1)+'% savings rate':'Set income in Goals')+'</div></div>'
+    +'<div class="kpi-box"><div class="kpi-lbl">Savings Target</div>'
+    +'<div class="kpi-val" style="color:'+(savRate!==null?statusColor(savRate):'#9a9da6')+'">'+(savRate!==null?(savRate>=20?'&#10003; On track':savRate>=10?'&#9888; Low':'&#8226; Critical'):'—')+'</div>'
+    +'<div class="kpi-note">'+(use5030?'50/30/20 target: 20%':'Target: '+(savingsTarget?money(savingsTarget):'-'))+'</div></div>'
+    +'</div>';
+
+    // Split by person
+    if(rana_spend > 0 || kirti_spend > 0){
+      html += '<div class="split-row">'
+        +'<div class="split-box"><div class="split-name">Rana\'s spending</div><div class="split-val" style="color:#b8f04a">'+money(rana_spend)+'</div></div>'
+        +'<div class="split-box"><div class="split-name">Kirti\'s spending</div><div class="split-val" style="color:#c084f5">'+money(kirti_spend)+'</div></div>'
+        +'</div>';
+    }
+    html += '</div>';
+
+    // ── SECTION 2: SPENDING BY CATEGORY ──
+    html += '<div class="section">'
+    +'<div class="section-title">Spending by Category</div>';
+    catData.forEach(function(cat){
+      var pct = cat.total/absTotal*100;
+      var barColor = !cat.budget ? cat.color : cat.total>cat.budget ? '#f26d6d' : '#4dd88a';
+      var barPct   = cat.budget ? Math.min(cat.total/cat.budget*100,100) : pct/catData[0].total*100*cat.total/catData[0].total;
+      // Use pct of total for the bar width for easier reading
+      var displayPct = cat.total / catData[0].total * 100;
+      html += '<div class="cat-row">'
+        +'<div class="cat-icon">'+cat.icon+'</div>'
+        +'<div style="flex:1"><div class="cat-name">'+cat.label
+        +(cat.budget?'<span style="font-size:.65rem;color:#9a9da6;font-weight:400;margin-left:6px">budget: '+money(cat.budget)+'</span>':'')
+        +'</div>'
+        +'<div style="height:6px;border-radius:3px;background:#e8e9eb;overflow:hidden;margin-top:3px">'
+        +'<div style="height:100%;border-radius:3px;background:'+barColor+';width:'+displayPct.toFixed(1)+'%"></div>'
+        +'</div>'
+        +(cat.budget&&cat.total>cat.budget?'<div style="font-size:.65rem;color:#f26d6d;margin-top:2px">Over budget by '+money(cat.total-cat.budget)+'</div>':'')
+        +'</div>'
+        +'<div class="cat-pct">'+pct.toFixed(1)+'%</div>'
+        +'<div class="cat-amt" style="color:'+barColor+'">'+money(cat.total)+'</div>'
+        +'</div>';
+    });
+    html += '</div>';
+
+    // ── SECTION 3: DEBT SUMMARY ──
+    if(activeDebts.length){
+      html += '<div class="section page-break">'
+        +'<div class="section-title">Debt Summary</div>';
+      var DEBT_META={mortgage:{icon:'\uD83C\uDFE0',color:'#60a5fa'},car:{icon:'\uD83D\uDE97',color:'#4ade80'},personal:{icon:'\uD83D\uDCB3',color:'#a78bfa'},zero:{icon:'\u2B50',color:'#fbbf24'},other:{icon:'\uD83D\uDCB0',color:'#8e929d'}};
+      var totalDebt = activeDebts.reduce(function(s,d){return s+d.currentBalance;},0);
+      var totalOrig = userDebts.reduce(function(s,d){return s+(d.originalBalance||d.currentBalance);},0);
+      html += '<div style="display:flex;gap:1rem;margin-bottom:1rem">'
+        +'<div class="kpi-box" style="flex:1"><div class="kpi-lbl">Total Debt</div><div class="kpi-val" style="color:#f26d6d">'+money(totalDebt)+'</div><div class="kpi-note">'+activeDebts.length+' active debts</div></div>'
+        +'<div class="kpi-box" style="flex:1"><div class="kpi-lbl">Paid Down</div><div class="kpi-val" style="color:#4dd88a">'+money(Math.max(0,totalOrig-totalDebt))+'</div><div class="kpi-note">from '+money(totalOrig)+'</div></div>'
+        +'</div>';
+      activeDebts.forEach(function(d){
+        var meta = DEBT_META[d.type]||DEBT_META.other;
+        var pmts = debtPayments[d.id]||[];
+        var thisPmt = pmts.filter(function(p){return p.month===reportMonth;})[0]||null;
+        var pct = d.originalBalance ? Math.min((1-d.currentBalance/d.originalBalance)*100,100) : 0;
+        html += '<div class="debt-row">'
+          +'<div class="debt-icon">'+meta.icon+'</div>'
+          +'<div><div class="debt-name">'+d.name+'</div>'
+          +'<div class="debt-meta">'+d.rate+'% p.a. &middot; min '+money(d.minPayment)+'/mo'
+          +(thisPmt?' &middot; <span style="color:#4dd88a">Paid this month: '+money(thisPmt.actual)+'</span>':'')
+          +'</div></div>'
+          +'<div class="debt-bal"><div class="debt-bal-val" style="color:'+meta.color+'">'+money(d.currentBalance)+'</div>'
+          +'<div class="debt-bal-sub">'+pct.toFixed(0)+'% paid off</div></div>'
+          +'<div class="debt-prog" style="grid-column:2/4">'
+          +'<div style="height:6px;border-radius:3px;background:#e8e9eb;overflow:hidden">'
+          +'<div style="height:100%;border-radius:3px;background:'+meta.color+';width:'+pct.toFixed(1)+'%"></div></div>'
+          +'</div>'
+          +'</div>';
+      });
+      html += '</div>';
+    }
+
+    // ── FOOTER ──
+    html += '<div style="margin-top:2rem;padding-top:1rem;border-top:1px solid #e8e9eb;font-size:.68rem;color:#9a9da6;display:flex;justify-content:space-between">'
+      +'<span>Rana\'s Financial Tracker &mdash; Private &amp; Confidential</span>'
+      +'<span>Generated '+now.toLocaleString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})+'</span>'
+      +'</div>'
+      +'</div>'
+      +'<button class="print-btn no-print" onclick="window.print()">&#128196; Save as PDF</button>'
+      +'<script>setTimeout(function(){window.print();},400);<\/script>'
+      +'</body></html>';
+
+  var w = window.open('','_blank','width=900,height=700');
+  if(!w){ alert('Please allow pop-ups for this site to generate the PDF report.'); return; }
+  w.document.write(html);
+  w.document.close();
+}
+
 // INIT
 // ════════════════════════════════════════════
 injectCustomCatCSS();
@@ -1544,7 +1920,7 @@ loadFromGitHub();
         <div class="field-label">Actual amount paid ($)</div>
         <div style="position:relative">
           <span style="position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:.82rem;font-family:var(--mono)">$</span>
-          <input type="number" id="rpActual" class="field-input" placeholder="0.00" min="0" step="10" style="padding-left:1.4rem">
+          <input type="number" id="rpActual" class="field-input" placeholder="0.00" min="0" step="10" style="padding-left:1.4rem" oninput="autoCalcBalance()">
         </div>
       </div>
       <div>
@@ -1553,7 +1929,8 @@ loadFromGitHub();
           <span style="position:absolute;left:.7rem;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:.82rem;font-family:var(--mono)">$</span>
           <input type="number" id="rpBalance" class="field-input" placeholder="0.00" min="0" step="100" style="padding-left:1.4rem">
         </div>
-        <div style="font-size:.7rem;color:var(--ink3);margin-top:.3rem">Enter your statement balance &mdash; keeps Debt Crusher accurate</div>
+        <div class="rp-calc-hint" id="rpCalcHint"></div>
+        <div style="font-size:.7rem;color:var(--ink3);margin-top:.3rem">Auto-calculated &mdash; override with your actual statement balance if different</div>
       </div>
       <div>
         <div class="field-label">Note (optional)</div>
