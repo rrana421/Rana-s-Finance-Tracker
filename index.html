@@ -893,10 +893,15 @@ function saveGoals(){
 function applyRecurringToCycle(ck){
   const[y,mo]=ck.split('-').map(Number);
   for(const r of recurring){
-    // Respect startFrom — skip cycles before the start month
-    if(r.startFrom){
-      const[sy,smo]=r.startFrom.split('-').map(Number);
-      // cycle key is YYYY-MM of the 15th start date; compare numerically
+    // Determine effective start: explicit startFrom, or derive from creation timestamp (r.id)
+    let effStart = r.startFrom||null;
+    if(!effStart && r.id){
+      // r.id is Date.now() at creation — derive YYYY-MM
+      const created = new Date(r.id);
+      effStart = created.getFullYear()+'-'+String(created.getMonth()+1).padStart(2,'0');
+    }
+    if(effStart){
+      const[sy,smo]=effStart.split('-').map(Number);
       if(y<sy||(y===sy&&mo<smo)) continue;
     }
     const daysInMonth=new Date(y,mo,0).getDate();
@@ -917,7 +922,17 @@ function renderRecurringList(){
   list.innerHTML=recurring.map((r,i)=>{
     const cat=allCats().find(c=>c.id===r.category)||{icon:'•',label:'Other',color:'#888'};const isInc=r.amount>0;
     const who=r.owner==='partner'?partnerName:r.owner==='combined'?'Combined':'Rana';
-    const startLbl=r.startFrom?` · from ${r.startFrom}`:'';return`<div class="rec-item"><div class="rec-icon">${cat.icon}</div><div class="rec-info"><div class="rec-name">${r.description}</div><div class="rec-meta">${cat.label} · Day ${r.day} · ${who}${startLbl}</div></div><div class="rec-amt" style="color:${isInc?'var(--green)':'var(--red)'}">${isInc?'+':'−'}${fmtAmt(r.amount)}</div><button class="rec-del" onclick="deleteRecurring(${i})">✕</button></div>`
+    const startLbl=r.startFrom?` · from ${r.startFrom}`:'';
+    return`<div class="rec-item">
+      <div class="rec-icon">${cat.icon}</div>
+      <div class="rec-info">
+        <div class="rec-name">${r.description}</div>
+        <div class="rec-meta">${cat.label} · Day ${r.day} · ${who}${startLbl}</div>
+      </div>
+      <div class="rec-amt" style="color:${isInc?'var(--green)':'var(--red)'}">${isInc?'+':'−'}${fmtAmt(r.amount)}</div>
+      <button class="rec-edit" onclick="editRecurring(${i})" title="Edit" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.8rem;padding:2px 5px;border-radius:3px;transition:all .15s" onmouseover="this.style.color='var(--ink)';this.style.background='var(--overlay)'" onmouseout="this.style.color='var(--ink3)';this.style.background='none'">&#9999;</button>
+      <button class="rec-del" onclick="deleteRecurring(${i})">✕</button>
+    </div>`
   }).join('')
 }
 function addRecurring(){
@@ -947,6 +962,44 @@ function deleteRecurring(idx){
   initCycles();
   render();
   renderRecurringList();
+}
+
+var rcEditIdx = -1; // -1 = new, >=0 = editing index
+
+function editRecurring(idx){
+  const r = recurring[idx];
+  if(!r) return;
+  rcEditIdx = idx;
+  // Pre-fill form fields
+  $('rcDesc').value  = r.description||'';
+  $('rcAmt').value   = Math.abs(r.amount)||'';
+  $('rcDay').value   = r.day||'';
+  $('rcStart').value = r.startFrom||'';
+  $('rcType').value  = r.amount>=0?'income':'expense';
+  populateCatSelect('rcCat', r.amount>=0?'income':'expense');
+  // Set category
+  const catSel = $('rcCat');
+  if(catSel && catSel.querySelector('option[value="'+r.category+'"]')){
+    catSel.value = r.category;
+    catSel.setAttribute('data-selected', r.category);
+  }
+  // Set who
+  $('rcWho').value = r.owner||'rana';
+  // Update add button to show Save
+  const addBtn = document.querySelector('#recurringModal .btn.primary[onclick="addRecurring()"]');
+  if(addBtn) addBtn.textContent = '✓ Save';
+  // Scroll form into view
+  $('rcDesc').focus();
+}
+
+function cancelEditRecurring(){
+  rcEditIdx = -1;
+  $('rcDesc').value='';$('rcAmt').value='';$('rcDay').value='';$('rcStart').value='';
+  populateCatSelect('rcCat','expense');
+  $('rcCat').removeAttribute('data-selected');
+  $('rcType').value='expense';$('rcWho').value='rana';
+  const addBtn = document.querySelector('#recurringModal .btn.primary[onclick="addRecurring()"]');
+  if(addBtn) addBtn.textContent = '+ Add';
 }
 
 // ════════════════════════════════════════════
