@@ -2318,7 +2318,7 @@
     "transport": 500,
     "grocery": 600,
     "personal": 200,
-    "shopping": 400,
+    "shopping": 600,
     "eating": 400,
     "entertainment": 200,
     "travel": 0,
@@ -2326,7 +2326,7 @@
     "other": 0,
     "adhoc": 0,
     "insurance": 0,
-    "committee": 0,
+    "committee": 2250,
     "custom_mortgage_&_loans_1775200220021": 0
   },
   "recurring": [
@@ -2503,5 +2503,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:34:53.204Z"
+  "lastUpdated": "2026-04-03T12:55:33.214Z"
 }
