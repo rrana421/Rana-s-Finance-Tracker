@@ -121,6 +121,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "23/03/2026",
+      "description": "Eclipse Cross - Car",
+      "amount": -591,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221114887
+    },
+    {
       "rawDate": "22/03/2026",
       "description": "Sq *Pakenham Upper Too Pakenham Uppe",
       "amount": -10,
@@ -1311,6 +1321,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "23/02/2026",
+      "description": "Eclipse Cross - Car",
+      "amount": -591,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221114887
+    },
+    {
       "rawDate": "22/02/2026",
       "description": "La Cosmetique Blacktown",
       "amount": -153.27,
@@ -2281,6 +2301,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "23/01/2026",
+      "description": "Eclipse Cross - Car",
+      "amount": -591,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221114887
+    },
+    {
       "rawDate": "16/01/2026",
       "description": "NIssan Car Payment",
       "amount": -856,
@@ -2354,6 +2384,15 @@
       "day": 27,
       "owner": "partner",
       "startFrom": "2026-02"
+    },
+    {
+      "id": 1775221114887,
+      "description": "Eclipse Cross - Car",
+      "amount": -591,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "day": 23,
+      "owner": "rana",
+      "startFrom": null
     }
   ],
   "customCats": [
@@ -2503,5 +2542,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T12:55:33.214Z"
+  "lastUpdated": "2026-04-03T12:58:37.382Z"
 }
