@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>window.addEventListener("load",function(){if(window.pdfjsLib)window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";});</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{--bg:#111214;--surface:#18191d;--raised:#1f2026;--overlay:#252830;--line:rgba(255,255,255,0.07);--line2:rgba(255,255,255,0.12);--ink:#e8e9eb;--ink2:#9a9da6;--ink3:#5c5f6b;--accent:#b8f04a;--red:#f26d6d;--green:#4dd88a;--amber:#f5a623;--blue:#60c8f8;--purple:#c084f5;--r:12px;--rs:8px;--font:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace}
@@ -618,14 +619,15 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
     <p class="hint">Fixed monthly expenses auto-populate every cycle. Delete individual rows in the table if a month was skipped or paid differently.</p>
     <div style="background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);padding:1rem;margin-bottom:1.1rem">
       <div style="font-size:.68rem;font-family:var(--mono);color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.65rem">Add new</div>
-      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:.55rem;align-items:end">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:.55rem;align-items:end">
         <div><div class="field-label">Description</div><input type="text" id="rcDesc" placeholder="e.g. Car payment, Mortgage…" class="field-input sm"></div>
         <div><div class="field-label">Amount $</div><input type="number" id="rcAmt" placeholder="0.00" min="0" step="0.01" class="field-input sm"></div>
         <div><div class="field-label">Day (1–31)</div><input type="number" id="rcDay" placeholder="1" min="1" max="31" class="field-input sm"></div>
+        <div><div class="field-label">Start from</div><input type="month" id="rcStart" class="field-input sm" title="Leave blank to apply to all cycles"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.55rem;margin-top:.5rem;align-items:end">
         <div><div class="field-label">Category</div><select id="rcCat" class="field-input sm"></select></div>
-        <div><div class="field-label">Type</div><select id="rcType" class="field-input sm"><option value="expense">Expense</option><option value="income">Income</option></select></div>
+        <div><div class="field-label">Type</div><select id="rcType" class="field-input sm" onchange="populateCatSelect('rcCat',this.value)"><option value="expense">Expense</option><option value="income">Income</option></select></div>
         <div><div class="field-label">Who</div><select id="rcWho" class="field-input sm"><option value="rana">Rana</option><option value="partner">Kirti</option><option value="combined">Combined</option></select></div>
         <div style="padding-top:1.3rem"><button class="btn primary" style="width:100%;padding:.42rem" onclick="addRecurring()">+ Add</button></div>
       </div>
@@ -891,7 +893,12 @@ function saveGoals(){
 function applyRecurringToCycle(ck){
   const[y,mo]=ck.split('-').map(Number);
   for(const r of recurring){
-    // Use actual day but cap to last day of that month (handles Feb, etc.)
+    // Respect startFrom — skip cycles before the start month
+    if(r.startFrom){
+      const[sy,smo]=r.startFrom.split('-').map(Number);
+      // cycle key is YYYY-MM of the 15th start date; compare numerically
+      if(y<sy||(y===sy&&mo<smo)) continue;
+    }
     const daysInMonth=new Date(y,mo,0).getDate();
     const day=Math.min(r.day,daysInMonth);const d=new Date(y,mo-1,day);
     const rawDate=`${String(day).padStart(2,'0')}/${String(mo).padStart(2,'0')}/${y}`;
@@ -910,19 +917,25 @@ function renderRecurringList(){
   list.innerHTML=recurring.map((r,i)=>{
     const cat=allCats().find(c=>c.id===r.category)||{icon:'•',label:'Other',color:'#888'};const isInc=r.amount>0;
     const who=r.owner==='partner'?partnerName:r.owner==='combined'?'Combined':'Rana';
-    return`<div class="rec-item"><div class="rec-icon">${cat.icon}</div><div class="rec-info"><div class="rec-name">${r.description}</div><div class="rec-meta">${cat.label} · Day ${r.day} · ${who}</div></div><div class="rec-amt" style="color:${isInc?'var(--green)':'var(--red)'}">${isInc?'+':'−'}${fmtAmt(r.amount)}</div><button class="rec-del" onclick="deleteRecurring(${i})">✕</button></div>`
+    const startLbl=r.startFrom?` · from ${r.startFrom}`:'';return`<div class="rec-item"><div class="rec-icon">${cat.icon}</div><div class="rec-info"><div class="rec-name">${r.description}</div><div class="rec-meta">${cat.label} · Day ${r.day} · ${who}${startLbl}</div></div><div class="rec-amt" style="color:${isInc?'var(--green)':'var(--red)'}">${isInc?'+':'−'}${fmtAmt(r.amount)}</div><button class="rec-del" onclick="deleteRecurring(${i})">✕</button></div>`
   }).join('')
 }
 function addRecurring(){
-  const desc=$('rcDesc').value.trim(),amt=parseFloat($('rcAmt').value),day=parseInt($('rcDay').value),cat=$('rcCat').value,type=$('rcType').value,who=$('rcWho').value;
+  const desc=$('rcDesc').value.trim(),amt=parseFloat($('rcAmt').value),day=parseInt($('rcDay').value),type=$('rcType').value;
+  const cat=$('rcCat').value,who=$('rcWho').value;
+  const startFrom=$('rcStart').value||null; // e.g. "2026-03" or null = all cycles
   if(!desc||isNaN(amt)||amt<=0||isNaN(day)||day<1||day>31){alert('Please fill in description, amount (>0) and day (1–31).');return}
-  recurring.push({id:Date.now(),description:desc,amount:type==='income'?amt:-amt,category:cat,day,owner:who});
+  if(!cat){alert('Please select a category.');return}
+  recurring.push({id:Date.now(),description:desc,amount:type==='income'?amt:-amt,category:cat,day,owner:who,startFrom});
   saveRecurring();
-  // Auto-apply to ALL existing cycles so it appears in transactions immediately
   applyRecurringToAllCycles();
   initCycles();
   render();
-  $('rcDesc').value='';$('rcAmt').value='';$('rcDay').value='';
+  // Reset form fields
+  $('rcDesc').value='';$('rcAmt').value='';$('rcDay').value='';$('rcStart').value='';
+  // Reset category select to first option cleanly
+  populateCatSelect('rcCat', 'expense');
+  $('rcType').value='expense';
   renderRecurringList();
 }
 function deleteRecurring(idx){
@@ -1291,7 +1304,7 @@ function render(){
   }else{$('savingsProgress').style.display='none'}
 
   // Alert banner
-  const overCats=EXPENSE_CATS.filter(cat=>{const budget=budgets[cat.id];if(!budget)return false;const spent=Math.abs(tx.filter(t=>t.category===cat.id).reduce((s,t)=>s+t.amount,0));return spent>budget});
+  const overCats=allCats().filter(cat=>{const budget=budgets[cat.id];if(!budget)return false;const spent=Math.abs(tx.filter(t=>t.category===cat.id).reduce((s,t)=>s+t.amount,0));return spent>budget});
   const ab=$('alertBanner');if(overCats.length){ab.classList.add('visible');$('alertItems').innerHTML=overCats.map(c=>`<span class="alert-pill">${c.icon} ${c.label}: over by ${fmtAmt(Math.abs(tx.filter(t=>t.category===c.id).reduce((s,t)=>s+t.amount,0))-budgets[c.id])}</span>`).join('')}else{ab.classList.remove('visible')}
 
   // 50/30/20
@@ -1416,7 +1429,11 @@ function renderTopMerchants(tx){
 // ════════════════════════════════════════════
 function renderCalendar(){
   const wrap=$('calendarWrap');if(!recurring.length){wrap.innerHTML='<div style="color:var(--ink3);font-size:.82rem;padding:.5rem 0">No recurring payments set up yet. Click ↻ Recurring to add fixed monthly expenses.</div>';return}
-  const byDay={};recurring.forEach(r=>{const d=r.day;if(!byDay[d])byDay[d]=[];byDay[d].push(r)});
+  const byDay={};const now=new Date();const curYYMM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  recurring.filter(function(r){
+    if(!r.startFrom) return true;
+    return r.startFrom<=curYYMM;
+  }).forEach(r=>{const d=r.day;if(!byDay[d])byDay[d]=[];byDay[d].push(r)});
   const days=Array.from({length:31},(_,i)=>i+1);
   wrap.innerHTML=`<div class="cal-grid">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<div class="cal-day-header">${d}</div>`).join('')}${days.map(d=>{const events=byDay[d]||[];return`<div class="cal-day"><div class="cal-day-num">${d}</div>${events.map(r=>{const cat=allCats().find(c=>c.id===r.category)||{icon:'•'};const who=r.owner==='partner'?partnerName:r.owner==='combined'?'Combined':'Rana';return`<div class="cal-event" title="${r.description} · ${who}">${cat.icon} ${fmtAmt(r.amount)}</div>`}).join('')}</div>`}).join('')}</div>`
 }
@@ -1975,7 +1992,7 @@ function generateReport(){
   var expenses   = tx.filter(function(t){return t.amount<0;});
   var credits    = tx.filter(function(t){return t.amount>0;});
   var totalExp   = expenses.reduce(function(s,t){return s+t.amount;},0);
-  var totalInc   = householdIncome || credits.reduce(function(s,t){return s+t.amount;},0);
+  var totalInc   = householdIncome || credits.filter(function(t){return t.category==='income';}).reduce(function(s,t){return s+t.amount;},0);
   var actualSav  = totalInc ? totalInc + totalExp : null;
   var savRate    = totalInc && actualSav!==null ? (actualSav/totalInc*100) : null;
 
