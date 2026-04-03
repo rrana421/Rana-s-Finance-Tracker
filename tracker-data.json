@@ -351,6 +351,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "20/03/2026",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/03/2026",
       "description": "Smp*Om Veg Collins St Melbourne",
       "amount": -2.54,
@@ -1641,6 +1651,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "20/02/2026",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/02/2026",
       "description": "Smp*Splash Juice Bar C South Yarra",
       "amount": -5.9,
@@ -2751,6 +2771,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/01/2026",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/01/2026",
       "description": "Zip Pay",
       "amount": -150,
@@ -2991,6 +3021,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/12/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/12/2025",
       "description": "Zip Pay",
       "amount": -150,
@@ -3219,6 +3259,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/11/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/11/2025",
@@ -3451,6 +3501,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/10/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/10/2025",
       "description": "Zip Pay",
       "amount": -150,
@@ -3679,6 +3739,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/09/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/09/2025",
@@ -3911,6 +3981,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/08/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/08/2025",
       "description": "Zip Pay",
       "amount": -150,
@@ -4139,6 +4219,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/07/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/07/2025",
@@ -4371,6 +4461,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/06/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/06/2025",
       "description": "Zip Pay",
       "amount": -150,
@@ -4599,6 +4699,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/05/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/05/2025",
@@ -4831,6 +4941,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/04/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/04/2025",
       "description": "Zip Pay",
       "amount": -150,
@@ -5059,6 +5179,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/03/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/03/2025",
@@ -5291,6 +5421,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/02/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/02/2025",
       "description": "Zip Pay",
       "amount": -150,
@@ -5519,6 +5659,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/01/2025",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/01/2025",
@@ -5751,6 +5901,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/12/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/12/2024",
       "description": "Zip Pay",
       "amount": -150,
@@ -5979,6 +6139,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/11/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/11/2024",
@@ -6211,6 +6381,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/10/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/10/2024",
       "description": "Zip Pay",
       "amount": -150,
@@ -6439,6 +6619,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/09/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/09/2024",
@@ -6671,6 +6861,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/08/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/08/2024",
       "description": "Zip Pay",
       "amount": -150,
@@ -6899,6 +7099,16 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/07/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
     },
     {
       "rawDate": "19/07/2024",
@@ -7131,6 +7341,16 @@
       "recurringId": 1775221114887
     },
     {
+      "rawDate": "20/06/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
       "rawDate": "19/06/2024",
       "description": "Zip Pay",
       "amount": -150,
@@ -7302,6 +7522,246 @@
     },
     {
       "rawDate": "01/06/2024",
+      "description": "Samsung Fin",
+      "amount": -76,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222175616
+    },
+    {
+      "rawDate": "30/05/2024",
+      "description": "Internet",
+      "amount": -80,
+      "category": "bills",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221907482
+    },
+    {
+      "rawDate": "26/05/2024",
+      "description": "Vodafone - RR",
+      "amount": -69,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222130539
+    },
+    {
+      "rawDate": "25/05/2024",
+      "description": "Sim - Dad",
+      "amount": -40,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222146725
+    },
+    {
+      "rawDate": "24/05/2024",
+      "description": "Zip Pay",
+      "amount": -43,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222217413
+    },
+    {
+      "rawDate": "23/05/2024",
+      "description": "Eclipse Cross - Car",
+      "amount": -591,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/05/2024",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
+      "rawDate": "19/05/2024",
+      "description": "Zip Pay",
+      "amount": -150,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222235355
+    },
+    {
+      "rawDate": "17/05/2024",
+      "description": "Samsung Fin",
+      "amount": -178,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221857202
+    },
+    {
+      "rawDate": "17/05/2024",
+      "description": "EC - Insurance",
+      "amount": -105,
+      "category": "insurance",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222023685
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Committee - R",
+      "amount": -1000,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190557652
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Committee - K",
+      "amount": -250,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190575476
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Xtrail - Car Payment",
+      "amount": -856,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221798040
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Anz Personal Loan",
+      "amount": -714,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221815956
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Health Insurance",
+      "amount": -126,
+      "category": "insurance",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221842322
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Gym",
+      "amount": -160,
+      "category": "bills",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221871828
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Sub (Apple, Amazon, Net)",
+      "amount": -40,
+      "category": "bills",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221893381
+    },
+    {
+      "rawDate": "16/05/2024",
+      "description": "Gym RR",
+      "amount": -116,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222104771
+    },
+    {
+      "rawDate": "11/05/2024",
+      "description": "Home Mortgage",
+      "amount": -2358,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221749089
+    },
+    {
+      "rawDate": "11/05/2024",
+      "description": "Optus",
+      "amount": -35,
+      "category": "bills",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221950204
+    },
+    {
+      "rawDate": "11/05/2024",
+      "description": "Parents Health Insurance",
+      "amount": -413,
+      "category": "insurance",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221973274
+    },
+    {
+      "rawDate": "06/05/2024",
+      "description": "Land Mortgage",
+      "amount": -2088,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221765455
+    },
+    {
+      "rawDate": "03/05/2024",
+      "description": "RR Health",
+      "amount": -131,
+      "category": "insurance",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222067000
+    },
+    {
+      "rawDate": "01/05/2024",
+      "description": "Xtrail - Insurance",
+      "amount": -185,
+      "category": "insurance",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221937364
+    },
+    {
+      "rawDate": "01/05/2024",
       "description": "Samsung Fin",
       "amount": -76,
       "category": "custom_mortgage_&_loans_1775200220021",
@@ -7543,6 +8003,15 @@
       "day": 19,
       "owner": "rana",
       "startFrom": null
+    },
+    {
+      "id": 1775222270916,
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "day": 20,
+      "owner": "rana",
+      "startFrom": null
     }
   ],
   "customCats": [
@@ -7692,5 +8161,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:17:17.911Z"
+  "lastUpdated": "2026-04-03T13:17:54.215Z"
 }
