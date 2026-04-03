@@ -1015,12 +1015,21 @@ var CC_COLORS = [
 ];
 
 function buildCcModal(editId){
-  // Emoji grid
+  // Emoji grid — use createElement to avoid encoding issues with emoji in onclick attrs
   var grid = document.getElementById('ccEmojiGrid');
   if(grid){
-    grid.innerHTML = CC_EMOJIS.map(function(e){
-      return '<button onclick="pickEmoji(\''+e+'\')" style="background:var(--raised);border:1px solid var(--line2);border-radius:4px;padding:3px 6px;cursor:pointer;font-size:1rem;line-height:1;transition:all .15s" onmouseover="this.style.background=\'var(--overlay)\'" onmouseout="this.style.background=\'var(--raised)\'">'+e+'</button>';
-    }).join('');
+    grid.innerHTML = '';
+    CC_EMOJIS.forEach(function(e){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = e;
+      btn.title = 'Select ' + e;
+      btn.style.cssText = 'background:var(--raised);border:1px solid var(--line2);border-radius:4px;padding:3px 6px;cursor:pointer;font-size:1.1rem;line-height:1;transition:all .15s';
+      btn.addEventListener('mouseover', function(){ this.style.background='var(--overlay)'; });
+      btn.addEventListener('mouseout',  function(){ this.style.background='var(--raised)'; });
+      btn.addEventListener('click', function(){ pickEmoji(this.textContent.trim()); });
+      grid.appendChild(btn);
+    });
   }
   // Color swatches
   var sw = document.getElementById('ccColorSwatches');
@@ -1179,33 +1188,6 @@ function deleteCat(id){
 
 // Legacy - kept for compatibility
 function deleteCustomCat(id){ deleteCat(id); }
-
-function saveCustomCat(){
-  const name=$('ccName').value.trim();if(!name){$('ccName').focus();return}
-  const icon=$('ccIcon').value.trim()||'📌',color=$('ccColor').value,id=`custom_${name.toLowerCase().replace(/\s+/g,'_')}_${Date.now()}`;
-  customCats.push({id,name,icon,color});try{localStorage.setItem('rft_custom_cats',JSON.stringify(customCats))}catch(e){}
-  injectCustomCatCSS();$('customCatModal').classList.add('hidden');render();scheduleSyncToGitHub()
-}
-
-function deleteCustomCat(id){
-  const cat = customCats.find(c=>c.id===id);
-  if(!cat) return;
-  if(!confirm('Delete category "'+cat.name+'"? All transactions in this category will be moved to Other.')) return;
-  // Reclassify all transactions in this category to 'other'
-  let changed = 0;
-  allTx.forEach(t=>{ if(t.category===id){ t.category='other'; changed++; } });
-  // Remove from budgets
-  delete budgets[id];
-  try{localStorage.setItem('rft_budgets',JSON.stringify(budgets))}catch(e){}
-  // Remove from customCats
-  customCats = customCats.filter(c=>c.id!==id);
-  try{localStorage.setItem('rft_custom_cats',JSON.stringify(customCats))}catch(e){}
-  injectCustomCatCSS();
-  // Re-open budgets modal to show updated list
-  openBudgets();
-  render();
-  scheduleSyncToGitHub();
-}
 
 // ════════════════════════════════════════════
 // INLINE RECATEGORISE / DELETE
