@@ -2359,6 +2359,12 @@
       "name": "Mortgage & Loans",
       "icon": "ÃÂ°ÃÂÃÂÃÂ¡",
       "color": "#f59e0b"
+    },
+    {
+      "id": "custom_mortgage_&_loans_1775200176959",
+      "name": "Mortgage & Loans",
+      "icon": "🏠",
+      "color": "#f59e0b"
     }
   ],
   "catOverrides": {},
@@ -2500,5 +2506,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:09:05.367Z"
+  "lastUpdated": "2026-04-03T07:09:39.638Z"
 }
