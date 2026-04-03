@@ -2333,7 +2333,11 @@
     "entertainment": 200,
     "travel": 0,
     "govt": 250,
-    "other": 0
+    "other": 0,
+    "adhoc": 0,
+    "insurance": 0,
+    "committee": 0,
+    "custom_mortgage_&_loans_1775190531194": 0
   },
   "recurring": [
     {
@@ -2512,5 +2516,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:09:57.886Z"
+  "lastUpdated": "2026-04-03T07:10:01.701Z"
 }
