@@ -2337,7 +2337,7 @@
     "adhoc": 0,
     "insurance": 0,
     "committee": 0,
-    "custom_mortgage_&_loans_1775200195330": 0
+    "custom_mortgage_&_loans_1775200220021": 0
   },
   "recurring": [
     {
@@ -2358,12 +2358,6 @@
     }
   ],
   "customCats": [
-    {
-      "id": "custom_mortgage_&_loans_1775200195330",
-      "name": "Mortgage & Loans",
-      "icon": "🏠",
-      "color": "#f59e0b"
-    },
     {
       "id": "custom_mortgage_&_loans_1775200220021",
       "name": "Mortgage & Loans",
@@ -2510,5 +2504,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:10:26.234Z"
+  "lastUpdated": "2026-04-03T07:10:43.257Z"
 }
