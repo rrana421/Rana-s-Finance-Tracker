@@ -1044,7 +1044,7 @@
       "rawDate": "06/03/2026",
       "description": "Marketplace Fresh Fountain Gate",
       "amount": -28.58,
-      "category": "other",
+      "category": "grocery",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3290,5 +3290,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:38:28.756Z"
+  "lastUpdated": "2026-04-03T13:38:34.213Z"
 }
