@@ -600,7 +600,7 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.65rem">
         <div><div class="field-label">Type</div><select id="atType" class="field-input" onchange="populateCatSelect('atCat',this.value)"><option value="expense">Expense</option><option value="income">Income</option></select></div>
-        <div><div class="field-label">Category</div><select id="atCat" class="field-input"></select></div>
+        <div><div class="field-label">Category</div><select id="atCat" class="field-input" onchange="this.setAttribute('data-selected',this.value)"></select></div>
         <div><div class="field-label">Who</div><select id="atWho" class="field-input"><option value="rana">Rana</option><option value="partner" id="partnerOpt">Kirti</option><option value="combined">Combined</option></select></div>
       </div>
       <div><div class="field-label">Notes (optional)</div><input type="text" id="atNote" placeholder="e.g. Paid cash at market…" class="field-input"></div>
@@ -626,7 +626,7 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
         <div><div class="field-label">Start from</div><input type="month" id="rcStart" class="field-input sm" title="Leave blank to apply to all cycles"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.55rem;margin-top:.5rem;align-items:end">
-        <div><div class="field-label">Category</div><select id="rcCat" class="field-input sm"></select></div>
+        <div><div class="field-label">Category</div><select id="rcCat" class="field-input sm" onchange="this.setAttribute('data-selected',this.value)"></select></div>
         <div><div class="field-label">Type</div><select id="rcType" class="field-input sm" onchange="populateCatSelect('rcCat',this.value)"><option value="expense">Expense</option><option value="income">Income</option></select></div>
         <div><div class="field-label">Who</div><select id="rcWho" class="field-input sm"><option value="rana">Rana</option><option value="partner">Kirti</option><option value="combined">Combined</option></select></div>
         <div style="padding-top:1.3rem"><button class="btn primary" style="width:100%;padding:.42rem" onclick="addRecurring()">+ Add</button></div>
@@ -910,7 +910,7 @@ function applyRecurringToCycle(ck){
 }
 function applyRecurringToAllCycles(){for(const ck of cycles)applyRecurringToCycle(ck)}
 function applyRecurringToCurrentCycle(){applyRecurringToCycle(activeCycle);initCycles();render();$('recurringModal').classList.add('hidden')}
-function openRecurring(){populateCatSelect('rcCat','expense');renderRecurringList();$('recurringModal').classList.remove('hidden')}
+function openRecurring(){if($('rcCat'))$('rcCat').removeAttribute('data-selected');populateCatSelect('rcCat','expense');renderRecurringList();$('recurringModal').classList.remove('hidden')}
 function renderRecurringList(){
   const list=$('recurringList');
   if(!recurring.length){list.innerHTML='<div style="text-align:center;padding:1.25rem;color:var(--ink3);font-size:.82rem">No recurring transactions yet.</div>';return}
@@ -922,7 +922,9 @@ function renderRecurringList(){
 }
 function addRecurring(){
   const desc=$('rcDesc').value.trim(),amt=parseFloat($('rcAmt').value),day=parseInt($('rcDay').value),type=$('rcType').value;
-  const cat=$('rcCat').value,who=$('rcWho').value;
+  const _rcCatEl=$('rcCat');
+  const cat=_rcCatEl.getAttribute('data-selected')||_rcCatEl.value||'';
+  const who=$('rcWho').value;
   const startFrom=$('rcStart').value||null; // e.g. "2026-03" or null = all cycles
   if(!desc||isNaN(amt)||amt<=0||isNaN(day)||day<1||day>31){alert('Please fill in description, amount (>0) and day (1–31).');return}
   if(!cat){alert('Please select a category.');return}
@@ -955,8 +957,12 @@ function openAddTx(){
   populateCatSelect('atCat','expense');const po=document.getElementById('partnerOpt');if(po)po.textContent=partnerName;$('addTxModal').classList.remove('hidden');$('atDesc').focus()
 }
 function populateCatSelect(selId,type){
-  const sel=$(selId);const cats=type==='income'?allCats().filter(c=>c.id==='income'):allCats().filter(c=>c.id!=='income');
-  sel.innerHTML=cats.map(c=>`<option value="${c.id}">${c.icon} ${c.label}</option>`).join('')
+  const sel=$(selId); if(!sel) return;
+  const prev=sel.getAttribute('data-selected')||sel.value;
+  const cats=type==='income'?allCats().filter(c=>c.id==='income'):allCats().filter(c=>c.id!=='income');
+  sel.innerHTML=cats.map(c=>`<option value="${c.id}">${c.icon} ${c.label}</option>`).join('');
+  if(prev && sel.querySelector('option[value="'+prev+'"]')) sel.value=prev;
+  sel.setAttribute('data-selected', sel.value);
 }
 function saveManualTx(){
   const desc=$('atDesc').value.trim(),dateVal=$('atDate').value,amtVal=parseFloat($('atAmt').value),type=$('atType').value,cat=$('atCat').value,note=$('atNote').value.trim(),who=$('atWho').value;
