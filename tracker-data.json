@@ -1,16 +1,6 @@
 {
   "transactions": [
     {
-      "rawDate": "27/03/2026",
-      "description": "Committee - K2",
-      "amount": -1000,
-      "category": "committee",
-      "owner": "rana",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775190642472
-    },
-    {
       "rawDate": "25/03/2026",
       "description": "Bunnings Clyde Nth Clyde North",
       "amount": -19.83,
@@ -2504,5 +2494,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:32:20.200Z"
+  "lastUpdated": "2026-04-03T07:33:24.585Z"
 }
