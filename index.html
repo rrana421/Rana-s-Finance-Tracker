@@ -185,6 +185,7 @@ tbody td{padding:.82rem 1rem;vertical-align:middle}
 .icon-entertainment{background:rgba(192,132,245,.15)}.icon-travel{background:rgba(56,189,248,.15)}
 .icon-govt{background:rgba(156,163,175,.15)}
 .icon-insurance{background:rgba(96,200,248,.15)}.icon-income{background:rgba(184,240,74,.15)}.icon-other{background:rgba(100,100,110,.15)}
+.icon-adhoc{background:rgba(245,200,74,.15)}.icon-committee{background:rgba(249,115,22,.15)}
 
 /* Forms / modals */
 .field-label{font-size:.7rem;color:var(--ink3);font-family:var(--mono);letter-spacing:.04em;margin-bottom:.32rem}
@@ -828,6 +829,11 @@ async function loadFromGitHub(){
     if(data.catOverrides){catOverrides=data.catOverrides;try{localStorage.setItem('rft_cat_overrides',JSON.stringify(catOverrides))}catch(e){}}
     if(data.hiddenCats){hiddenCats=data.hiddenCats;try{localStorage.setItem('rft_hidden_cats',JSON.stringify(hiddenCats))}catch(e){}}
     initCycles();applyRecurringToAllCycles();initCycles();
+    // Migrate old category IDs (travel→adhoc, govt→adhoc) on data load
+    var catMigMap = {'travel':'adhoc','govt':'adhoc'};
+    var migChanged = false;
+    allTx.forEach(function(t){ if(catMigMap[t.category]){t.category=catMigMap[t.category];migChanged=true;} });
+    if(migChanged) scheduleSyncToGitHub();
     if(allTx.length>0){$('welcomeSec').classList.add('hidden');$('dash').classList.remove('hidden');render()}
     const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});setSyncStatus(ghToken?'synced':'readonly',ghToken?`Synced · ${t}`:`Live — read only · ${t}`)
   }catch(e){setSyncStatus('error','Load failed');console.warn('GH load:',e.message)}
@@ -1230,6 +1236,12 @@ function switchTab(tab){
 // RENDER
 // ════════════════════════════════════════════
 function render(){
+  // Reset filter if it points to a category that no longer exists
+  const validCatIds = allCats().map(function(c){return c.id;});
+  const specialFilters = ['all','rana','partner','combined'];
+  if(activeFilter !== 'all' && specialFilters.indexOf(activeFilter) < 0 && validCatIds.indexOf(activeFilter) < 0){
+    activeFilter = 'all';
+  }
   const tx=getViewTx();
   const search=($('searchBox').value||'').toLowerCase().trim();
 
@@ -1409,7 +1421,11 @@ function confirmWho(){
   allTx=[...allTx,...newTx].sort((a,b)=>b.date-a.date);
   pendingTxns=[];$('whoModal').classList.add('hidden');
   $('welcomeSec').classList.add('hidden');$('upSec').classList.add('hidden');$('dash').classList.remove('hidden');
-  initCycles();applyRecurringToAllCycles();initCycles();render();scheduleSyncToGitHub();
+  initCycles();applyRecurringToAllCycles();initCycles();
+  // Migrate old category IDs
+  var catMigMap2 = {'travel':'adhoc','govt':'adhoc'};
+  allTx.forEach(function(t){ if(catMigMap2[t.category]) t.category=catMigMap2[t.category]; });
+  render();scheduleSyncToGitHub();
   // Scan new transactions for potential debt payment matches
   if(newTx.length) findDebtMatches(newTx);
 }
@@ -2132,13 +2148,6 @@ function generateReport(){
 
 // INIT
 // ════════════════════════════════════════════
-// Migrate old category IDs to new ones on load
-(function migrateCats(){
-  var map = {'travel':'adhoc','govt':'adhoc'};
-  var changed = false;
-  allTx.forEach(function(t){ if(map[t.category]){t.category=map[t.category];changed=true;} });
-  if(changed) try{scheduleSyncToGitHub()}catch(e){}
-})();
 injectCustomCatCSS();
 $('welcomeSec').classList.remove('hidden');$('dash').classList.add('hidden');$('upSec').classList.add('hidden');
 // Update partner name in Who modal
