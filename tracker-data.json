@@ -2245,8 +2245,26 @@
     "govt": 250,
     "other": 0
   },
-  "recurring": [],
-  "customCats": [],
+  "recurring": [
+    {
+      "id": 1775190557652,
+      "description": "Committee - R",
+      "amount": -1000,
+      "category": "committee",
+      "day": 16,
+      "owner": "rana"
+    }
+  ],
+  "customCats": [
+    {
+      "id": "custom_mortgage_&_loans_1775190531194",
+      "name": "Mortgage & Loans",
+      "icon": "🏡",
+      "color": "#f59e0b"
+    }
+  ],
+  "catOverrides": {},
+  "hiddenCats": [],
   "goals": {
     "income": 0,
     "target": 0,
@@ -2258,7 +2276,7 @@
       "id": "debt_1775017666516",
       "name": "Eclipse Cross",
       "type": "car",
-      "icon": "ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
       "color": "#4ade80",
       "currentBalance": 8853.41,
       "rate": 6.69,
@@ -2274,7 +2292,7 @@
       "id": "debt_1775022894600",
       "name": "Samsung Finance - K",
       "type": "zero",
-      "icon": "ÃÂÃÂ¢ÃÂÃÂ­ÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂ",
       "color": "#fbbf24",
       "currentBalance": 356.76,
       "rate": 0,
@@ -2290,7 +2308,7 @@
       "id": "debt_1775023059006",
       "name": "Samsung Finance - R",
       "type": "zero",
-      "icon": "ÃÂÃÂ¢ÃÂÃÂ­ÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂ",
       "color": "#fbbf24",
       "currentBalance": 228.3,
       "rate": 0,
@@ -2306,7 +2324,7 @@
       "id": "debt_1775024074264",
       "name": "Zip Payments",
       "type": "zero",
-      "icon": "ÃÂÃÂ¢ÃÂÃÂ­ÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂ",
       "color": "#fbbf24",
       "currentBalance": 4383,
       "rate": 0,
@@ -2322,7 +2340,7 @@
       "id": "debt_1775024174733",
       "name": "Land Mortgage",
       "type": "mortgage",
-      "icon": "ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ ",
+      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ",
       "color": "#60a5fa",
       "currentBalance": 351567,
       "rate": 6,
@@ -2338,7 +2356,7 @@
       "id": "debt_1775024244952",
       "name": "Home Mortgage",
       "type": "mortgage",
-      "icon": "ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ ",
+      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ",
       "color": "#60a5fa",
       "currentBalance": 399591.18,
       "rate": 6,
@@ -2354,7 +2372,7 @@
       "id": "debt_1775024446366",
       "name": "Anz - Personal Loan",
       "type": "personal",
-      "icon": "ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ³",
+      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³",
       "color": "#a78bfa",
       "currentBalance": 15101,
       "rate": 13,
@@ -2370,7 +2388,7 @@
       "id": "debt_1775024487508",
       "name": "XTrail",
       "type": "car",
-      "icon": "ÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
       "color": "#4ade80",
       "currentBalance": 42134,
       "rate": 6.69,
@@ -2384,5 +2402,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T03:55:15.619Z"
+  "lastUpdated": "2026-04-03T04:29:20.425Z"
 }
