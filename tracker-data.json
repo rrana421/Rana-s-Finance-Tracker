@@ -2081,16 +2081,6 @@
       "recurringId": null
     },
     {
-      "rawDate": "27/01/2026",
-      "description": "Committee - K2",
-      "amount": -1000,
-      "category": "utilities",
-      "owner": "rana",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775190642472
-    },
-    {
       "rawDate": "26/01/2026",
       "description": "Grace Grocery Clyde North",
       "amount": -78.87,
@@ -2512,5 +2502,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:11:25.123Z"
+  "lastUpdated": "2026-04-03T07:11:50.969Z"
 }
