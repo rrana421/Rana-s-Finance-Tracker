@@ -1121,6 +1121,16 @@
       "recurringId": null
     },
     {
+      "rawDate": "27/02/2026",
+      "description": "Committee - K2",
+      "amount": -1000,
+      "category": "utilities",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190642472
+    },
+    {
       "rawDate": "26/02/2026",
       "description": "Transportfornsw Tap Sydney",
       "amount": -29.42,
@@ -1654,7 +1664,7 @@
       "rawDate": "10/02/2026",
       "description": "Jetstaralyyvp Collingwood",
       "amount": -319.51,
-      "category": "travel",
+      "category": "adhoc",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1664,7 +1674,7 @@
       "rawDate": "10/02/2026",
       "description": "Jetstarenpbvj Collingwood",
       "amount": -83.92,
-      "category": "travel",
+      "category": "adhoc",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1964,7 +1974,7 @@
       "rawDate": "30/01/2026",
       "description": "Vicroads Online Paymen Kew",
       "amount": -440.45,
-      "category": "govt",
+      "category": "adhoc",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -1994,7 +2004,7 @@
       "rawDate": "30/01/2026",
       "description": "Casey City Council Narre Warren",
       "amount": -531,
-      "category": "govt",
+      "category": "adhoc",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2069,6 +2079,16 @@
       "isManual": false,
       "isRecurring": false,
       "recurringId": null
+    },
+    {
+      "rawDate": "27/01/2026",
+      "description": "Committee - K2",
+      "amount": -1000,
+      "category": "utilities",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190642472
     },
     {
       "rawDate": "26/01/2026",
@@ -2345,7 +2365,7 @@
     {
       "id": "custom_mortgage_&_loans_1775190531194",
       "name": "Mortgage & Loans",
-      "icon": "🏡",
+      "icon": "ð¡",
       "color": "#f59e0b"
     }
   ],
@@ -2362,7 +2382,7 @@
       "id": "debt_1775017666516",
       "name": "Eclipse Cross",
       "type": "car",
-      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
       "color": "#4ade80",
       "currentBalance": 8853.41,
       "rate": 6.69,
@@ -2378,7 +2398,7 @@
       "id": "debt_1775022894600",
       "name": "Samsung Finance - K",
       "type": "zero",
-      "icon": "ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
       "color": "#fbbf24",
       "currentBalance": 356.76,
       "rate": 0,
@@ -2394,7 +2414,7 @@
       "id": "debt_1775023059006",
       "name": "Samsung Finance - R",
       "type": "zero",
-      "icon": "ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
       "color": "#fbbf24",
       "currentBalance": 228.3,
       "rate": 0,
@@ -2410,7 +2430,7 @@
       "id": "debt_1775024074264",
       "name": "Zip Payments",
       "type": "zero",
-      "icon": "ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
       "color": "#fbbf24",
       "currentBalance": 4383,
       "rate": 0,
@@ -2426,7 +2446,7 @@
       "id": "debt_1775024174733",
       "name": "Land Mortgage",
       "type": "mortgage",
-      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ",
       "color": "#60a5fa",
       "currentBalance": 351567,
       "rate": 6,
@@ -2442,7 +2462,7 @@
       "id": "debt_1775024244952",
       "name": "Home Mortgage",
       "type": "mortgage",
-      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ",
       "color": "#60a5fa",
       "currentBalance": 399591.18,
       "rate": 6,
@@ -2458,7 +2478,7 @@
       "id": "debt_1775024446366",
       "name": "Anz - Personal Loan",
       "type": "personal",
-      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³",
       "color": "#a78bfa",
       "currentBalance": 15101,
       "rate": 13,
@@ -2474,7 +2494,7 @@
       "id": "debt_1775024487508",
       "name": "XTrail",
       "type": "car",
-      "icon": "ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
+      "icon": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ",
       "color": "#4ade80",
       "currentBalance": 42134,
       "rate": 6.69,
@@ -2488,5 +2508,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T04:30:45.680Z"
+  "lastUpdated": "2026-04-03T04:49:44.518Z"
 }
