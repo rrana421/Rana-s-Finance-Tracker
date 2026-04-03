@@ -1124,7 +1124,7 @@
       "rawDate": "27/02/2026",
       "description": "Committee - K2",
       "amount": -1000,
-      "category": "utilities",
+      "category": "committee",
       "owner": "rana",
       "isManual": false,
       "isRecurring": true,
@@ -2512,5 +2512,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:11:00.913Z"
+  "lastUpdated": "2026-04-03T07:11:25.123Z"
 }
