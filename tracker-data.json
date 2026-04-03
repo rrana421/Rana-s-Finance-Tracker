@@ -724,7 +724,7 @@
       "rawDate": "13/03/2026",
       "description": "Panda Mart Trading Pty Cranbourne",
       "amount": -136.9,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3290,5 +3290,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:37:31.905Z"
+  "lastUpdated": "2026-04-03T13:37:36.731Z"
 }
