@@ -45,7 +45,7 @@
       "description": "Clyde North Agha Juice Clyde North",
       "amount": -8,
       "category": "eating",
-      "owner": "partner",
+      "owner": "combined",
       "isManual": false,
       "isRecurring": false,
       "recurringId": null
@@ -2384,5 +2384,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T03:55:11.375Z"
+  "lastUpdated": "2026-04-03T03:55:15.619Z"
 }
