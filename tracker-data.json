@@ -7931,6 +7931,15 @@
       "day": 16,
       "owner": "rana",
       "startFrom": null
+    },
+    {
+      "id": 1775222984747,
+      "description": "Breville - Coffee",
+      "amount": -30,
+      "category": "bills",
+      "day": 16,
+      "owner": "rana",
+      "startFrom": "2025-12"
     }
   ],
   "customCats": [
@@ -8080,5 +8089,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:29:16.068Z"
+  "lastUpdated": "2026-04-03T13:29:47.294Z"
 }
