@@ -901,7 +901,14 @@ function saveManualTx(){
 // BUDGETS
 // ════════════════════════════════════════════
 function openBudgets(focusCat){
-  $('budgetFields').innerHTML=allCats().filter(c=>c.id!=='income').map(cat=>`<div class="modal-row"><label><span class="pill ${cat.cls==='c-custom'?`c-custom c-custom-${cat.id}`:cat.cls}" style="cursor:default">${cat.icon} ${cat.label}</span></label><div class="inp-wrap"><span>$</span><input type="number" id="b-${cat.id}" placeholder="No limit" min="0" step="50" value="${budgets[cat.id]||''}"></div></div>`).join('')+`<div style="margin-top:.65rem;padding-top:.65rem;border-top:1px solid var(--line)"><button class="btn ghost" style="width:100%;font-size:.78rem" onclick="$('budgetModal').classList.add('hidden');openCustomCat()">+ Add custom category</button></div>`;
+  $('budgetFields').innerHTML=allCats().filter(c=>c.id!=='income').map(cat=>{
+    const isCustom = cat.cls==='c-custom';
+    const pillCls = isCustom?`c-custom c-custom-${cat.id}`:cat.cls;
+    const delBtn = isCustom
+      ? `<button onclick="deleteCustomCat('${cat.id}')" title="Delete category" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:.82rem;padding:2px 6px;border-radius:3px;transition:all .15s;flex-shrink:0" onmouseover="this.style.color='var(--red)';this.style.background='rgba(242,109,109,.1)'" onmouseout="this.style.color='var(--ink3)';this.style.background='none'" title="Delete this category">&#128465;</button>`
+      : '';
+    return `<div class="modal-row" style="align-items:center"><label style="display:flex;align-items:center;gap:.4rem;flex:1"><span class="pill ${pillCls}" style="cursor:default">${cat.icon} ${cat.label}</span>${delBtn}</label><div class="inp-wrap"><span>$</span><input type="number" id="b-${cat.id}" placeholder="No limit" min="0" step="50" value="${budgets[cat.id]||''}"></div></div>`;
+  }).join('')+`<div style="margin-top:.65rem;padding-top:.65rem;border-top:1px solid var(--line)"><button class="btn ghost" style="width:100%;font-size:.78rem" onclick="$('budgetModal').classList.add('hidden');openCustomCat()">+ Add custom category</button></div>`;
   $('budgetModal').classList.remove('hidden');if(focusCat)setTimeout(()=>{const el=$(`b-${focusCat}`);if(el){el.focus();el.select()}},80)
 }
 function closeBudgets(){$('budgetModal').classList.add('hidden')}
@@ -915,6 +922,26 @@ function saveCustomCat(){
   const icon=$('ccIcon').value.trim()||'📌',color=$('ccColor').value,id=`custom_${name.toLowerCase().replace(/\s+/g,'_')}_${Date.now()}`;
   customCats.push({id,name,icon,color});try{localStorage.setItem('rft_custom_cats',JSON.stringify(customCats))}catch(e){}
   injectCustomCatCSS();$('customCatModal').classList.add('hidden');render();scheduleSyncToGitHub()
+}
+
+function deleteCustomCat(id){
+  const cat = customCats.find(c=>c.id===id);
+  if(!cat) return;
+  if(!confirm('Delete category "'+cat.name+'"? All transactions in this category will be moved to Other.')) return;
+  // Reclassify all transactions in this category to 'other'
+  let changed = 0;
+  allTx.forEach(t=>{ if(t.category===id){ t.category='other'; changed++; } });
+  // Remove from budgets
+  delete budgets[id];
+  try{localStorage.setItem('rft_budgets',JSON.stringify(budgets))}catch(e){}
+  // Remove from customCats
+  customCats = customCats.filter(c=>c.id!==id);
+  try{localStorage.setItem('rft_custom_cats',JSON.stringify(customCats))}catch(e){}
+  injectCustomCatCSS();
+  // Re-open budgets modal to show updated list
+  openBudgets();
+  render();
+  scheduleSyncToGitHub();
 }
 
 // ════════════════════════════════════════════
