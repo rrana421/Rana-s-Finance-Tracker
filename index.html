@@ -891,7 +891,9 @@ function saveGoals(){
 function applyRecurringToCycle(ck){
   const[y,mo]=ck.split('-').map(Number);
   for(const r of recurring){
-    const day=Math.min(r.day,28);const d=new Date(y,mo-1,day);
+    // Use actual day but cap to last day of that month (handles Feb, etc.)
+    const daysInMonth=new Date(y,mo,0).getDate();
+    const day=Math.min(r.day,daysInMonth);const d=new Date(y,mo-1,day);
     const rawDate=`${String(day).padStart(2,'0')}/${String(mo).padStart(2,'0')}/${y}`;
     const key=`${rawDate}|${r.description}|${r.amount}`;
     if(!allTx.some(t=>`${t.rawDate}|${t.description}|${t.amount}`===key))
@@ -914,10 +916,23 @@ function renderRecurringList(){
 function addRecurring(){
   const desc=$('rcDesc').value.trim(),amt=parseFloat($('rcAmt').value),day=parseInt($('rcDay').value),cat=$('rcCat').value,type=$('rcType').value,who=$('rcWho').value;
   if(!desc||isNaN(amt)||amt<=0||isNaN(day)||day<1||day>31){alert('Please fill in description, amount (>0) and day (1–31).');return}
-  recurring.push({id:Date.now(),description:desc,amount:type==='income'?amt:-amt,category:cat,day,owner:who});saveRecurring();
-  $('rcDesc').value='';$('rcAmt').value='';$('rcDay').value='';renderRecurringList()
+  recurring.push({id:Date.now(),description:desc,amount:type==='income'?amt:-amt,category:cat,day,owner:who});
+  saveRecurring();
+  // Auto-apply to ALL existing cycles so it appears in transactions immediately
+  applyRecurringToAllCycles();
+  initCycles();
+  render();
+  $('rcDesc').value='';$('rcAmt').value='';$('rcDay').value='';
+  renderRecurringList();
 }
-function deleteRecurring(idx){recurring.splice(idx,1);saveRecurring();renderRecurringList()}
+function deleteRecurring(idx){
+  recurring.splice(idx,1);
+  saveRecurring();
+  applyRecurringToAllCycles();
+  initCycles();
+  render();
+  renderRecurringList();
+}
 
 // ════════════════════════════════════════════
 // MANUAL TRANSACTION
@@ -1402,7 +1417,7 @@ function renderTopMerchants(tx){
 function renderCalendar(){
   const wrap=$('calendarWrap');if(!recurring.length){wrap.innerHTML='<div style="color:var(--ink3);font-size:.82rem;padding:.5rem 0">No recurring payments set up yet. Click ↻ Recurring to add fixed monthly expenses.</div>';return}
   const byDay={};recurring.forEach(r=>{const d=r.day;if(!byDay[d])byDay[d]=[];byDay[d].push(r)});
-  const days=Array.from({length:28},(_,i)=>i+1);
+  const days=Array.from({length:31},(_,i)=>i+1);
   wrap.innerHTML=`<div class="cal-grid">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<div class="cal-day-header">${d}</div>`).join('')}${days.map(d=>{const events=byDay[d]||[];return`<div class="cal-day"><div class="cal-day-num">${d}</div>${events.map(r=>{const cat=allCats().find(c=>c.id===r.category)||{icon:'•'};const who=r.owner==='partner'?partnerName:r.owner==='combined'?'Combined':'Rana';return`<div class="cal-event" title="${r.description} · ${who}">${cat.icon} ${fmtAmt(r.amount)}</div>`}).join('')}</div>`}).join('')}</div>`
 }
 
