@@ -1111,16 +1111,6 @@
       "recurringId": null
     },
     {
-      "rawDate": "27/02/2026",
-      "description": "Committee - K2",
-      "amount": -1000,
-      "category": "committee",
-      "owner": "rana",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775190642472
-    },
-    {
       "rawDate": "26/02/2026",
       "description": "Transportfornsw Tap Sydney",
       "amount": -29.42,
@@ -2494,5 +2484,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T07:33:24.585Z"
+  "lastUpdated": "2026-04-03T07:33:41.162Z"
 }
