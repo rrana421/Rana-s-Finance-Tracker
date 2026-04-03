@@ -1,6 +1,16 @@
 {
   "transactions": [
     {
+      "rawDate": "27/03/2026",
+      "description": "Committee - K2",
+      "amount": -1000,
+      "category": "utilities",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190642472
+    },
+    {
       "rawDate": "25/03/2026",
       "description": "Bunnings Clyde Nth Clyde North",
       "amount": -19.83,
@@ -399,6 +409,26 @@
       "isManual": false,
       "isRecurring": false,
       "recurringId": null
+    },
+    {
+      "rawDate": "16/03/2026",
+      "description": "Committee - R",
+      "amount": -1000,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190557652
+    },
+    {
+      "rawDate": "16/03/2026",
+      "description": "Committee - K",
+      "amount": -250,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190575476
     },
     {
       "rawDate": "14/03/2026",
@@ -1451,6 +1481,26 @@
       "recurringId": null
     },
     {
+      "rawDate": "16/02/2026",
+      "description": "Committee - R",
+      "amount": -1000,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190557652
+    },
+    {
+      "rawDate": "16/02/2026",
+      "description": "Committee - K",
+      "amount": -250,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190575476
+    },
+    {
       "rawDate": "15/02/2026",
       "description": "United Cranbourne N Cranbourne No",
       "amount": -57.71,
@@ -2229,6 +2279,26 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775021591567
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Committee - R",
+      "amount": -1000,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190557652
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Committee - K",
+      "amount": -250,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190575476
     }
   ],
   "budgets": {
@@ -2260,6 +2330,14 @@
       "amount": -250,
       "category": "committee",
       "day": 16,
+      "owner": "rana"
+    },
+    {
+      "id": 1775190642472,
+      "description": "Committee - K2",
+      "amount": -1000,
+      "category": "utilities",
+      "day": 27,
       "owner": "rana"
     }
   ],
@@ -2410,5 +2488,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T04:29:38.563Z"
+  "lastUpdated": "2026-04-03T04:30:45.680Z"
 }
