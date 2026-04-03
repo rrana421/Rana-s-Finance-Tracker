@@ -7931,6 +7931,15 @@
       "day": 16,
       "owner": "rana",
       "startFrom": "2025-12"
+    },
+    {
+      "id": 1775223013593,
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "day": 20,
+      "owner": "rana",
+      "startFrom": null
     }
   ],
   "customCats": [
@@ -8080,5 +8089,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:29:59.188Z"
+  "lastUpdated": "2026-04-03T13:30:16.580Z"
 }
