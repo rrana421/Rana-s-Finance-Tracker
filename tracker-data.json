@@ -2351,14 +2351,6 @@
       "category": "committee",
       "day": 16,
       "owner": "rana"
-    },
-    {
-      "id": 1775190642472,
-      "description": "Committee - K2",
-      "amount": -1000,
-      "category": "utilities",
-      "day": 27,
-      "owner": "rana"
     }
   ],
   "customCats": [
@@ -2508,5 +2500,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T04:49:44.518Z"
+  "lastUpdated": "2026-04-03T04:55:14.056Z"
 }
