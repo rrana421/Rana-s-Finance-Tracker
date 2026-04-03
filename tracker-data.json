@@ -924,7 +924,7 @@
       "rawDate": "09/03/2026",
       "description": "Sq *Nancy Eatery Pakenham",
       "amount": -36,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3290,5 +3290,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:38:06.131Z"
+  "lastUpdated": "2026-04-03T13:38:10.935Z"
 }
