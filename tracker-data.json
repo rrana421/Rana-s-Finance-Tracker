@@ -1054,7 +1054,7 @@
       "rawDate": "06/03/2026",
       "description": "Eg Group 3948 Clyde North",
       "amount": -121.81,
-      "category": "other",
+      "category": "transport",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3290,5 +3290,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:38:34.213Z"
+  "lastUpdated": "2026-04-03T13:38:39.126Z"
 }
