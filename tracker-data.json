@@ -3147,7 +3147,7 @@
     {
       "id": "custom_mortgage_&_loans_1775200220021",
       "name": "Mortgage & Loans",
-      "icon": "ð ",
+      "icon": "🏠",
       "color": "#f87171"
     }
   ],
@@ -3290,5 +3290,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-03T13:39:56.832Z"
+  "lastUpdated": "2026-04-03T13:40:30.797Z"
 }
