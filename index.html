@@ -992,15 +992,10 @@ function saveGoals(){
 function applyRecurringToCycle(ck){
   const[y,mo]=ck.split('-').map(Number);
   for(const r of recurring){
-    // Determine effective start: explicit startFrom, or derive from creation timestamp (r.id)
-    let effStart = r.startFrom||null;
-    if(!effStart && r.id){
-      // r.id is Date.now() at creation — derive YYYY-MM
-      const created = new Date(r.id);
-      effStart = created.getFullYear()+'-'+String(created.getMonth()+1).padStart(2,'0');
-    }
-    if(effStart){
-      const[sy,smo]=effStart.split('-').map(Number);
+    // Only restrict by startFrom if the user explicitly set one
+    // Do NOT use r.id as implicit start — that blocks applying to historical cycles after re-upload
+    if(r.startFrom){
+      const[sy,smo]=r.startFrom.split('-').map(Number);
       if(y<sy||(y===sy&&mo<smo)) continue;
     }
     const daysInMonth=new Date(y,mo,0).getDate();
