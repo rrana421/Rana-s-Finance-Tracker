@@ -3104,7 +3104,7 @@
       "rawDate": "15/01/2026",
       "description": "Apco Hoppers Crossin Hoppers Cross",
       "amount": -21.86,
-      "category": "other",
+      "category": "transport",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:17:39.777Z"
+  "lastUpdated": "2026-04-04T02:17:44.484Z"
 }
