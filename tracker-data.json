@@ -2834,7 +2834,7 @@
       "rawDate": "21/01/2026",
       "description": "The Emerald Peacock Melbourne",
       "amount": -34.51,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:16:44.774Z"
+  "lastUpdated": "2026-04-04T02:16:52.637Z"
 }
