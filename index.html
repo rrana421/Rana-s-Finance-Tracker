@@ -849,7 +849,17 @@ async function loadFromGitHub(){
   try{
     const h={Accept:'application/vnd.github.v3+json'};if(ghToken)h.Authorization=`token ${ghToken}`;
     const res=await fetch(GH_API+'?t='+Date.now(),{headers:h});
-    if(res.status===404){const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});setSyncStatus(ghToken?'synced':'readonly',ghToken?`Ready · ${t}`:`Live — read only · ${t}`);return}
+    if(res.status===404){
+      const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+      if(ghToken){
+        // File doesn't exist yet — write it now from current in-memory state
+        setSyncStatus('syncing','Creating data file…');
+        await syncToGitHub();
+      } else {
+        setSyncStatus('readonly',`Live — read only · ${t}`);
+      }
+      return;
+    }
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
     const json=await res.json();ghFileSha=json.sha;
 
