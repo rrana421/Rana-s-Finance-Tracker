@@ -1204,7 +1204,7 @@
       "rawDate": "03/03/2026",
       "description": "Queen and Bourke Pharm Melbourne",
       "amount": -7.1,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:19:03.543Z"
+  "lastUpdated": "2026-04-04T02:19:07.433Z"
 }
