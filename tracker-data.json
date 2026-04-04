@@ -2374,7 +2374,7 @@
       "rawDate": "01/02/2026",
       "description": "D&D Trading Group Pty Narre Warren",
       "amount": -2.02,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3542,5 +3542,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:16:11.068Z"
+  "lastUpdated": "2026-04-04T02:16:15.182Z"
 }
