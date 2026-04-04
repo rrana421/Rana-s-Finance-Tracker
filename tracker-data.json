@@ -1424,7 +1424,7 @@
       "rawDate": "26/02/2026",
       "description": "Relay Mascot",
       "amount": -6.07,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:19:37.745Z"
+  "lastUpdated": "2026-04-04T02:19:42.052Z"
 }
