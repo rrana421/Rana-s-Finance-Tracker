@@ -794,7 +794,7 @@
       "rawDate": "12/03/2026",
       "description": "Koko Korea - Melbourne Melbourne",
       "amount": -19.18,
-      "category": "other",
+      "category": "personal",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:18:11.054Z"
+  "lastUpdated": "2026-04-04T02:18:19.609Z"
 }
