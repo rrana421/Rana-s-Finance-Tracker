@@ -852,7 +852,7 @@ async function loadFromGitHub(){
     if(res.status===404){const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});setSyncStatus(ghToken?'synced':'readonly',ghToken?`Ready · ${t}`:`Live — read only · ${t}`);return}
     if(!res.ok)throw new Error(`HTTP ${res.status}`);
     const json=await res.json();ghFileSha=json.sha;
-    const data=JSON.parse(atob(json.content.replace(/\n/g,'')));
+    const data=JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,'')))));
     if(data.transactions?.length)allTx=data.transactions.map(t=>({...t,date:(()=>{const[d,m,y]=t.rawDate.split('/');return new Date(+y,+m-1,+d)})()}));
     if(data.budgets)budgets=data.budgets;
     if(data.recurring)recurring=data.recurring;
