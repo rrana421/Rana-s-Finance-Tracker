@@ -344,7 +344,7 @@
       "rawDate": "20/03/2026",
       "description": "Lsfountaingat B0566 Narre Warren",
       "amount": -17.23,
-      "category": "other",
+      "category": "entertainment",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:21:01.116Z"
+  "lastUpdated": "2026-04-04T02:21:05.201Z"
 }
