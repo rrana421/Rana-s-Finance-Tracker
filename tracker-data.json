@@ -2754,7 +2754,7 @@
       "rawDate": "24/01/2026",
       "description": "Smp*Aj Juice and Ice A Narre Warren",
       "amount": -11.15,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3542,5 +3542,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:16:29.027Z"
+  "lastUpdated": "2026-04-04T02:16:32.693Z"
 }
