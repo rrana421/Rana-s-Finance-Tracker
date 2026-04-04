@@ -754,7 +754,7 @@
       "rawDate": "14/03/2026",
       "description": "Plineph Clyde Clyde North",
       "amount": -5.99,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -764,7 +764,7 @@
       "rawDate": "13/03/2026",
       "description": "Panda Mart Trading Pty Cranbourne",
       "amount": -136.9,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:17:44.484Z"
+  "lastUpdated": "2026-04-04T02:18:02.913Z"
 }
