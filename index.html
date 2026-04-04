@@ -850,9 +850,16 @@ async function loadFromGitHub(){
     const h={Accept:'application/vnd.github.v3+json'};if(ghToken)h.Authorization=`token ${ghToken}`;
     const res=await fetch(GH_API+'?t='+Date.now(),{headers:h});
     if(res.status===404){const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});setSyncStatus(ghToken?'synced':'readonly',ghToken?`Ready · ${t}`:`Live — read only · ${t}`);return}
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    if(!res.ok)throw new Error(`HTTP ${res.status} – check token`);
     const json=await res.json();ghFileSha=json.sha;
-    const data=JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,'')))));
+    // Try Unicode-safe decode first, fall back to plain atob for legacy data
+    let data;
+    const raw=json.content.replace(/\n/g,'');
+    try{ data=JSON.parse(decodeURIComponent(escape(atob(raw)))); }
+    catch(e1){
+      try{ data=JSON.parse(atob(raw)); }
+      catch(e2){ throw new Error('JSON parse failed: '+e2.message); }
+    }
     if(data.transactions?.length)allTx=data.transactions.map(t=>({...t,date:(()=>{const[d,m,y]=t.rawDate.split('/');return new Date(+y,+m-1,+d)})()}));
     if(data.budgets)budgets=data.budgets;
     if(data.recurring)recurring=data.recurring;
@@ -871,7 +878,19 @@ async function loadFromGitHub(){
     checkRecurringDebtPayments();
     if(allTx.length>0){$('welcomeSec').classList.add('hidden');$('dash').classList.remove('hidden');render()}
     const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});setSyncStatus(ghToken?'synced':'readonly',ghToken?`Synced · ${t}`:`Live — read only · ${t}`)
-  }catch(e){setSyncStatus('error','Load failed');console.warn('GH load:',e.message)}
+  }catch(e){
+    const msg=e.message||'unknown';
+    setSyncStatus('error','Load failed');
+    console.error('GH load error:',msg);
+    document.getElementById('syncLabel').textContent='Failed: '+msg.slice(0,35);
+    // Fallback: load whatever we can from localStorage so app still works
+    try{const lg=JSON.parse(localStorage.getItem('rft_goals')||'{}');if(lg.income)householdIncome=lg.income;if(lg.target)savingsTarget=lg.target;if(lg.use5030!==undefined)use5030=lg.use5030;if(lg.partnerName)partnerName=lg.partnerName;}catch(le){}
+    try{const ld=JSON.parse(localStorage.getItem('rft_user_debts')||'[]');if(ld.length)userDebts=ld;}catch(le){}
+    try{const lp=JSON.parse(localStorage.getItem('rft_debt_payments')||'{}');if(Object.keys(lp).length)debtPayments=lp;}catch(le){}
+    try{const lr=JSON.parse(localStorage.getItem('rft_recurring')||'[]');if(lr.length)recurring=lr;}catch(le){}
+    // Show recovery UI on the badge
+    setSyncStatus('error','Load failed — click ↻ Refresh');
+  }
 }
 function scheduleSyncToGitHub(){if(!ghToken)return;setSyncStatus('syncing','Saving…');clearTimeout(syncTimeout);syncTimeout=setTimeout(syncToGitHub,3000)}
 async function syncToGitHub(){
