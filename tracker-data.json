@@ -3084,7 +3084,7 @@
       "rawDate": "16/01/2026",
       "description": "Werribee Mercy Werribee",
       "amount": -15,
-      "category": "other",
+      "category": "personal",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:17:28.819Z"
+  "lastUpdated": "2026-04-04T02:17:33.916Z"
 }
