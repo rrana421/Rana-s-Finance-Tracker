@@ -1749,6 +1749,186 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775222175616
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Internet",
+      "amount": -80,
+      "category": "bills",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221907482
+    },
+    {
+      "rawDate": "26/01/2026",
+      "description": "Vodafone - RR",
+      "amount": -69,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222130539
+    },
+    {
+      "rawDate": "25/01/2026",
+      "description": "Sim - Dad",
+      "amount": -40,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222146725
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Zip Pay",
+      "amount": -43,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222217413
+    },
+    {
+      "rawDate": "23/01/2026",
+      "description": "Eclipse Cross - Car",
+      "amount": -591,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221114887
+    },
+    {
+      "rawDate": "20/01/2026",
+      "description": "Chat  GPT",
+      "amount": -33,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222270916
+    },
+    {
+      "rawDate": "19/01/2026",
+      "description": "Zip Pay",
+      "amount": -150,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222235355
+    },
+    {
+      "rawDate": "17/01/2026",
+      "description": "Samsung Fin",
+      "amount": -178,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221857202
+    },
+    {
+      "rawDate": "17/01/2026",
+      "description": "EC - Insurance",
+      "amount": -105,
+      "category": "insurance",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222023685
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Committee - R",
+      "amount": -1000,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190557652
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Committee - K",
+      "amount": -250,
+      "category": "committee",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775190575476
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Xtrail - Car Payment",
+      "amount": -856,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221798040
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Anz Personal Loan",
+      "amount": -714,
+      "category": "custom_mortgage_&_loans_1775200220021",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221815956
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Health Insurance",
+      "amount": -126,
+      "category": "insurance",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221842322
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Gym",
+      "amount": -160,
+      "category": "bills",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221871828
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Sub (Apple, Amazon, Net)",
+      "amount": -40,
+      "category": "bills",
+      "owner": "partner",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775221893381
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Gym RR",
+      "amount": -116,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222104771
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Breville - Coffee",
+      "amount": -30,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222984747
     }
   ],
   "budgets": {
@@ -2172,5 +2352,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:11:27.811Z"
+  "lastUpdated": "2026-04-04T02:12:01.828Z"
 }
