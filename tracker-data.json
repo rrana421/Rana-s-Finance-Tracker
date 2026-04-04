@@ -2354,7 +2354,7 @@
       "rawDate": "01/02/2026",
       "description": "Rzt Australia Pty Ltd Narre Warren",
       "amount": -39.99,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3542,5 +3542,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:15:41.183Z"
+  "lastUpdated": "2026-04-04T02:15:50.112Z"
 }
