@@ -3064,7 +3064,7 @@
       "rawDate": "16/01/2026",
       "description": "Asics Southwharf Southwharf",
       "amount": -140,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:17:19.085Z"
+  "lastUpdated": "2026-04-04T02:17:23.288Z"
 }
