@@ -2479,116 +2479,6 @@
       "isManual": false,
       "isRecurring": false,
       "recurringId": null
-    },
-    {
-      "rawDate": "14/01/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 82,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "14/01/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 8.13,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "14/01/2026",
-      "description": "Sq *Matilda's Cafe, Wo Clyde North",
-      "amount": -16.66,
-      "category": "eating",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "14/01/2026",
-      "description": "Chemist Warehouse Prahran",
-      "amount": -7.19,
-      "category": "personal",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "14/01/2026",
-      "description": "Coles 7748 Clyde North",
-      "amount": -13.95,
-      "category": "grocery",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "13/01/2026",
-      "description": "Coles 7748 Clyde North",
-      "amount": -29.25,
-      "category": "grocery",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "13/01/2026",
-      "description": "Timmys Fresh Pty Ltd Clyde North",
-      "amount": -4.99,
-      "category": "grocery",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "12/01/2026",
-      "description": "Gyg South Yarra South Yarra",
-      "amount": -3.5,
-      "category": "other",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "11/01/2026",
-      "description": "Coles 7748 Clyde North",
-      "amount": -31.25,
-      "category": "grocery",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "05/01/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 77.61,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "16/12/2025",
-      "description": "Breville - Coffee",
-      "amount": -30,
-      "category": "bills",
-      "owner": "rana",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775222984747
     }
   ],
   "budgets": {
@@ -3012,5 +2902,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:01:02.523Z"
+  "lastUpdated": "2026-04-04T02:01:12.601Z"
 }
