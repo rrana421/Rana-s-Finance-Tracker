@@ -954,7 +954,7 @@
       "rawDate": "10/03/2026",
       "description": "Department Of Transpor Melbourne",
       "amount": -20,
-      "category": "other",
+      "category": "transport",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:18:24.628Z"
+  "lastUpdated": "2026-04-04T02:18:29.297Z"
 }
