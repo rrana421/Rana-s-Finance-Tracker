@@ -850,15 +850,30 @@ async function loadFromGitHub(){
     const h={Accept:'application/vnd.github.v3+json'};if(ghToken)h.Authorization=`token ${ghToken}`;
     const res=await fetch(GH_API+'?t='+Date.now(),{headers:h});
     if(res.status===404){const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});setSyncStatus(ghToken?'synced':'readonly',ghToken?`Ready · ${t}`:`Live — read only · ${t}`);return}
-    if(!res.ok)throw new Error(`HTTP ${res.status} – check token`);
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
     const json=await res.json();ghFileSha=json.sha;
-    // Try Unicode-safe decode first, fall back to plain atob for legacy data
+
+    // Fetch raw content — handle files >1MB where content field is empty
+    let rawJson;
+    const b64=json.content?json.content.replace(/\n/g,''):'';
+    if(b64){
+      // Normal path: content returned inline as base64
+      try{ rawJson=decodeURIComponent(escape(atob(b64))); }
+      catch(e){ rawJson=atob(b64); } // legacy fallback
+    } else if(json.download_url){
+      // Large file (>1MB): fetch raw via download_url
+      const rawRes=await fetch(json.download_url+(ghToken?'?token='+Date.now():''));
+      if(!rawRes.ok) throw new Error('Large file fetch failed: HTTP '+rawRes.status);
+      rawJson=await rawRes.text();
+    } else {
+      throw new Error('No content available');
+    }
+
     let data;
-    const raw=json.content.replace(/\n/g,'');
-    try{ data=JSON.parse(decodeURIComponent(escape(atob(raw)))); }
-    catch(e1){
-      try{ data=JSON.parse(atob(raw)); }
-      catch(e2){ throw new Error('JSON parse failed: '+e2.message); }
+    try{ data=JSON.parse(rawJson); }
+    catch(parseErr){
+      // File is corrupted — offer to repair
+      throw new Error('Corrupted data file — click Refresh after deleting tracker-data.json from GitHub');
     }
     if(data.transactions?.length)allTx=data.transactions.map(t=>({...t,date:(()=>{const[d,m,y]=t.rawDate.split('/');return new Date(+y,+m-1,+d)})()}));
     if(data.budgets)budgets=data.budgets;
@@ -883,13 +898,25 @@ async function loadFromGitHub(){
     setSyncStatus('error','Load failed');
     console.error('GH load error:',msg);
     document.getElementById('syncLabel').textContent='Failed: '+msg.slice(0,35);
-    // Fallback: load whatever we can from localStorage so app still works
+    // Fallback: load whatever we can from localStorage so the app is not blank
     try{const lg=JSON.parse(localStorage.getItem('rft_goals')||'{}');if(lg.income)householdIncome=lg.income;if(lg.target)savingsTarget=lg.target;if(lg.use5030!==undefined)use5030=lg.use5030;if(lg.partnerName)partnerName=lg.partnerName;}catch(le){}
     try{const ld=JSON.parse(localStorage.getItem('rft_user_debts')||'[]');if(ld.length)userDebts=ld;}catch(le){}
     try{const lp=JSON.parse(localStorage.getItem('rft_debt_payments')||'{}');if(Object.keys(lp).length)debtPayments=lp;}catch(le){}
     try{const lr=JSON.parse(localStorage.getItem('rft_recurring')||'[]');if(lr.length)recurring=lr;}catch(le){}
-    // Show recovery UI on the badge
-    setSyncStatus('error','Load failed — click ↻ Refresh');
+    // If we got corrupted data, offer to repair
+    const isCorrupt = msg.includes('Corrupted') || msg.includes('parse');
+    if(isCorrupt && ghToken){
+      document.getElementById('syncLabel').textContent='Data corrupted — ';
+      // Add repair button inline
+      const repairBtn=document.createElement('button');
+      repairBtn.textContent='🔧 Repair now';
+      repairBtn.style.cssText='margin-left:4px;background:var(--amber);color:#111;border:none;border-radius:4px;padding:1px 8px;font-size:.68rem;cursor:pointer;font-family:var(--mono);font-weight:600';
+      repairBtn.onclick=repairGitHubData;
+      const badge=document.getElementById('syncBadge');
+      if(badge)badge.appendChild(repairBtn);
+    } else {
+      setSyncStatus('error','Load failed — '+msg.slice(0,30));
+    }
   }
 }
 function scheduleSyncToGitHub(){if(!ghToken)return;setSyncStatus('syncing','Saving…');clearTimeout(syncTimeout);syncTimeout=setTimeout(syncToGitHub,3000)}
@@ -2534,6 +2561,17 @@ function applyAllSuggested(){
   });
   if(changed){ saveRecurring(); checkRecurringDebtPayments(); }
   renderDebtPanel();
+}
+
+// Repair corrupted tracker-data.json by rewriting from localStorage
+async function repairGitHubData(){
+  if(!ghToken){alert('GitHub token required to repair. Enter it via the sync badge.');return;}
+  if(!confirm('This will overwrite the corrupted tracker-data.json with your current local data. Continue?')) return;
+  setSyncStatus('syncing','Repairing…');
+  // Force a sync of current in-memory state (loaded from localStorage fallback)
+  await syncToGitHub();
+  setSyncStatus('synced','Repaired — reloading…');
+  setTimeout(()=>location.reload(),1500);
 }
 
 // INIT
