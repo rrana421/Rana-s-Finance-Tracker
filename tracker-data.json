@@ -472,16 +472,6 @@
     },
     {
       "rawDate": "18/03/2026",
-      "description": "Peninsula Hot Spri Fingal",
-      "amount": -609,
-      "category": "other",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "18/03/2026",
       "description": "Smp*Crown Hair Cut C Clyde North",
       "amount": -50.83,
       "category": "personal",
@@ -497,6 +487,16 @@
       "category": "eating",
       "owner": "combined",
       "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "18/03/2026",
+      "description": "Peninsula Hot Spri Fingal",
+      "amount": -120,
+      "category": "entertainment",
+      "owner": "partner",
+      "isManual": true,
       "isRecurring": false,
       "recurringId": null
     },
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:21:35.210Z"
+  "lastUpdated": "2026-04-04T02:22:07.808Z"
 }
