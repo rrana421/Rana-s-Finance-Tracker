@@ -1294,7 +1294,7 @@
       "rawDate": "01/03/2026",
       "description": "Valleygirl Fountain Ga Fountain Gate",
       "amount": -39.98,
-      "category": "other",
+      "category": "shopping",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:19:28.207Z"
+  "lastUpdated": "2026-04-04T02:19:33.866Z"
 }
