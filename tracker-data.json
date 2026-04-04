@@ -22,16 +22,6 @@
     },
     {
       "rawDate": "26/03/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 2744.65,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "26/03/2026",
       "description": "Vodafone - RR",
       "amount": -69,
       "category": "bills",
@@ -439,16 +429,6 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775222235355
-    },
-    {
-      "rawDate": "18/03/2026",
-      "description": "Payment Received, Thank You",
-      "amount": 3951.47,
-      "category": "income",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
     },
     {
       "rawDate": "18/03/2026",
@@ -3522,5 +3502,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:24:00.422Z"
+  "lastUpdated": "2026-04-04T02:24:10.401Z"
 }
