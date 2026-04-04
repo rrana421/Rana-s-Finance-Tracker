@@ -1261,6 +1261,256 @@
       "recurringId": null
     },
     {
+      "rawDate": "24/02/2026",
+      "description": "Transportfornsw Tap Sydney",
+      "amount": -18.17,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/02/2026",
+      "description": "Piccolina Double Bay",
+      "amount": -27,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/02/2026",
+      "description": "Ls Chat Thai Pty Ltd Haymarket",
+      "amount": -32.32,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/02/2026",
+      "description": "Sq *Spice Nation Clyde Clyde North",
+      "amount": -34.75,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "23/02/2026",
+      "description": "Flavour Of India Edge Edgecliff",
+      "amount": -33.5,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "23/02/2026",
+      "description": "Manaldar Pl Double Bay",
+      "amount": -6.5,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "23/02/2026",
+      "description": "Cwh Double Bay Double Bay",
+      "amount": -11.49,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "22/02/2026",
+      "description": "La Cosmetique Blacktown",
+      "amount": -153.27,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "22/02/2026",
+      "description": "Tk Maxx Blacktown Blacktown",
+      "amount": -55.12,
+      "category": "shopping",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "21/02/2026",
+      "description": "K & A Bakery Clyde North",
+      "amount": -20.35,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "21/02/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -29.85,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "20/02/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 2850.87,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "20/02/2026",
+      "description": "Smp*Light Bulb Soda Quakers Hill",
+      "amount": -10.2,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "20/02/2026",
+      "description": "BP Lt Riv Mb 4134 Little River",
+      "amount": -19.76,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "20/02/2026",
+      "description": "R R Integrated Servi Blacktown",
+      "amount": -2.5,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "19/02/2026",
+      "description": "Smp*Splash Juice Bar C South Yarra",
+      "amount": -5.9,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "19/02/2026",
+      "description": "Sq *Skylounge Avalon Avalon",
+      "amount": -10.16,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "19/02/2026",
+      "description": "Oggs Pharmacy South Yarra",
+      "amount": -21.06,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "19/02/2026",
+      "description": "Myki Bfield Rs Bfd Beaconsfield",
+      "amount": -50,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "18/02/2026",
+      "description": "Koko Black Town Hall Melbourne",
+      "amount": -9.7,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "18/02/2026",
+      "description": "Myki Bfield Rs Bfd Beaconsfield",
+      "amount": -30,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "17/02/2026",
+      "description": "Secure Parking-St Germ Toorak",
+      "amount": -20,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "17/02/2026",
+      "description": "Sharma Business Servi South Yarra",
+      "amount": -17.17,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "17/02/2026",
+      "description": "Melbourne Airport Tullamarine",
+      "amount": -42,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "17/02/2026",
+      "description": "Gulcan Pty Ltd Melbourne",
+      "amount": -17,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
       "rawDate": "16/02/2026",
       "description": "Breville - Coffee",
       "amount": -30,
@@ -1269,6 +1519,786 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775222984747
+    },
+    {
+      "rawDate": "16/02/2026",
+      "description": "Sq *Dropout Chaiwala Melbourne",
+      "amount": -5.08,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "15/02/2026",
+      "description": "United Cranbourne N Cranbourne No",
+      "amount": -57.71,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "15/02/2026",
+      "description": "Chemist Warehouse Cranbourne No",
+      "amount": -24.99,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/02/2026",
+      "description": "Village Fountain Gate South Yarra",
+      "amount": -7.82,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/02/2026",
+      "description": "Village Fountain Gate South Yarra",
+      "amount": -2,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/02/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -52.55,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/02/2026",
+      "description": "Sanjha Punjab Grocery Clyde North",
+      "amount": -14.04,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/02/2026",
+      "description": "Timmys Fresh Pty Ltd Clyde North",
+      "amount": -45.47,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "13/02/2026",
+      "description": "Zlr*Dc Cranbourne Cranbourne No",
+      "amount": -25.85,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "13/02/2026",
+      "description": "Headmasters Barber A Cranbourne No",
+      "amount": -60.5,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "13/02/2026",
+      "description": "United Cranbourne N Cranbourne No",
+      "amount": -48.46,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "12/02/2026",
+      "description": "Dominos Hamilton",
+      "amount": -5.2,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "12/02/2026",
+      "description": "Clyde North Agha Juice Clyde North",
+      "amount": -8,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "11/02/2026",
+      "description": "Misschu South Yarra",
+      "amount": -18.9,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "11/02/2026",
+      "description": "Sushi Hub Melb Cntrl Melbourne",
+      "amount": -9.2,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "11/02/2026",
+      "description": "Sephora Australia P/ Melbourne",
+      "amount": -104,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "10/02/2026",
+      "description": "Jetstaralyyvp Collingwood",
+      "amount": -319.51,
+      "category": "adhoc",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "10/02/2026",
+      "description": "Jetstarenpbvj Collingwood",
+      "amount": -83.92,
+      "category": "adhoc",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "09/02/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 690.76,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "09/02/2026",
+      "description": "Lsp*Laurent Bakery Gro South Yarra",
+      "amount": -7.7,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "09/02/2026",
+      "description": "Zlr*Abbotsford Badmint Abbotsford",
+      "amount": -9.13,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "08/02/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -4.25,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "08/02/2026",
+      "description": "Dominos Hamilton",
+      "amount": -23.6,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "08/02/2026",
+      "description": "Sanjha Punjab Grocery Clyde North",
+      "amount": -29.5,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "07/02/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -77.35,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "07/02/2026",
+      "description": "Sanjha Punjab Grocery Clyde North",
+      "amount": -45.56,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "07/02/2026",
+      "description": "Timmys Fresh Pty Ltd Clyde North",
+      "amount": -65.28,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "06/02/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 2500,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "06/02/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -24.4,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "05/02/2026",
+      "description": "Zeus Street Greek Sou South Yarra",
+      "amount": -21.4,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "05/02/2026",
+      "description": "Myki Bfield Rs Bfd Beaconsfield",
+      "amount": -50,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "04/02/2026",
+      "description": "Sq *Mr Beans South Yarra",
+      "amount": -25,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "04/02/2026",
+      "description": "Oriental Tea House Sy South Yarra",
+      "amount": -87.74,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "03/02/2026",
+      "description": "Kokoro Swanston Pty Lt Melbourne",
+      "amount": -10.42,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "03/02/2026",
+      "description": "Sq *Axil Bourke St Melbourne",
+      "amount": -5.87,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "03/02/2026",
+      "description": "Sq *Axil Bourke St Melbourne",
+      "amount": -40.43,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "03/02/2026",
+      "description": "Cocacolaepp Caulfield",
+      "amount": -4.2,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "01/02/2026",
+      "description": "Rzt Australia Pty Ltd Narre Warren",
+      "amount": -39.99,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "01/02/2026",
+      "description": "Best & Less Fountain Fountain Gate",
+      "amount": -49.99,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "01/02/2026",
+      "description": "D&D Trading Group Pty Narre Warren",
+      "amount": -2.02,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "01/02/2026",
+      "description": "Air-Indi Australia",
+      "amount": -934.18,
+      "category": "india",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "31/01/2026",
+      "description": "Target 5097 Fountain Gate",
+      "amount": -19,
+      "category": "shopping",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "31/01/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -7,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "31/01/2026",
+      "description": "Fz Dollar Mart Party Fountain Gate",
+      "amount": -2.99,
+      "category": "shopping",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "31/01/2026",
+      "description": "Noorban Pty Ltd Narre Warren",
+      "amount": -50,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Energyaustralia Pty Lt Melbourne",
+      "amount": -250,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Nanak Bakery Cranbourne",
+      "amount": -25,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Vicroads Online Paymen Kew",
+      "amount": -440.45,
+      "category": "adhoc",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Uber *Trip Help.Uber.C 14518236738",
+      "amount": -0.99,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -17.7,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Casey City Council Narre Warren",
+      "amount": -531,
+      "category": "adhoc",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "30/01/2026",
+      "description": "Aldi Stores Clyde North",
+      "amount": -17.24,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "29/01/2026",
+      "description": "3 Brothersss Indian R Melbourne",
+      "amount": -55.93,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "29/01/2026",
+      "description": "Sq *Market Lane Coffee Melbourne",
+      "amount": -7.5,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "29/01/2026",
+      "description": "Myki Bfield Rs Bfd Beaconsfield",
+      "amount": -50,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "29/01/2026",
+      "description": "Reddy Express 2027 Clyde North",
+      "amount": -82.25,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "28/01/2026",
+      "description": "Schnitz - South Yarr South Yarra",
+      "amount": -15.9,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "27/01/2026",
+      "description": "Sq *Otherside Coffee South Yarra",
+      "amount": -5.5,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "26/01/2026",
+      "description": "Grace Grocery Clyde North",
+      "amount": -78.87,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "26/01/2026",
+      "description": "Guzman Y Gomez Clyde Clyde North",
+      "amount": -11.5,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "26/01/2026",
+      "description": "Aldi Stores Clyde North",
+      "amount": -193.4,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "25/01/2026",
+      "description": "Reddy Express 6868 Wantirna Sout",
+      "amount": -100.28,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "25/01/2026",
+      "description": "Village Knox South Yarra",
+      "amount": -8,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "25/01/2026",
+      "description": "Village Knox South Yarra",
+      "amount": -2,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "25/01/2026",
+      "description": "Sq *Lang Lang Cricket Lang Lang",
+      "amount": -6.1,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "25/01/2026",
+      "description": "Village Knox South Yarra",
+      "amount": -24.08,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "25/01/2026",
+      "description": "Village Knox South Yarra",
+      "amount": -6.02,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Gumbuya World Tynong",
+      "amount": -309.96,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Gumbuya World Tynong",
+      "amount": -20.81,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Gumbuya World Tynong",
+      "amount": -14.15,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Gumbuya World Tynong",
+      "amount": -26.24,
+      "category": "entertainment",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Timmys Fresh Pty Ltd Clyde North",
+      "amount": -31.63,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Smp*Aj Juice and Ice A Narre Warren",
+      "amount": -11.15,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Myer Fountain Gate Narre Warren",
+      "amount": -35,
+      "category": "shopping",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Jujhar and Harbaaz Co Clyde North",
+      "amount": -14.94,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Specsavers Fountain Ga Narre Warren",
+      "amount": -99,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Sq *Spice Nation Clyde Clyde North",
+      "amount": -31.95,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "24/01/2026",
+      "description": "Plineph Clyde Clyde North",
+      "amount": -53.38,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
     },
     {
       "rawDate": "22/01/2026",
@@ -1982,5 +3012,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:00:46.143Z"
+  "lastUpdated": "2026-04-04T02:01:02.523Z"
 }
