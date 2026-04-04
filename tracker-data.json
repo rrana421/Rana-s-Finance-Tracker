@@ -784,7 +784,7 @@
       "rawDate": "12/03/2026",
       "description": "Smp*Om Veg Collins St Melbourne",
       "amount": -2.54,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:18:06.192Z"
+  "lastUpdated": "2026-04-04T02:18:11.054Z"
 }
