@@ -2924,7 +2924,7 @@
       "rawDate": "18/01/2026",
       "description": "Energyaustralia Pty Lt Melbourne",
       "amount": -165.75,
-      "category": "other",
+      "category": "utilities",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:17:14.200Z"
+  "lastUpdated": "2026-04-04T02:17:19.085Z"
 }
