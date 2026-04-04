@@ -1284,7 +1284,7 @@
       "rawDate": "01/03/2026",
       "description": "City Of Casey Narre Warren",
       "amount": -526.15,
-      "category": "other",
+      "category": "adhoc",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:19:20.952Z"
+  "lastUpdated": "2026-04-04T02:19:28.207Z"
 }
