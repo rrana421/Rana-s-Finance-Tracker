@@ -2334,7 +2334,7 @@
       "rawDate": "03/02/2026",
       "description": "Cocacolaepp Caulfield",
       "amount": -4.2,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3542,5 +3542,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:15:36.063Z"
+  "lastUpdated": "2026-04-04T02:15:41.183Z"
 }
