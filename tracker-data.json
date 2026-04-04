@@ -2874,7 +2874,7 @@
       "rawDate": "20/01/2026",
       "description": "Sq *Mpcc Social Cranbourne We",
       "amount": -30,
-      "category": "other",
+      "category": "entertainment",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:17:05.875Z"
+  "lastUpdated": "2026-04-04T02:17:14.200Z"
 }
