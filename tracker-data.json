@@ -3039,7 +3039,7 @@
       "day": 1,
       "owner": "partner",
       "startFrom": null,
-      "debtId": "debt_1775024487508"
+      "debtId": null
     },
     {
       "id": 1775221950204,
@@ -3312,5 +3312,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T01:02:34.937Z"
+  "lastUpdated": "2026-04-04T01:02:43.737Z"
 }
