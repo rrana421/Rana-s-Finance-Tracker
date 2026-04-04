@@ -1269,6 +1269,296 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775222984747
+    },
+    {
+      "rawDate": "22/01/2026",
+      "description": "Puffing Billy Railway Belgrave",
+      "amount": -416,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "21/01/2026",
+      "description": "The Emerald Peacock Melbourne",
+      "amount": -34.51,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "20/01/2026",
+      "description": "Sq *Mpcc Canteen Cranbourne We",
+      "amount": -7,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "20/01/2026",
+      "description": "Sq *Mpcc Social Cranbourne We",
+      "amount": -7.5,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "20/01/2026",
+      "description": "Sq *Mpcc Social Cranbourne We",
+      "amount": -30,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "19/01/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 1150.36,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "19/01/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 306.66,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "19/01/2026",
+      "description": "Myki Bfield Rs Bfd Beaconsfield",
+      "amount": -30,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "18/01/2026",
+      "description": "Energyaustralia Pty Lt Melbourne",
+      "amount": -165.75,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Subway South Wharf South Wharf",
+      "amount": -15.2,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Reddy Express 2027 Clyde North",
+      "amount": -70.02,
+      "category": "transport",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Asics Southwharf Southwharf",
+      "amount": -140,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Sq *Piccolo Espresso West Melbourn",
+      "amount": -14.28,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Werribee Mercy Werribee",
+      "amount": -15,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "16/01/2026",
+      "description": "Breville - Coffee",
+      "amount": -30,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222984747
+    },
+    {
+      "rawDate": "15/01/2026",
+      "description": "Samsung Electronics AU Sydney",
+      "amount": -1133.7,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "15/01/2026",
+      "description": "Mithaiwala Sweets & Sn Hopper Crossi",
+      "amount": -30.3,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "15/01/2026",
+      "description": "Apco Hoppers Crossin Hoppers Cross",
+      "amount": -21.86,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/01/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 82,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/01/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 8.13,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/01/2026",
+      "description": "Sq *Matilda's Cafe, Wo Clyde North",
+      "amount": -16.66,
+      "category": "eating",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/01/2026",
+      "description": "Chemist Warehouse Prahran",
+      "amount": -7.19,
+      "category": "personal",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "14/01/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -13.95,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "13/01/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -29.25,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "13/01/2026",
+      "description": "Timmys Fresh Pty Ltd Clyde North",
+      "amount": -4.99,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "12/01/2026",
+      "description": "Gyg South Yarra South Yarra",
+      "amount": -3.5,
+      "category": "other",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "11/01/2026",
+      "description": "Coles 7748 Clyde North",
+      "amount": -31.25,
+      "category": "grocery",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "05/01/2026",
+      "description": "Payment Received, Thank You",
+      "amount": 77.61,
+      "category": "income",
+      "owner": "combined",
+      "isManual": false,
+      "isRecurring": false,
+      "recurringId": null
+    },
+    {
+      "rawDate": "16/12/2025",
+      "description": "Breville - Coffee",
+      "amount": -30,
+      "category": "bills",
+      "owner": "rana",
+      "isManual": false,
+      "isRecurring": true,
+      "recurringId": 1775222984747
     }
   ],
   "budgets": {
@@ -1692,5 +1982,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:00:21.563Z"
+  "lastUpdated": "2026-04-04T02:00:46.143Z"
 }
