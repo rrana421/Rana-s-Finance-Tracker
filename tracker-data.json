@@ -3074,7 +3074,7 @@
       "rawDate": "16/01/2026",
       "description": "Sq *Piccolo Espresso West Melbourn",
       "amount": -14.28,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:17:23.288Z"
+  "lastUpdated": "2026-04-04T02:17:28.819Z"
 }
