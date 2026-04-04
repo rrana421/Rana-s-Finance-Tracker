@@ -336,6 +336,25 @@ input:checked+.toggle-slider::before{transform:translateX(16px);background:var(-
 .link-badge.auto{background:rgba(74,222,128,.1);color:var(--green)}
 .link-badge.manual{background:rgba(96,165,250,.1);color:var(--blue)}
 .auto-pay-banner{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:var(--rs);padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem}
+.link-strip{background:rgba(96,200,248,.05);border:1px solid rgba(96,200,248,.15);border-radius:var(--rs);padding:.65rem .9rem;margin-bottom:1rem}
+.link-strip-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+.link-strip-title{font-size:.72rem;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:.4rem}
+.link-strip-row{display:flex;align-items:center;gap:.5rem;padding:.18rem 0;font-size:.75rem}
+.link-strip-name{width:160px;color:var(--ink2);font-weight:500;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.link-strip-pills{display:flex;gap:.3rem;flex-wrap:wrap;flex:1}
+.link-pill{font-size:.63rem;font-family:var(--mono);padding:1px 8px;border-radius:3px;background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2);white-space:nowrap}
+.link-pill.none{background:rgba(142,146,157,.1);color:var(--ink3);border-color:transparent}
+.link-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;z-index:400;padding:1.5rem}
+.link-modal-bg.hidden{display:none!important}
+.link-modal-box{background:var(--surface);border:1px solid var(--line2);border-radius:var(--r);max-width:640px;width:100%;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column}
+.link-modal-hdr{padding:1.1rem 1.4rem;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:1}
+.link-modal-body{padding:1.1rem 1.4rem;flex:1}
+.link-debt-card{margin-bottom:1rem;background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);overflow:hidden}
+.link-debt-hdr{display:flex;align-items:center;gap:.65rem;padding:.55rem .85rem;border-bottom:1px solid var(--line);background:var(--overlay)}
+.link-debt-items{padding:.35rem .85rem}
+.link-check-row{display:flex;align-items:center;gap:.55rem;padding:.22rem 0;font-size:.8rem}
+.link-check-row label{display:flex;align-items:center;gap:.55rem;cursor:pointer;flex:1}
+.link-check-row.disabled-row{opacity:.4;pointer-events:none}
 .auto-pay-title{font-size:.75rem;font-weight:600;color:var(--green);margin-bottom:.45rem}
 .auto-pay-row{display:flex;justify-content:space-between;align-items:center;padding:.25rem 0;color:var(--ink2)}
 .debt-stale{border-color:rgba(245,166,35,.4)!important}
@@ -1877,6 +1896,8 @@ function saveDebtPayment(){
 // Modal background close
 // Debt modal background-click handlers — deferred so DOM is ready
 document.addEventListener('DOMContentLoaded',function(){
+  var lm=document.getElementById('linksModal');
+  if(lm)lm.addEventListener('click',function(e){if(e.target===lm){lm.classList.add('hidden');renderDebtPanel();}});
   var rp=document.getElementById('rpModal');
   if(rp)rp.addEventListener('click',function(e){if(e.target===rp)rp.classList.add('hidden');});
   var ad=document.getElementById('addDebtModal');
@@ -2280,9 +2301,14 @@ function toggleRecurringForDebt(rcIdx, debtId, checked){
     if(recurring[rcIdx].debtId===debtId) recurring[rcIdx].debtId=null;
   }
   saveRecurring();
-  // Re-run auto-check immediately after linking
   checkRecurringDebtPayments();
-  renderDebtPanel();
+  // Refresh modal body if modal is open, otherwise re-render panel
+  var mb = document.getElementById('linksModalBody');
+  if(mb && !document.getElementById('linksModal').classList.contains('hidden')){
+    mb.innerHTML = buildLinkPanelHTML();
+  } else {
+    renderDebtPanel();
+  }
 }
 
 // Programmatically record a debt payment (without modal)
@@ -2369,98 +2395,96 @@ function checkRecurringDebtPayments(){
 
 // Build the link panel shown in debt panel header area
 function renderLinkPanel(){
-  // Find recurring entries that are expense payments (negative amount)
-  var expRec = recurring.filter(function(r){return r.amount<0;});
-  if(!expRec.length || !userDebts.filter(function(d){return !d.paid;}).length) return '';
-
-  var unlinked = expRec.filter(function(r){return !r.debtId;});
-  var linked   = expRec.filter(function(r){return !!r.debtId;});
-
-  // If everything is linked, show compact summary instead of full panel
-  if(unlinked.length===0 && linked.length>0){
-    return '<div class="auto-pay-banner">'
-      +'<div class="auto-pay-title">&#128279; '+linked.length+' recurring payment'+(linked.length>1?'s':'')+' linked to debts — auto-updating balances</div>'
-      +'<div style="font-size:.72rem;color:var(--ink3);margin-top:.2rem">Balances reduce automatically on each payment day. <span style="color:var(--accent);cursor:pointer" onclick="showLinkPanel()">Manage links &#8594;</span></div>'
-      +'</div>';
-  }
-
-  return buildLinkPanelHTML(unlinked.length > 0);
-}
-
-function buildLinkPanelHTML(showUnlinked){
+  // Always show compact strip — full editing is in the modal
   var expRec = recurring.filter(function(r){return r.amount<0;});
   var activeDebts = userDebts.filter(function(d){return !d.paid;});
-  if(!activeDebts.length || !expRec.length) return '';
+  if(!expRec.length || !activeDebts.length) return '';
 
-  // Count unlinked recurring entries
-  var unlinkedCount = expRec.filter(function(r){return !r.debtId;}).length;
-
-  var html = '<div class="link-panel" id="linkPanelInner">'
-    +'<div class="link-panel-title">&#128279; Link recurring payments to debts'
-    +(unlinkedCount>0?'<span style="font-size:.65rem;background:rgba(248,113,113,.15);color:var(--red);padding:1px 7px;border-radius:3px;font-family:var(--mono)">'+unlinkedCount+' unlinked</span>':'')
-    +'</div>'
-    +'<div style="font-size:.72rem;color:var(--ink3);margin-bottom:.65rem">For each debt, tick which recurring payments reduce its balance. Multiple payments can be linked to the same debt.</div>';
+  var html = '<div class="link-strip">';
+  html += '<div class="link-strip-hdr">';
+  html += '<span class="link-strip-title">&#128279; Recurring payment links</span>';
+  html += '</div>';
 
   activeDebts.forEach(function(d){
     var meta = DEBT_TYPE_META[d.type]||DEBT_TYPE_META.other;
-    // Find all recurring entries currently linked to this debt
-    var linkedRcIds = expRec.filter(function(r){return r.debtId===d.id;}).map(function(r){return recurring.indexOf(r);});
-    // Auto-suggest any unlinked recurring that scores well against this debt
-    var suggestedRcIdxs = expRec.filter(function(r){
-      if(r.debtId) return false; // already linked to something
-      return debtMatchScore(r.description, d.name) >= 0.4;
-    }).map(function(r){return recurring.indexOf(r);});
-
-    var totalLinkedAmt = expRec.filter(function(r){return r.debtId===d.id;})
-      .reduce(function(s,r){return s+Math.abs(r.amount);},0);
-
-    html += '<div style="margin-bottom:.75rem;background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);overflow:hidden">';
-    // Debt header row
-    html += '<div style="display:flex;align-items:center;gap:.65rem;padding:.55rem .85rem;border-bottom:1px solid var(--line)">';
-    html += '<span style="font-size:1rem">'+meta.icon+'</span>';
-    html += '<span style="font-weight:600;font-size:.88rem;flex:1">'+d.name+'</span>';
-    html += '<span style="font-size:.7rem;color:var(--ink3);font-family:var(--mono)">'+d.rate+'% p.a. · min $'+d.minPayment.toFixed(2)+'</span>';
-    if(totalLinkedAmt>0) html += '<span style="font-size:.7rem;font-family:var(--mono);color:var(--green);margin-left:.4rem">&#128279; $'+totalLinkedAmt.toFixed(2)+'/mo</span>';
+    var linked = expRec.filter(function(r){return r.debtId===d.id;});
+    html += '<div class="link-strip-row">';
+    html += '<span class="link-strip-name">'+meta.icon+' '+d.name+'</span>';
+    html += '<span class="link-strip-pills">';
+    if(linked.length){
+      linked.forEach(function(r){
+        html += '<span class="link-pill">$'+Math.abs(r.amount).toFixed(0)+' day '+r.day+'</span>';
+      });
+    } else {
+      html += '<span class="link-pill none">not linked</span>';
+    }
+    html += '</span>';
     html += '</div>';
-
-    // Recurring checkboxes
-    html += '<div style="padding:.45rem .85rem;display:flex;flex-direction:column;gap:.3rem">';
-    expRec.forEach(function(r){
-      var rcIdx = recurring.indexOf(r);
-      var isLinkedHere = (r.debtId===d.id);
-      var isSuggested  = !r.debtId && suggestedRcIdxs.indexOf(rcIdx)>=0;
-      var isLinkedElsewhere = (r.debtId && r.debtId!==d.id);
-      var cbId = 'rc-cb-'+d.id+'-'+rcIdx;
-      var badge = isLinkedHere?'<span class="link-badge manual" style="font-size:.6rem">linked</span>'
-                : isSuggested?'<span class="link-badge auto" style="font-size:.6rem">suggested</span>':'';
-
-      html += '<label for="'+cbId+'" style="display:flex;align-items:center;gap:.55rem;cursor:pointer;padding:.2rem 0'+(isLinkedElsewhere?';opacity:.45':'')+'">';
-      html += '<input type="checkbox" id="'+cbId+'" '+(isLinkedHere?'checked':'')+(isLinkedElsewhere?' disabled title="Already linked to another debt"':'');
-      html += ' onchange="toggleRecurringForDebt('+rcIdx+',\''+d.id+'\',this.checked)" style="width:14px;height:14px;cursor:pointer;accent-color:var(--accent)">';
-      html += '<span style="flex:1;font-size:.8rem;color:var(--ink2)">'+r.description+'</span>';
-      html += '<span style="font-size:.72rem;font-family:var(--mono);color:var(--ink3)">$'+Math.abs(r.amount).toFixed(2)+' · Day '+r.day+'</span>';
-      html += badge;
-      html += '</label>';
-    });
-    html += '</div></div>';
   });
-
-  html += '<div style="margin-top:.5rem;display:flex;gap:.5rem">';
-  html += '<button class="btn ghost" style="font-size:.75rem;padding:.35rem .85rem" onclick="applyAllSuggested()">&#10003; Apply all suggested</button>';
-  html += '<button class="btn ghost" style="font-size:.75rem;padding:.35rem .85rem" onclick="renderDebtPanel()">Done</button>';
-  html += '</div></div>';
+  html += '</div>';
   return html;
 }
 
-function showLinkPanel(){
-  var body = document.getElementById('dpBody');
-  if(!body) return;
-  // Insert link panel at top, replacing compact banner
-  var existing = document.getElementById('linkPanelInner');
-  if(existing) return; // already showing
-  var banner = body.querySelector('.auto-pay-banner');
-  if(banner) banner.outerHTML = buildLinkPanelHTML(false);
+function buildLinkPanelHTML(){
+  var expRec = recurring.filter(function(r){return r.amount<0;});
+  var activeDebts = userDebts.filter(function(d){return !d.paid;});
+  if(!activeDebts.length || !expRec.length) return '<div style="color:var(--ink3);padding:1rem;font-size:.82rem">No recurring expense payments found. Add some in ↻ Recurring first.</div>';
+
+  var html = '';
+  activeDebts.forEach(function(d){
+    var meta = DEBT_TYPE_META[d.type]||DEBT_TYPE_META.other;
+    // Show: entries linked to THIS debt + completely unlinked entries
+    // Hide: entries linked to OTHER debts (with a note if any)
+    var linkedHere     = expRec.filter(function(r){return r.debtId===d.id;});
+    var unlinked       = expRec.filter(function(r){return !r.debtId;});
+    var linkedElsewhere= expRec.filter(function(r){return r.debtId&&r.debtId!==d.id;});
+    var visible        = linkedHere.concat(unlinked);
+    var totalLinkedAmt = linkedHere.reduce(function(s,r){return s+Math.abs(r.amount);},0);
+
+    html += '<div class="link-debt-card">';
+    html += '<div class="link-debt-hdr">';
+    html += '<span style="font-size:1rem">'+meta.icon+'</span>';
+    html += '<span style="font-weight:600;font-size:.88rem;flex:1">'+d.name+'</span>';
+    html += '<span style="font-size:.7rem;color:var(--ink3);font-family:var(--mono)">'+d.rate+'% · min $'+d.minPayment.toFixed(0)+'</span>';
+    if(totalLinkedAmt>0) html += '<span style="font-size:.7rem;font-family:var(--mono);color:var(--green);margin-left:.6rem">&#128279; $'+totalLinkedAmt.toFixed(2)+'/mo</span>';
+    html += '</div>';
+    html += '<div class="link-debt-items">';
+
+    if(!visible.length){
+      html += '<div style="font-size:.75rem;color:var(--ink3);padding:.4rem 0">All recurring entries are linked to other debts.</div>';
+    } else {
+      visible.forEach(function(r){
+        var rcIdx = recurring.indexOf(r);
+        var isLinked = (r.debtId===d.id);
+        var cbId = 'lk-'+d.id+'-'+rcIdx;
+        var isSuggested = !r.debtId && debtMatchScore(r.description,d.name)>=0.4;
+        var badge = isLinked
+          ? '<span style="font-size:.62rem;font-family:var(--mono);padding:1px 6px;border-radius:3px;background:rgba(74,222,128,.1);color:var(--green)">linked</span>'
+          : (isSuggested?'<span style="font-size:.62rem;font-family:var(--mono);padding:1px 6px;border-radius:3px;background:rgba(96,200,248,.1);color:var(--blue)">suggested</span>':'');
+        html += '<div class="link-check-row">';
+        html += '<label for="'+cbId+'">';
+        html += '<input type="checkbox" id="'+cbId+'"'+(isLinked?' checked':'')+' onchange="toggleRecurringForDebt('+rcIdx+',\''+d.id+'\',this.checked)" style="width:14px;height:14px;cursor:pointer;accent-color:var(--accent);flex-shrink:0">';
+        html += '<span style="flex:1;color:var(--ink2)">'+r.description+'</span>';
+        html += '</label>';
+        html += '<span style="font-size:.72rem;font-family:var(--mono);color:var(--ink3)">$'+Math.abs(r.amount).toFixed(2)+' · Day '+r.day+'</span>';
+        html += badge;
+        html += '</div>';
+      });
+      if(linkedElsewhere.length){
+        html += '<div style="font-size:.68rem;color:var(--ink3);margin-top:.3rem;padding:.2rem 0">+'+linkedElsewhere.length+' entr'+(linkedElsewhere.length>1?'ies':'y')+' linked to other debts (hidden)</div>';
+      }
+    }
+    html += '</div></div>';
+  });
+
+  html += '<div style="margin-top:.5rem">';
+  html += '<button class="btn ghost" style="font-size:.75rem;padding:.35rem .85rem" onclick="applyAllSuggested()">&#10003; Apply all suggested</button>';
+  html += '</div>';
+  return html;
 }
+
+
+function showLinkPanel(){ openLinksModal(); }
 
 // Apply all auto-suggested links in one click
 function applyAllSuggested(){
@@ -2496,6 +2520,7 @@ loadFromGitHub();
     </div>
     <div class="dp-actions">
       <button class="hbtn" onclick="openAddDebtModal(null)">+ Add debt</button>
+      <button class="hbtn" onclick="openLinksModal()" id="manageLinkBtn">&#128279; Manage links</button>
       <a class="hbtn" href="./debt-crusher" target="_blank">&#9889; Open Debt Crusher</a>
       <button class="hbtn accent" onclick="closeDebtPanel()">&#10005; Close</button>
     </div>
@@ -2614,5 +2639,19 @@ loadFromGitHub();
   </div>
 </div>
 
+
+<!-- Recurring-Debt Links Modal -->
+<div class="link-modal-bg hidden" id="linksModal">
+  <div class="link-modal-box">
+    <div class="link-modal-hdr">
+      <div>
+        <div style="font-size:.95rem;font-weight:600">&#128279; Link recurring payments to debts</div>
+        <div style="font-size:.72rem;color:var(--ink3);margin-top:2px">Tick which recurring payments reduce each debt. Not all recurring entries need to be linked.</div>
+      </div>
+      <button class="hbtn accent" onclick="document.getElementById('linksModal').classList.add('hidden');renderDebtPanel()">Done</button>
+    </div>
+    <div class="link-modal-body" id="linksModalBody"></div>
+  </div>
+</div>
 </body>
 </html>
