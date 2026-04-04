@@ -3033,7 +3033,8 @@
       "category": "insurance",
       "day": 1,
       "owner": "partner",
-      "startFrom": null
+      "startFrom": null,
+      "debtId": null
     },
     {
       "id": 1775221950204,
@@ -3291,5 +3292,5 @@
     }
   ],
   "debtPayments": {},
-  "lastUpdated": "2026-04-04T00:43:15.091Z"
+  "lastUpdated": "2026-04-04T00:44:10.802Z"
 }
