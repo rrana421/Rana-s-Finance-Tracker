@@ -1444,7 +1444,7 @@
       "rawDate": "26/02/2026",
       "description": "Sq *Le Yeahllow South South Yarra",
       "amount": -5.06,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:19:46.553Z"
+  "lastUpdated": "2026-04-04T02:19:50.469Z"
 }
