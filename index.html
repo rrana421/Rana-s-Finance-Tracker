@@ -2271,10 +2271,17 @@ function autoSuggestDebt(r){
 }
 
 // Save link from recurring idx to debtId
-function linkRecurringToDebt(rcIdx, debtId){
+// Link/unlink a recurring entry to a debt (called from checkboxes)
+function toggleRecurringForDebt(rcIdx, debtId, checked){
   if(rcIdx<0||rcIdx>=recurring.length) return;
-  recurring[rcIdx].debtId = debtId||null;
+  if(checked){
+    recurring[rcIdx].debtId = debtId||null;
+  } else {
+    if(recurring[rcIdx].debtId===debtId) recurring[rcIdx].debtId=null;
+  }
   saveRecurring();
+  // Re-run auto-check immediately after linking
+  checkRecurringDebtPayments();
   renderDebtPanel();
 }
 
@@ -2305,44 +2312,58 @@ function checkRecurringDebtPayments(){
   var curMonth = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
   var applied = [];
 
+  // Group linked recurring entries by debtId — combine amounts per debt
+  var byDebt = {};
   recurring.forEach(function(r){
-    var debtId = r.debtId;
-    if(!debtId) return; // not linked
-    if(r.amount >= 0) return; // skip income entries
-    var d = userDebts.filter(function(x){return x.id===debtId;})[0];
+    if(!r.debtId || r.amount >= 0) return; // skip unlinked or income
+    var d = userDebts.filter(function(x){return x.id===r.debtId;})[0];
     if(!d || d.paid) return;
+    // All payment days must have passed — use the LATEST day among linked entries
+    // so we wait until all transfers have gone through
+    if(!byDebt[r.debtId]){
+      byDebt[r.debtId] = {debt:d, entries:[], latestDay:0, names:[]};
+    }
+    byDebt[r.debtId].entries.push(r);
+    byDebt[r.debtId].names.push(r.description);
+    if(r.day > byDebt[r.debtId].latestDay) byDebt[r.debtId].latestDay = r.day;
+  });
 
-    // Only apply if payment day has passed or is today
-    if(today < r.day) return;
+  Object.keys(byDebt).forEach(function(debtId){
+    var group = byDebt[debtId];
+    var d = group.debt;
 
-    // Check if already has a NON-auto payment this month
+    // Only apply once ALL linked recurring payment days have passed
+    if(today < group.latestDay) return;
+
+    // Skip if manual payment already recorded this month
     var pmts = debtPayments[debtId]||[];
     var manualThisMonth = pmts.filter(function(p){return p.month===curMonth && !p.auto;})[0];
-    if(manualThisMonth) return; // manual payment recorded — don't auto-override
+    if(manualThisMonth) return;
 
-    // Calculate new balance
-    var payAmt = Math.abs(r.amount);
+    // Sum all linked recurring amounts for this debt
+    var totalPay = group.entries.reduce(function(s,r){return s+Math.abs(r.amount);},0);
     var rate = d.rate||0;
     var newBal;
     if(rate > 0){
-      // Apply monthly interest first, then subtract payment
+      // Interest-bearing: apply one month of interest then subtract combined payment
       var monthlyInt = d.currentBalance * (rate/100/12);
-      newBal = Math.max(0, d.currentBalance + monthlyInt - payAmt);
+      newBal = Math.max(0, d.currentBalance + monthlyInt - totalPay);
     } else {
-      // 0% loan — direct subtraction
-      newBal = Math.max(0, d.currentBalance - payAmt);
+      // 0% loan: direct subtraction
+      newBal = Math.max(0, d.currentBalance - totalPay);
     }
 
-    var recorded = autoRecordDebtPayment(debtId, curMonth, payAmt, newBal,
-      'Auto from recurring: '+r.description);
+    var noteStr = group.names.length > 1
+      ? 'Auto: '+group.names.join(' + ')
+      : 'Auto from recurring: '+group.names[0];
+
+    var recorded = autoRecordDebtPayment(debtId, curMonth, totalPay, newBal, noteStr);
     if(recorded){
-      applied.push({debtName:d.name, payAmt:payAmt, newBal:newBal});
+      applied.push({debtName:d.name, payAmt:totalPay, newBal:newBal, count:group.entries.length});
     }
   });
 
-  if(applied.length > 0){
-    saveDebtData();
-  }
+  if(applied.length > 0) saveDebtData();
   return applied;
 }
 
@@ -2369,34 +2390,62 @@ function renderLinkPanel(){
 function buildLinkPanelHTML(showUnlinked){
   var expRec = recurring.filter(function(r){return r.amount<0;});
   var activeDebts = userDebts.filter(function(d){return !d.paid;});
+  if(!activeDebts.length || !expRec.length) return '';
+
+  // Count unlinked recurring entries
+  var unlinkedCount = expRec.filter(function(r){return !r.debtId;}).length;
 
   var html = '<div class="link-panel" id="linkPanelInner">'
     +'<div class="link-panel-title">&#128279; Link recurring payments to debts'
-    +(showUnlinked?'<span style="font-size:.65rem;background:rgba(248,113,113,.15);color:var(--red);padding:1px 7px;border-radius:3px;font-family:var(--mono)">'+recurring.filter(function(r){return r.amount<0&&!r.debtId;}).length+' unlinked</span>':'')
-    +'</div>';
+    +(unlinkedCount>0?'<span style="font-size:.65rem;background:rgba(248,113,113,.15);color:var(--red);padding:1px 7px;border-radius:3px;font-family:var(--mono)">'+unlinkedCount+' unlinked</span>':'')
+    +'</div>'
+    +'<div style="font-size:.72rem;color:var(--ink3);margin-bottom:.65rem">For each debt, tick which recurring payments reduce its balance. Multiple payments can be linked to the same debt.</div>';
 
-  expRec.forEach(function(r, ri){
-    var rcIdx = recurring.indexOf(r);
-    var suggested = autoSuggestDebt(r);
-    var currentDebtId = r.debtId || suggested;
-    var isAuto = !r.debtId && !!suggested;
-    var badge = r.debtId ? '<span class="link-badge manual">linked</span>' : (suggested?'<span class="link-badge auto">suggested</span>':'');
+  activeDebts.forEach(function(d){
+    var meta = DEBT_TYPE_META[d.type]||DEBT_TYPE_META.other;
+    // Find all recurring entries currently linked to this debt
+    var linkedRcIds = expRec.filter(function(r){return r.debtId===d.id;}).map(function(r){return recurring.indexOf(r);});
+    // Auto-suggest any unlinked recurring that scores well against this debt
+    var suggestedRcIdxs = expRec.filter(function(r){
+      if(r.debtId) return false; // already linked to something
+      return debtMatchScore(r.description, d.name) >= 0.4;
+    }).map(function(r){return recurring.indexOf(r);});
 
-    html += '<div class="link-row">';
-    html += '<div class="link-rec">'+r.description+'<br><span style="color:var(--ink3);font-size:.68rem">$'+Math.abs(r.amount).toFixed(2)+' · Day '+r.day+'</span></div>';
-    html += '<div class="link-arrow">&#8594;</div>';
-    html += '<select class="link-sel" onchange="linkRecurringToDebt('+rcIdx+',this.value)">';
-    html += '<option value="">— not linked —</option>';
-    activeDebts.forEach(function(d){
-      var sel = (currentDebtId===d.id)?' selected':'';
-      html += '<option value="'+d.id+'"'+sel+'>'+d.name+'</option>';
-    });
-    html += '</select>';
-    html += badge;
+    var totalLinkedAmt = expRec.filter(function(r){return r.debtId===d.id;})
+      .reduce(function(s,r){return s+Math.abs(r.amount);},0);
+
+    html += '<div style="margin-bottom:.75rem;background:var(--raised);border:1px solid var(--line);border-radius:var(--rs);overflow:hidden">';
+    // Debt header row
+    html += '<div style="display:flex;align-items:center;gap:.65rem;padding:.55rem .85rem;border-bottom:1px solid var(--line)">';
+    html += '<span style="font-size:1rem">'+meta.icon+'</span>';
+    html += '<span style="font-weight:600;font-size:.88rem;flex:1">'+d.name+'</span>';
+    html += '<span style="font-size:.7rem;color:var(--ink3);font-family:var(--mono)">'+d.rate+'% p.a. · min $'+d.minPayment.toFixed(2)+'</span>';
+    if(totalLinkedAmt>0) html += '<span style="font-size:.7rem;font-family:var(--mono);color:var(--green);margin-left:.4rem">&#128279; $'+totalLinkedAmt.toFixed(2)+'/mo</span>';
     html += '</div>';
+
+    // Recurring checkboxes
+    html += '<div style="padding:.45rem .85rem;display:flex;flex-direction:column;gap:.3rem">';
+    expRec.forEach(function(r){
+      var rcIdx = recurring.indexOf(r);
+      var isLinkedHere = (r.debtId===d.id);
+      var isSuggested  = !r.debtId && suggestedRcIdxs.indexOf(rcIdx)>=0;
+      var isLinkedElsewhere = (r.debtId && r.debtId!==d.id);
+      var cbId = 'rc-cb-'+d.id+'-'+rcIdx;
+      var badge = isLinkedHere?'<span class="link-badge manual" style="font-size:.6rem">linked</span>'
+                : isSuggested?'<span class="link-badge auto" style="font-size:.6rem">suggested</span>':'';
+
+      html += '<label for="'+cbId+'" style="display:flex;align-items:center;gap:.55rem;cursor:pointer;padding:.2rem 0'+(isLinkedElsewhere?';opacity:.45':'')+'">';
+      html += '<input type="checkbox" id="'+cbId+'" '+(isLinkedHere?'checked':'')+(isLinkedElsewhere?' disabled title="Already linked to another debt"':'');
+      html += ' onchange="toggleRecurringForDebt('+rcIdx+',\''+d.id+'\',this.checked)" style="width:14px;height:14px;cursor:pointer;accent-color:var(--accent)">';
+      html += '<span style="flex:1;font-size:.8rem;color:var(--ink2)">'+r.description+'</span>';
+      html += '<span style="font-size:.72rem;font-family:var(--mono);color:var(--ink3)">$'+Math.abs(r.amount).toFixed(2)+' · Day '+r.day+'</span>';
+      html += badge;
+      html += '</label>';
+    });
+    html += '</div></div>';
   });
 
-  html += '<div style="margin-top:.65rem;display:flex;gap:.5rem">';
+  html += '<div style="margin-top:.5rem;display:flex;gap:.5rem">';
   html += '<button class="btn ghost" style="font-size:.75rem;padding:.35rem .85rem" onclick="applyAllSuggested()">&#10003; Apply all suggested</button>';
   html += '<button class="btn ghost" style="font-size:.75rem;padding:.35rem .85rem" onclick="renderDebtPanel()">Done</button>';
   html += '</div></div>';
@@ -2415,11 +2464,14 @@ function showLinkPanel(){
 
 // Apply all auto-suggested links in one click
 function applyAllSuggested(){
+  // For each debt, link any unlinked recurring with score >= 0.4
   var changed = false;
-  recurring.forEach(function(r, i){
-    if(r.amount>=0 || r.debtId) return;
-    var suggested = autoSuggestDebt(r);
-    if(suggested){ recurring[i].debtId = suggested; changed=true; }
+  userDebts.filter(function(d){return !d.paid;}).forEach(function(d){
+    recurring.forEach(function(r, i){
+      if(r.amount>=0 || r.debtId) return; // skip income or already linked
+      var score = debtMatchScore(r.description, d.name);
+      if(score >= 0.4){ recurring[i].debtId = d.id; changed=true; }
+    });
   });
   if(changed){ saveRecurring(); checkRecurringDebtPayments(); }
   renderDebtPanel();
