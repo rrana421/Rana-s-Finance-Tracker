@@ -194,7 +194,7 @@
       "rawDate": "22/03/2026",
       "description": "Sq *Pakenham Upper Too Pakenham Uppe",
       "amount": -10,
-      "category": "other",
+      "category": "entertainment",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:20:47.689Z"
+  "lastUpdated": "2026-04-04T02:20:51.275Z"
 }
