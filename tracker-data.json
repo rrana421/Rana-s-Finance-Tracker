@@ -3102,16 +3102,6 @@
     },
     {
       "rawDate": "15/01/2026",
-      "description": "Samsung Electronics AU Sydney",
-      "amount": -1133.7,
-      "category": "other",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
-    },
-    {
-      "rawDate": "15/01/2026",
       "description": "Mithaiwala Sweets & Sn Hopper Crossi",
       "amount": -30.3,
       "category": "other",
@@ -3552,5 +3542,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:14:43.696Z"
+  "lastUpdated": "2026-04-04T02:15:21.846Z"
 }
