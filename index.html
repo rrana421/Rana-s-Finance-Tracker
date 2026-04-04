@@ -873,7 +873,7 @@ async function loadFromGitHub(){
     const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});setSyncStatus(ghToken?'synced':'readonly',ghToken?`Synced · ${t}`:`Live — read only · ${t}`)
   }catch(e){setSyncStatus('error','Load failed');console.warn('GH load:',e.message)}
 }
-function scheduleSyncToGitHub(){if(!ghToken)return;setSyncStatus('syncing','Saving…');clearTimeout(syncTimeout);syncTimeout=setTimeout(syncToGitHub,2000)}
+function scheduleSyncToGitHub(){if(!ghToken)return;setSyncStatus('syncing','Saving…');clearTimeout(syncTimeout);syncTimeout=setTimeout(syncToGitHub,3000)}
 async function syncToGitHub(){
   if(!ghToken)return;
   try{
@@ -882,6 +882,16 @@ async function syncToGitHub(){
     const content=btoa(unescape(encodeURIComponent(JSON.stringify(getAppData(),null,2))));
     const body={message:`sync ${new Date().toISOString()}`,content};if(ghFileSha)body.sha=ghFileSha;
     const res=await fetch(GH_API,{method:'PUT',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(res.status===422){
+      // SHA conflict — fetch latest SHA and retry once
+      const shaRetry=await fetch(GH_API,{headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}});
+      if(shaRetry.ok){const jr=await shaRetry.json();ghFileSha=jr.sha;body.sha=jr.sha;}
+      const res2=await fetch(GH_API,{method:'PUT',headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(!res2.ok){const e=await res2.json();throw new Error(e.message||'HTTP '+res2.status);}
+      const result2=await res2.json();ghFileSha=result2.content.sha;
+      setSyncStatus('synced',`Synced · ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}`);
+      return;
+    }
     if(!res.ok){const e=await res.json();throw new Error(e.message||`HTTP ${res.status}`)}
     const result=await res.json();ghFileSha=result.content.sha;
     setSyncStatus('synced',`Synced · ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}`)
@@ -2319,6 +2329,12 @@ function autoRecordDebtPayment(debtId, month, paidAmt, newBalance, note){
   // Don't overwrite a manual payment
   var existing = debtPayments[debtId].filter(function(p){return p.month===month;})[0];
   if(existing && !existing.auto) return false; // manual payment exists — skip
+  // IDEMPOTENCY CHECK: if same auto entry already exists with same amount, skip write
+  if(existing && existing.auto &&
+     Math.abs(existing.actual - paidAmt) < 0.01 &&
+     Math.abs(existing.balanceAfter - newBalance) < 0.01){
+    return false; // nothing changed — no write needed
+  }
   // Remove any previous auto entry for this month
   debtPayments[debtId] = debtPayments[debtId].filter(function(p){return !(p.month===month&&p.auto);});
   debtPayments[debtId].push({month:month, planned:d.minPayment, actual:paidAmt, balanceAfter:newBalance, note:note||'Auto from recurring', auto:true});
