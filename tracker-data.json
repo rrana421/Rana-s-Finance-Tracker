@@ -3479,76 +3479,6 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775222984747
-    },
-    {
-      "rawDate": "11/12/2025",
-      "description": "Home Mortgage",
-      "amount": -2358,
-      "category": "custom_mortgage_&_loans_1775200220021",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775221749089
-    },
-    {
-      "rawDate": "11/12/2025",
-      "description": "Optus",
-      "amount": -35,
-      "category": "bills",
-      "owner": "partner",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775221950204
-    },
-    {
-      "rawDate": "11/12/2025",
-      "description": "Parents Health Insurance",
-      "amount": -413,
-      "category": "insurance",
-      "owner": "partner",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775221973274
-    },
-    {
-      "rawDate": "06/12/2025",
-      "description": "Land Mortgage",
-      "amount": -2088,
-      "category": "custom_mortgage_&_loans_1775200220021",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775221765455
-    },
-    {
-      "rawDate": "03/12/2025",
-      "description": "RR Health",
-      "amount": -131,
-      "category": "insurance",
-      "owner": "rana",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775222067000
-    },
-    {
-      "rawDate": "01/12/2025",
-      "description": "Xtrail - Insurance",
-      "amount": -185,
-      "category": "insurance",
-      "owner": "partner",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775221937364
-    },
-    {
-      "rawDate": "01/12/2025",
-      "description": "Samsung Fin",
-      "amount": -76,
-      "category": "custom_mortgage_&_loans_1775200220021",
-      "owner": "rana",
-      "isManual": false,
-      "isRecurring": true,
-      "recurringId": 1775222175616
     }
   ],
   "budgets": {
@@ -3972,5 +3902,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:14:15.472Z"
+  "lastUpdated": "2026-04-04T02:14:30.526Z"
 }
