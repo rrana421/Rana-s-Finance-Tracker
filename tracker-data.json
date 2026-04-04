@@ -1704,7 +1704,7 @@
       "rawDate": "20/02/2026",
       "description": "R R Integrated Servi Blacktown",
       "amount": -2.5,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:19:50.469Z"
+  "lastUpdated": "2026-04-04T02:19:57.554Z"
 }
