@@ -2054,7 +2054,7 @@
       "rawDate": "12/02/2026",
       "description": "Clyde North Agha Juice Clyde North",
       "amount": -8,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3542,5 +3542,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:15:21.846Z"
+  "lastUpdated": "2026-04-04T02:15:36.063Z"
 }
