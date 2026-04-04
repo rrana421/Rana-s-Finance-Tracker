@@ -2804,7 +2804,7 @@
       "rawDate": "24/01/2026",
       "description": "Plineph Clyde Clyde North",
       "amount": -53.38,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -2829,16 +2829,6 @@
       "isManual": false,
       "isRecurring": true,
       "recurringId": 1775221114887
-    },
-    {
-      "rawDate": "22/01/2026",
-      "description": "Puffing Billy Railway Belgrave",
-      "amount": -416,
-      "category": "other",
-      "owner": "combined",
-      "isManual": false,
-      "isRecurring": false,
-      "recurringId": null
     },
     {
       "rawDate": "21/01/2026",
@@ -3542,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:16:32.693Z"
+  "lastUpdated": "2026-04-04T02:16:44.774Z"
 }
