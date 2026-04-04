@@ -294,7 +294,7 @@
       "rawDate": "20/03/2026",
       "description": "Village Clayton South Yarra",
       "amount": -3,
-      "category": "other",
+      "category": "eating",
       "owner": "combined",
       "isManual": false,
       "isRecurring": false,
@@ -3532,5 +3532,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-04-04T02:20:56.497Z"
+  "lastUpdated": "2026-04-04T02:21:01.116Z"
 }
