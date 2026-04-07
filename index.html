@@ -828,7 +828,7 @@ function saveRecurring(){try{localStorage.setItem('rft_recurring',JSON.stringify
 const GH_OWNER='rrana421',GH_REPO='Rana-s-Finance-Tracker',GH_FILE='tracker-data.json';
 const GH_API=`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
 let ghToken=null;try{ghToken=localStorage.getItem('rft_gh_token')||null}catch(e){}
-let ghFileSha=null,syncTimeout=null;
+let ghFileSha=null,syncTimeout=null,syncInProgress=false;
 
 function setSyncStatus(status,label){const b=document.getElementById('syncBadge'),l=document.getElementById('syncLabel');if(!b)return;b.className=`sync-badge ${status}`;l.textContent=label}
 function openGHSetup(){document.getElementById('ghToken').value=ghToken||'';document.getElementById('ghSetupModal').classList.remove('hidden')}
@@ -891,7 +891,7 @@ async function loadFromGitHub(){
     if(data.customCats){customCats=data.customCats;injectCustomCatCSS()}
     if(data.goals){householdIncome=data.goals.income||0;savingsTarget=data.goals.target||0;use5030=data.goals.use5030||false;partnerName=data.goals.partnerName||'Kirti';try{localStorage.setItem('rft_goals',JSON.stringify(data.goals))}catch(e){}}
     // Only load debts from GitHub if no local sync is pending (prevents overwriting unsaved changes)
-    if(data.userDebts && !syncTimeout){userDebts=data.userDebts;try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts))}catch(e){}}
+    if(data.userDebts && !syncInProgress && !syncTimeout){userDebts=data.userDebts;try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts))}catch(e){}}
     else if(data.userDebts && !userDebts.length){userDebts=data.userDebts;try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts))}catch(e){}}
     if(data.debtPayments){debtPayments=data.debtPayments;try{localStorage.setItem('rft_debt_payments',JSON.stringify(debtPayments))}catch(e){}}
     if(data.catOverrides){catOverrides=data.catOverrides;try{localStorage.setItem('rft_cat_overrides',JSON.stringify(catOverrides))}catch(e){}}
@@ -934,6 +934,13 @@ async function loadFromGitHub(){
 function scheduleSyncToGitHub(){if(!ghToken)return;setSyncStatus('syncing','Saving…');clearTimeout(syncTimeout);syncTimeout=setTimeout(syncToGitHub,3000)}
 async function syncToGitHub(){
   if(!ghToken)return;
+  if(syncInProgress){
+    // Another sync is in flight — reschedule for after it completes
+    clearTimeout(syncTimeout);
+    syncTimeout=setTimeout(syncToGitHub,1500);
+    return;
+  }
+  syncInProgress=true;
   try{
     const shaRes=await fetch(GH_API,{headers:{Authorization:`token ${ghToken}`,Accept:'application/vnd.github.v3+json'}});
     if(shaRes.ok){const j=await shaRes.json();ghFileSha=j.sha}
@@ -953,7 +960,8 @@ async function syncToGitHub(){
     if(!res.ok){const e=await res.json();throw new Error(e.message||`HTTP ${res.status}`)}
     const result=await res.json();ghFileSha=result.content.sha;
     setSyncStatus('synced',`Synced · ${new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'})}`)
-  }catch(e){setSyncStatus('error','Sync failed');console.warn('Sync:',e.message)}
+  }catch(e){setSyncStatus('error','Sync failed');console.warn('Sync:',e.message)
+  }finally{syncInProgress=false;}
 }
 
 // ════════════════════════════════════════════
@@ -1743,13 +1751,12 @@ try{debtPayments=JSON.parse(localStorage.getItem('rft_debt_payments')||'{}');}ca
 function saveDebtData(immediate){
   try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts));}catch(e){}
   try{localStorage.setItem('rft_debt_payments',JSON.stringify(debtPayments));}catch(e){}
-  if(immediate){
-    // Structural debt change (add/edit/delete) — sync immediately, don't debounce
-    clearTimeout(syncTimeout);
-    syncToGitHub();
-  } else {
-    scheduleSyncToGitHub();
-  }
+  // Always debounce — immediate flag now just uses a shorter window (500ms vs 3000ms)
+  // This prevents race conditions between concurrent debt saves and auto-payment checks
+  if(!ghToken)return;
+  setSyncStatus('syncing','Saving…');
+  clearTimeout(syncTimeout);
+  syncTimeout=setTimeout(syncToGitHub, immediate ? 500 : 3000);
 }
 
 function openDebtPanel(){
@@ -1804,7 +1811,7 @@ function renderDebtPanel(){
       var ti=calcDebtInterestPaid(debt,pmts);
       var paidLbl=debt.paid?'PAID OFF':lastPmt?'as at '+lastPmt.month:'current balance';
       var urgLbl=urgentZero?'&nbsp;<span style="font-size:.65rem;color:var(--red);font-family:var(--mono)">&#9888; 0% EXPIRING</span>':'';
-      var paidThisLbl=thisMoPmt?' &middot; <span style="color:var(--green)">&#10003; paid</span>':'';
+      var paidThisLbl=thisMoPmt?' &middot; <span style="color:var(--green)">&#10003; '+thisMonth+' paid</span>':'';
       var notesHtml=debt.notes?'<div style="font-size:.72rem;color:var(--ink3);margin-top:.6rem;font-style:italic">'+debt.notes+'</div>':'';
       var reopenLbl=debt.paid?'&#8634; Reopen':'&#10003; Mark paid off';
 
