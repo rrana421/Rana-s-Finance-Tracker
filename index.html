@@ -890,7 +890,9 @@ async function loadFromGitHub(){
     if(data.recurring)recurring=data.recurring;
     if(data.customCats){customCats=data.customCats;injectCustomCatCSS()}
     if(data.goals){householdIncome=data.goals.income||0;savingsTarget=data.goals.target||0;use5030=data.goals.use5030||false;partnerName=data.goals.partnerName||'Kirti';try{localStorage.setItem('rft_goals',JSON.stringify(data.goals))}catch(e){}}
-    if(data.userDebts){userDebts=data.userDebts;try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts))}catch(e){}}
+    // Only load debts from GitHub if no local sync is pending (prevents overwriting unsaved changes)
+    if(data.userDebts && !syncTimeout){userDebts=data.userDebts;try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts))}catch(e){}}
+    else if(data.userDebts && !userDebts.length){userDebts=data.userDebts;try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts))}catch(e){}}
     if(data.debtPayments){debtPayments=data.debtPayments;try{localStorage.setItem('rft_debt_payments',JSON.stringify(debtPayments))}catch(e){}}
     if(data.catOverrides){catOverrides=data.catOverrides;try{localStorage.setItem('rft_cat_overrides',JSON.stringify(catOverrides))}catch(e){}}
     if(data.hiddenCats){hiddenCats=data.hiddenCats;try{localStorage.setItem('rft_hidden_cats',JSON.stringify(hiddenCats))}catch(e){}}
@@ -1738,10 +1740,16 @@ var userDebts=[];var debtPayments={};
 try{userDebts=JSON.parse(localStorage.getItem('rft_user_debts')||'[]');}catch(e){}
 try{debtPayments=JSON.parse(localStorage.getItem('rft_debt_payments')||'{}');}catch(e){}
 
-function saveDebtData(){
+function saveDebtData(immediate){
   try{localStorage.setItem('rft_user_debts',JSON.stringify(userDebts));}catch(e){}
   try{localStorage.setItem('rft_debt_payments',JSON.stringify(debtPayments));}catch(e){}
-  scheduleSyncToGitHub();
+  if(immediate){
+    // Structural debt change (add/edit/delete) — sync immediately, don't debounce
+    clearTimeout(syncTimeout);
+    syncToGitHub();
+  } else {
+    scheduleSyncToGitHub();
+  }
 }
 
 function openDebtPanel(){
@@ -1901,7 +1909,7 @@ function saveDebt(){
   } else {
     userDebts.push({id:'debt_'+Date.now(),name:name,type:type,icon:meta.icon,color:meta.color,currentBalance:bal,rate:rate,minPayment:min,originalBalance:orig,notes:notes,expiryDate:expiry,afterRate:afterRate,paid:false,addedDate:new Date().toISOString()});
   }
-  saveDebtData();
+  saveDebtData(true);
   document.getElementById('addDebtModal').classList.add('hidden');
   renderDebtPanel();
 }
@@ -1910,14 +1918,14 @@ function removeDebt(id){
   if(!confirm('Remove this debt and its payment history?'))return;
   userDebts=userDebts.filter(function(d){return d.id!==id;});
   delete debtPayments[id];
-  saveDebtData();renderDebtPanel();
+  saveDebtData(true);renderDebtPanel();
 }
 
 function toggleDebtPaid(id){
   var d=userDebts.filter(function(x){return x.id===id;})[0];if(!d)return;
   d.paid=!d.paid;
   if(d.paid){d.currentBalance=0;d.paidDate=new Date().toISOString();}
-  saveDebtData();renderDebtPanel();
+  saveDebtData(true);renderDebtPanel();
 }
 
 var rpDebtId=null;
@@ -1949,7 +1957,7 @@ function saveDebtPayment(){
   var latest=debtPayments[rpDebtId].reduce(function(m,p){return p.month>m.month?p:m;},debtPayments[rpDebtId][0]);
   d.currentBalance=latest.balanceAfter;
   if(d.currentBalance<=0){d.paid=true;d.paidDate=new Date().toISOString();}
-  saveDebtData();
+  saveDebtData(true);
   document.getElementById('rpModal').classList.add('hidden');
   renderDebtPanel();
 }
