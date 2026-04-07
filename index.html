@@ -2551,6 +2551,14 @@ function buildLinkPanelHTML(){
 }
 
 
+function openLinksModal(){
+  var modal = document.getElementById('linksModal');
+  var body  = document.getElementById('linksModalBody');
+  if(!modal || !body) return;
+  body.innerHTML = buildLinkPanelHTML();
+  modal.classList.remove('hidden');
+}
+
 function showLinkPanel(){ openLinksModal(); }
 
 // Apply all auto-suggested links in one click
