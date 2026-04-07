@@ -434,7 +434,16 @@ function fetchTrackerData() {
     })
     .then(function(json){
       ghFileSha = json.sha;
-      return JSON.parse(atob(json.content.replace(/\n/g,'')));
+      var b64 = json.content ? json.content.replace(/\n/g,'') : '';
+      if(b64){
+        // Unicode-safe decode (matches tracker encoding)
+        try{ return JSON.parse(decodeURIComponent(escape(atob(b64)))); }
+        catch(e){ return JSON.parse(atob(b64)); } // legacy fallback
+      } else if(json.download_url){
+        // Large file >1MB: fetch raw
+        return fetch(json.download_url).then(function(r){ return r.json(); });
+      }
+      throw new Error('No content available');
     });
 }
 
